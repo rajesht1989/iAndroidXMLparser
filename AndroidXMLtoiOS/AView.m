@@ -57,37 +57,38 @@ typedef enum {
 @end
 
 @implementation UIView (AView)
-static NSMutableDictionary *dictForTypeOfView;
-+ (NSDictionary *)dictForTypeOfView
+static NSMutableDictionary *dictUtil;
++ (NSDictionary *)dictUtil
 {
-    if (!dictForTypeOfView)
+    if (!dictUtil)
     {
-        dictForTypeOfView = [NSMutableDictionary new];
-        [dictForTypeOfView setObject:@(kLinearLayout) forKey:@"LinearLayout"];
-        [dictForTypeOfView setObject:@(kRelativeLayout) forKey:@"RelativeLayout"];
-        [dictForTypeOfView setObject:@(kWebViewLayout) forKey:@"WebViewLayout"];
-        [dictForTypeOfView setObject:@(kListViewLayout) forKey:@"ListViewLayout"];
-        [dictForTypeOfView setObject:@(kGridViewLayout) forKey:@"GridViewLayout"];
+        dictUtil = [NSMutableDictionary new];
+        [dictUtil setObject:@(kLinearLayout) forKey:@"LinearLayout"];
+        [dictUtil setObject:@(kRelativeLayout) forKey:@"RelativeLayout"];
+        [dictUtil setObject:@(kWebViewLayout) forKey:@"WebViewLayout"];
+        [dictUtil setObject:@(kListViewLayout) forKey:@"ListViewLayout"];
+        [dictUtil setObject:@(kGridViewLayout) forKey:@"GridViewLayout"];
         
-        [dictForTypeOfView setObject:@(kButton) forKey:@"Button"];
-        [dictForTypeOfView setObject:@(kTextField) forKey:@"EditText"];
+        [dictUtil setObject:@(kButton) forKey:@"Button"];
+        [dictUtil setObject:@(kTextField) forKey:@"EditText"];
+        [dictUtil setObject:@(kTextView) forKey:@"TextView"];
         
-        [dictForTypeOfView setObject:@(kLayoutWidth) forKey:@"android:layout_width"];
-        [dictForTypeOfView setObject:@(kLayoutHeight) forKey:@"android:layout_height"];
+        [dictUtil setObject:@(kLayoutWidth) forKey:@"android:layout_width"];
+        [dictUtil setObject:@(kLayoutHeight) forKey:@"android:layout_height"];
         
-        [dictForTypeOfView setObject:@(kMatchParent) forKey:@"match_parent"];
-        [dictForTypeOfView setObject:@(kWrapContent) forKey:@"wrap_content"];
+        [dictUtil setObject:@(kMatchParent) forKey:@"match_parent"];
+        [dictUtil setObject:@(kWrapContent) forKey:@"wrap_content"];
         
-        [dictForTypeOfView setObject:@(kLayoutPaddingTop) forKey:@"android:paddingTop"];
-        [dictForTypeOfView setObject:@(kLayoutPaddingLeft) forKey:@"android:paddingLeft"];
-        [dictForTypeOfView setObject:@(kLayoutPaddingBottom) forKey:@"android:paddingBottom"];
-        [dictForTypeOfView setObject:@(kLayoutPaddingRight) forKey:@"android:paddingRight"];
+        [dictUtil setObject:@(kLayoutPaddingTop) forKey:@"android:paddingTop"];
+        [dictUtil setObject:@(kLayoutPaddingLeft) forKey:@"android:paddingLeft"];
+        [dictUtil setObject:@(kLayoutPaddingBottom) forKey:@"android:paddingBottom"];
+        [dictUtil setObject:@(kLayoutPaddingRight) forKey:@"android:paddingRight"];
         
-        [dictForTypeOfView setObject:@(kLayoutPaddingHorizontalMargin) forKey:@"@dimen/activity_horizontal_margin"];
-        [dictForTypeOfView setObject:@(kLayoutPaddingVerticalMargin) forKey:@"@dimen/activity_vertical_margin"];
+        [dictUtil setObject:@(kLayoutPaddingHorizontalMargin) forKey:@"@dimen/activity_horizontal_margin"];
+        [dictUtil setObject:@(kLayoutPaddingVerticalMargin) forKey:@"@dimen/activity_vertical_margin"];
 
     }
-    return dictForTypeOfView;
+    return dictUtil;
 }
 
 + (UIView *)viewForXml:(NSString *)xmlName andHandler:(UIViewHandler *)viewHandler
@@ -105,7 +106,7 @@ static NSMutableDictionary *dictForTypeOfView;
 */
 + (id)subEntityFor:(TBXMLElement *)element ansHandler:(UIViewHandler *)viewHandler {
     id viewToBeReturn;
-    switch ([[[self dictForTypeOfView] objectForKey:[NSString stringWithFormat:@"%s", element->name]] integerValue]) {
+    switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", element->name]] integerValue]) {
         case kLinearLayout :
             break;
         case kRelativeLayout :
@@ -116,26 +117,57 @@ static NSMutableDictionary *dictForTypeOfView;
             [view setBackgroundColor:[UIColor greenColor]];
             TBXMLAttribute *attribute = element->firstAttribute;
             while (attribute) {
-                switch ([[[self dictForTypeOfView] objectForKey:[NSString stringWithFormat:@"%s", attribute->name]] integerValue]) {
+                switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->name]] integerValue]) {
                     case kLayoutWidth:
-                        [self setLayoutSizeForView:view superView:viewHandler.superView layoutSizeNameType:kLayoutWidth layoutSizeValueType:(AUILayoutSizeValueType)[[[self dictForTypeOfView] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]];
+                        [self setLayoutSizeForView:view superView:viewHandler.superView layoutSizeNameType:kLayoutWidth layoutSizeValueType:(AUILayoutSizeValueType)[[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]];
                         break;
                     case kLayoutHeight:
-                        [self setLayoutSizeForView:view superView:viewHandler.superView layoutSizeNameType:kLayoutHeight layoutSizeValueType:(AUILayoutSizeValueType)[[[self dictForTypeOfView] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]];
+                        [self setLayoutSizeForView:view superView:viewHandler.superView layoutSizeNameType:kLayoutHeight layoutSizeValueType:(AUILayoutSizeValueType)[[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]];
                         break;
                         
                     default:
                         break;
                 }
-                
                 NSLog(@"%@ %@",[NSString stringWithFormat:@"%s", attribute->name],[NSString stringWithFormat:@"%s", attribute->value]);
                 attribute = attribute->next;
+            }
+            TBXMLElement *child = element->firstChild;
+            while (child) {
+                UIViewHandler *subviewHandler = [[UIViewHandler alloc] init];
+                [subviewHandler setSuperView:viewToBeReturn];
+                [subviewHandler setOwner:viewHandler.owner];
+                [self subEntityFor:child ansHandler:subviewHandler];
+                child = child->nextSibling;
             }
             break;
         }
         case kWebViewLayout :
+            break;
         case kListViewLayout :
+            break;
         case kGridViewLayout :
+            break;
+        case kButton :
+        {
+            UIButton *button = [[UIButton alloc] init];
+            viewToBeReturn = button;
+            [viewHandler.superView addSubview:button];
+        }
+            break;
+        case kTextField :
+        {
+            UITextField *textField = [[UITextField alloc] init];
+            viewToBeReturn = textField;
+            [viewHandler.superView addSubview:textField];
+        }
+            break;
+        case kTextView :
+        {
+            UITextView *textView = [[UITextView alloc] init];
+            viewToBeReturn = textView;
+            [viewHandler.superView addSubview:textView];
+        }
+            break;
         default:
             break;
     }
