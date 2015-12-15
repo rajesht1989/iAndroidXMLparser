@@ -48,6 +48,14 @@ typedef enum {
     kLayoutPaddingVerticalMargin
 }AUILayoutPaddingValueType;
 
+typedef enum {
+    kSecureText = 180,
+}AUIInputNameType;
+
+typedef enum {
+    kPassword = 210,
+}AUIInputValueType;
+
 @implementation UIViewHandler
 
 @end
@@ -86,6 +94,9 @@ static NSMutableDictionary *dictUtil;
         
         [dictUtil setObject:@(kLayoutPaddingHorizontalMargin) forKey:@"@dimen/activity_horizontal_margin"];
         [dictUtil setObject:@(kLayoutPaddingVerticalMargin) forKey:@"@dimen/activity_vertical_margin"];
+     
+        [dictUtil setObject:@(kSecureText) forKey:@"android:inputType"];
+        [dictUtil setObject:@(kPassword) forKey:@"textPassword"];
 
     }
     return dictUtil;
@@ -98,12 +109,7 @@ static NSMutableDictionary *dictUtil;
 //    NSDictionary *xmlDictionary = [XMLReader dictionaryForXMLData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:xmlName ofType:@"xml"]] error:nil];
     return [self subEntityFor:tbxml.rootXMLElement ansHandler:viewHandler];
 }
-/*
-+ (UIView *)viewForXmlFor:(TBXML *)tbxml andHandler:(UIViewHandler *)viewHandler
-{
-    return ;
-}
-*/
+
 + (id)subEntityFor:(TBXMLElement *)element ansHandler:(UIViewHandler *)viewHandler {
     id viewToBeReturn;
     switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", element->name]] integerValue]) {
@@ -115,22 +121,9 @@ static NSMutableDictionary *dictUtil;
             viewToBeReturn = view;
             [viewHandler.superView addSubview:view];
             [view setBackgroundColor:[UIColor greenColor]];
+            [view setTranslatesAutoresizingMaskIntoConstraints:NO];
             TBXMLAttribute *attribute = element->firstAttribute;
-            while (attribute) {
-                switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->name]] integerValue]) {
-                    case kLayoutWidth:
-                        [self setLayoutSizeForView:view superView:viewHandler.superView layoutSizeNameType:kLayoutWidth layoutSizeValueType:(AUILayoutSizeValueType)[[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]];
-                        break;
-                    case kLayoutHeight:
-                        [self setLayoutSizeForView:view superView:viewHandler.superView layoutSizeNameType:kLayoutHeight layoutSizeValueType:(AUILayoutSizeValueType)[[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]];
-                        break;
-                        
-                    default:
-                        break;
-                }
-                NSLog(@"%@ %@",[NSString stringWithFormat:@"%s", attribute->name],[NSString stringWithFormat:@"%s", attribute->value]);
-                attribute = attribute->next;
-            }
+            [self configureView:view superView:viewHandler.superView attribute:attribute];
             TBXMLElement *child = element->firstChild;
             while (child) {
                 UIViewHandler *subviewHandler = [[UIViewHandler alloc] init];
@@ -152,6 +145,7 @@ static NSMutableDictionary *dictUtil;
             UIButton *button = [[UIButton alloc] init];
             viewToBeReturn = button;
             [viewHandler.superView addSubview:button];
+            [self configureView:button superView:viewHandler.superView attribute:element->firstAttribute];
         }
             break;
         case kTextField :
@@ -159,6 +153,7 @@ static NSMutableDictionary *dictUtil;
             UITextField *textField = [[UITextField alloc] init];
             viewToBeReturn = textField;
             [viewHandler.superView addSubview:textField];
+            [self configureView:textField superView:viewHandler.superView attribute:element->firstAttribute];
         }
             break;
         case kTextView :
@@ -166,6 +161,7 @@ static NSMutableDictionary *dictUtil;
             UITextView *textView = [[UITextView alloc] init];
             viewToBeReturn = textView;
             [viewHandler.superView addSubview:textView];
+            [self configureView:textView superView:viewHandler.superView attribute:element->firstAttribute];
         }
             break;
         default:
@@ -174,7 +170,85 @@ static NSMutableDictionary *dictUtil;
     return viewToBeReturn;
 }
 
-+ (void)setLayoutSizeForView:(UIView *)view superView:(UIView *)superView layoutSizeNameType:(AUILayoutSizeNameType)nameType layoutSizeValueType:(AUILayoutSizeValueType)valueType{
++ (void)configureView:(UIView *)view superView:(UIView *)superView attribute:(TBXMLAttribute *)attribute {
+    while (attribute) {
+        switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->name]] integerValue]) {
+            case kLayoutWidth:
+                switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]) {
+                    case kMatchParent:
+                    {
+                        NSLayoutConstraint *width =[NSLayoutConstraint
+                                                    constraintWithItem:view
+                                                    attribute:NSLayoutAttributeWidth
+                                                    relatedBy:0
+                                                    toItem:superView
+                                                    attribute:NSLayoutAttributeWidth
+                                                    multiplier:1.0
+                                                    constant:0];
+                        [superView addConstraint:width];
+                        NSLayoutConstraint *centerX =[NSLayoutConstraint
+                                                      constraintWithItem:view
+                                                      attribute:NSLayoutAttributeCenterX
+                                                      relatedBy:0
+                                                      toItem:superView
+                                                      attribute:NSLayoutAttributeCenterX
+                                                      multiplier:1.0
+                                                      constant:0];
+                        [superView addConstraint:centerX];
+                    }
+                        break;
+                    case kWrapContent:
+                        
+                        break;
+                        
+                    default:
+                        break;
+                }
+                break;
+            case kLayoutHeight:
+                switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]) {
+                    case kMatchParent:
+                    {
+                        NSLayoutConstraint *height =[NSLayoutConstraint
+                                                     constraintWithItem:view
+                                                     attribute:NSLayoutAttributeHeight
+                                                     relatedBy:0
+                                                     toItem:superView
+                                                     attribute:NSLayoutAttributeHeight
+                                                     multiplier:1.0
+                                                     constant:0];
+                        [superView addConstraint:height];
+                        NSLayoutConstraint *centerY =[NSLayoutConstraint
+                                                      constraintWithItem:view
+                                                      attribute:NSLayoutAttributeCenterY
+                                                      relatedBy:0
+                                                      toItem:superView
+                                                      attribute:NSLayoutAttributeCenterY
+                                                      multiplier:1.0
+                                                      constant:0];
+                        [superView addConstraint:centerY];
+                    }
+                        break;
+                    case kWrapContent:
+                        
+                        break;
+                        
+                    default:
+                        break;
+                }
+                break;
+            case kSecureText:
+                    [(UITextField *)view setSecureTextEntry:[[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue] == kPassword && [view isKindOfClass:[UITextField class]]];
+                break;
+            default:
+                break;
+        }
+        NSLog(@"%@ %@",[NSString stringWithFormat:@"%s", attribute->name],[NSString stringWithFormat:@"%s", attribute->value]);
+        attribute = attribute->next;
+    }
+}
+
++ (void)setLayoutSizeForView:(UIView *)view superView:(UIView *)superView layoutSizeNameType:(AUILayoutSizeNameType)nameType layoutSizeValueType:(AUILayoutSizeValueType)valueType {
     [view setTranslatesAutoresizingMaskIntoConstraints:NO];
     switch (nameType) {
         case kLayoutWidth:
@@ -246,7 +320,82 @@ static NSMutableDictionary *dictUtil;
     }
 }
 
-/*   for (NSString *aKey in subViewDict)
+/*   
+ 
+ {
+ id viewToBeReturn;
+ switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", element->name]] integerValue]) {
+ case kLinearLayout :
+ break;
+ case kRelativeLayout :
+ {
+ UIView *view = [[UIView alloc] init];
+ viewToBeReturn = view;
+ [viewHandler.superView addSubview:view];
+ [view setBackgroundColor:[UIColor greenColor]];
+ TBXMLAttribute *attribute = element->firstAttribute;
+ while (attribute) {
+ switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->name]] integerValue]) {
+ case kLayoutWidth:
+ [self setLayoutSizeForView:view superView:viewHandler.superView layoutSizeNameType:kLayoutWidth layoutSizeValueType:(AUILayoutSizeValueType)[[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]];
+ break;
+ case kLayoutHeight:
+ [self setLayoutSizeForView:view superView:viewHandler.superView layoutSizeNameType:kLayoutHeight layoutSizeValueType:(AUILayoutSizeValueType)[[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]];
+ break;
+ 
+ default:
+ break;
+ }
+ NSLog(@"%@ %@",[NSString stringWithFormat:@"%s", attribute->name],[NSString stringWithFormat:@"%s", attribute->value]);
+ attribute = attribute->next;
+ }
+ TBXMLElement *child = element->firstChild;
+ while (child) {
+ UIViewHandler *subviewHandler = [[UIViewHandler alloc] init];
+ [subviewHandler setSuperView:viewToBeReturn];
+ [subviewHandler setOwner:viewHandler.owner];
+ [self subEntityFor:child ansHandler:subviewHandler];
+ child = child->nextSibling;
+ }
+ break;
+ }
+ case kWebViewLayout :
+ break;
+ case kListViewLayout :
+ break;
+ case kGridViewLayout :
+ break;
+ case kButton :
+ {
+ UIButton *button = [[UIButton alloc] init];
+ viewToBeReturn = button;
+ [viewHandler.superView addSubview:button];
+ }
+ break;
+ case kTextField :
+ {
+ UITextField *textField = [[UITextField alloc] init];
+ viewToBeReturn = textField;
+ [viewHandler.superView addSubview:textField];
+ }
+ break;
+ case kTextView :
+ {
+ UITextView *textView = [[UITextView alloc] init];
+ viewToBeReturn = textView;
+ [viewHandler.superView addSubview:textView];
+ }
+ break;
+ default:
+ break;
+ }
+ return viewToBeReturn;
+ }
+ 
+ 
+ 
+ 
+ for (NSString *aKey in subViewDict)
  {
  NSDictionary *aSubDict = subViewDict[aKey];
  switch ([[[self dictForTypeOfView] objectForKey:aKey] intValue]) {
