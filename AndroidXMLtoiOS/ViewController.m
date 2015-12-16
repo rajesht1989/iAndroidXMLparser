@@ -21,7 +21,7 @@
     UIViewHandler * viewHandler = [[UIViewHandler alloc] init];
     [viewHandler setSuperView:self.view];
     [viewHandler setOwner:self];
-    UIView *androidView = [UIView viewForXml:@"activity_android" andHandler:viewHandler];
+    UIView *androidView = [UIView viewForXml:@"RelativeLayout" andHandler:viewHandler];
     NSLog(@"%@",androidView);
 //    [androidView setFrame:self.view.bounds];
 //    [self.view addSubview:androidView];
@@ -31,8 +31,7 @@
     [super didReceiveMemoryWarning];
 }
 
-- (void)buttonAction:(UIButton *)button
-{
+- (void)buttonAction:(UIButton *)button {
     
 }
 

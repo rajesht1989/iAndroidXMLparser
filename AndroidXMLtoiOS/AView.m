@@ -9,8 +9,74 @@
 #import "AView.h"
 #import "XMLReader.h"
 #import "TBXML.h"
+#import <objc/runtime.h>
 
 const NSInteger Undefined = 0;
+
+
+/*
+ //Layouts
+ 
+ private final String LINEAR_LAYOUT_TAG = "LinearLayout";
+ 
+ private final String RELATIVE_LAYOUT_TAG = "RelativeLayout";
+ 
+ private final String TEXTVIEW_TAG = "TextView";
+ 
+ private final String IMGVIEW_TAG = "ImageView";
+ 
+ //Attributes
+
+ private final String ID_ATTRIBUTE = "android:id";
+ 
+ private final String WIDTH_ATTRIBUTE = "android:layout_width";
+ 
+ private final String HEIGHT_ATTRIBUTE = "android:layout_height";
+ 
+ private final String TEXT_ATTRIBUTE = "android:text";
+ 
+ private final String MIN_HEIGHT_ATTRIBUTE = "android:minHeight";
+ 
+ private final String ORIENTATION_ATTRIBUTE = "android:orientation";
+ 
+ private final String MARGIN_ATTRIBUTE = "android:layout_margin";
+ 
+ private final String WEIGHT_ATTRIBUTE = "android:layout_weight";
+ 
+ private final String PADDING_ATTRIBUTE = "android:layout_padding";
+ 
+ private final String TEXT_COLOR_ATTRIBUTE = "android:textColor";
+ 
+ private final String BACKGROUND_ATTRIBUTE = "android:background";
+ 
+ private final String TEXT_SIZE_ATTRIBUTE = "android:textSize";
+ 
+ private final String TEXT_STYLE_ATTRIBUTE = "android:textStyle";
+ 
+ private final String LEFT_OF_ATTRIBUTE = "android:layout_toLeftOf";
+ 
+ private final String RIGHT_OF_ATTRIBUTE = "android:layout_toRightOf";
+ 
+ private final String ABOVE_ATTRIBUTE = "android:layout_above";
+ 
+ private final String BELOW_ATTRIBUTE = "android:layout_below";
+ 
+ private final String PARENT_RIGHT_ATTRIBUTE = "android:layout_alignParentRight";
+ 
+ private final String PARENT_BOTTOM_ATTRIBUTE = "android:layout_alignParentBottom";
+ 
+ private final String PARENT_TOP_ATTRIBUTE = "android:layout_alignParentTop";
+ 
+ private final String PARENT_LEFT_ATTRIBUTE = "android:layout_alignParentLeft";
+ 
+ private final String CENTER_HORIZONTAL_ATTRIBUTE = "android:layout_centerHorizontal";
+ 
+ private final String CENTER_VERTICAL_ATTRIBUTE = "android:layout_centerVertical";
+ 
+ private final String CENTER_PARENT_ATTRIBUTE = "android:layout_centerInParent";
+ 
+ private final String IMG_SRC_ATTRIBUTE = "android:src";
+ */
 
 typedef enum {
     kLinearLayout = 1,
@@ -23,7 +89,8 @@ typedef enum {
 typedef enum {
     kButton = 30,
     kTextField,
-    kTextView
+    kTextView,
+    kImageView,
 }AUIObjectType;
 
 typedef enum {
@@ -56,15 +123,56 @@ typedef enum {
     kPassword = 210,
 }AUIInputValueType;
 
-@implementation UIViewHandler
+typedef enum {
+    kIdentifier = 240,
+}AUIObjectIdentifierNameType;
 
+typedef enum {
+    kLayoutMarginTop = 270,
+    kLayoutBelow
+}AUILayoutRelationNameType;
+
+@implementation UIViewHandler
 @end
 
 @interface UIView (AView_Private)
 
+@property (nonatomic, strong) NSString *identifier;
+
++ (CGFloat)getHeightOfView:(UIView *)view;
+
 @end
 
 @implementation UIView (AView)
+
+static char identifierInstance;
+
+- (NSString *)identifier {
+    return objc_getAssociatedObject(self, &identifierInstance);
+}
+
+- (void)setIdentifier:(NSString *)identifier {
+    [self willChangeValueForKey:@"identifierInstance"];
+    objc_setAssociatedObject(self, &identifierInstance,
+                             identifier,
+                             OBJC_ASSOCIATION_ASSIGN);
+    [self didChangeValueForKey:@"identifierInstance"];
+}
+
+
++ (CGFloat)getHeightOfView:(UIView *)view {
+    if ([view isKindOfClass:[UITextField class]]) {
+        return 40;
+    } else if ([view isKindOfClass:[UILabel class]]) {
+        return 40;
+    } else if ([view isKindOfClass:[UIImageView class]]) {
+        return 40;
+    } else if ([view isKindOfClass:[UIButton class]]) {
+        return 40;
+    }
+    return 0;
+}
+
 static NSMutableDictionary *dictUtil;
 + (NSDictionary *)dictUtil
 {
@@ -80,6 +188,8 @@ static NSMutableDictionary *dictUtil;
         [dictUtil setObject:@(kButton) forKey:@"Button"];
         [dictUtil setObject:@(kTextField) forKey:@"EditText"];
         [dictUtil setObject:@(kTextView) forKey:@"TextView"];
+        [dictUtil setObject:@(kImageView) forKey:@"ImageView"];
+        
         
         [dictUtil setObject:@(kLayoutWidth) forKey:@"android:layout_width"];
         [dictUtil setObject:@(kLayoutHeight) forKey:@"android:layout_height"];
@@ -97,6 +207,11 @@ static NSMutableDictionary *dictUtil;
      
         [dictUtil setObject:@(kSecureText) forKey:@"android:inputType"];
         [dictUtil setObject:@(kPassword) forKey:@"textPassword"];
+        
+        [dictUtil setObject:@(kIdentifier) forKey:@"android:id"];
+        
+        [dictUtil setObject:@(kLayoutMarginTop) forKey:@"android:layout_marginTop"];
+        [dictUtil setObject:@(kLayoutBelow) forKey:@"android:layout_below"];
 
     }
     return dictUtil;
@@ -121,7 +236,6 @@ static NSMutableDictionary *dictUtil;
             viewToBeReturn = view;
             [viewHandler.superView addSubview:view];
             [view setBackgroundColor:[UIColor greenColor]];
-            [view setTranslatesAutoresizingMaskIntoConstraints:NO];
             TBXMLAttribute *attribute = element->firstAttribute;
             [self configureView:view superView:viewHandler.superView attribute:attribute];
             TBXMLElement *child = element->firstChild;
@@ -134,10 +248,8 @@ static NSMutableDictionary *dictUtil;
             }
             break;
         }
-        case kWebViewLayout :
-            break;
         case kListViewLayout :
-            break;
+        case kWebViewLayout :
         case kGridViewLayout :
             break;
         case kButton :
@@ -145,12 +257,14 @@ static NSMutableDictionary *dictUtil;
             UIButton *button = [[UIButton alloc] init];
             viewToBeReturn = button;
             [viewHandler.superView addSubview:button];
+            [button addTarget:viewHandler.owner action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
             [self configureView:button superView:viewHandler.superView attribute:element->firstAttribute];
         }
             break;
         case kTextField :
         {
             UITextField *textField = [[UITextField alloc] init];
+            [textField setDelegate:viewHandler.owner];
             viewToBeReturn = textField;
             [viewHandler.superView addSubview:textField];
             [self configureView:textField superView:viewHandler.superView attribute:element->firstAttribute];
@@ -158,10 +272,10 @@ static NSMutableDictionary *dictUtil;
             break;
         case kTextView :
         {
-            UITextView *textView = [[UITextView alloc] init];
-            viewToBeReturn = textView;
-            [viewHandler.superView addSubview:textView];
-            [self configureView:textView superView:viewHandler.superView attribute:element->firstAttribute];
+            UILabel *label = [[UILabel alloc] init];
+            viewToBeReturn = label;
+            [viewHandler.superView addSubview:label];
+            [self configureView:label superView:viewHandler.superView attribute:element->firstAttribute];
         }
             break;
         default:
@@ -171,6 +285,7 @@ static NSMutableDictionary *dictUtil;
 }
 
 + (void)configureView:(UIView *)view superView:(UIView *)superView attribute:(TBXMLAttribute *)attribute {
+    [view setTranslatesAutoresizingMaskIntoConstraints:NO];
     while (attribute) {
         switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->name]] integerValue]) {
             case kLayoutWidth:
@@ -198,7 +313,26 @@ static NSMutableDictionary *dictUtil;
                     }
                         break;
                     case kWrapContent:
-                        
+                    {
+                        NSLayoutConstraint *width =[NSLayoutConstraint
+                                                    constraintWithItem:view
+                                                    attribute:NSLayoutAttributeWidth
+                                                    relatedBy:0
+                                                    toItem:superView
+                                                    attribute:NSLayoutAttributeWidth
+                                                    multiplier:1.0
+                                                    constant:0];
+                        [superView addConstraint:width];
+                        NSLayoutConstraint *centerX =[NSLayoutConstraint
+                                                      constraintWithItem:view
+                                                      attribute:NSLayoutAttributeCenterX
+                                                      relatedBy:0
+                                                      toItem:superView
+                                                      attribute:NSLayoutAttributeCenterX
+                                                      multiplier:1.0
+                                                      constant:0];
+                        [superView addConstraint:centerX];
+                    }
                         break;
                         
                     default:
@@ -230,7 +364,17 @@ static NSMutableDictionary *dictUtil;
                     }
                         break;
                     case kWrapContent:
-                        
+                    {
+                        NSLayoutConstraint *height =[NSLayoutConstraint
+                                                     constraintWithItem:view
+                                                     attribute:NSLayoutAttributeHeight
+                                                     relatedBy:0
+                                                     toItem:nil
+                                                     attribute:NSLayoutAttributeNotAnAttribute
+                                                     multiplier:1.0
+                                                     constant:[UIView getHeightOfView:view]];
+                        [superView addConstraint:height];
+                    }
                         break;
                         
                     default:
@@ -238,7 +382,12 @@ static NSMutableDictionary *dictUtil;
                 }
                 break;
             case kSecureText:
-                    [(UITextField *)view setSecureTextEntry:[[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue] == kPassword && [view isKindOfClass:[UITextField class]]];
+                if ([view isKindOfClass:[UITextField class]]) {
+                    [(UITextField *)view setSecureTextEntry:[[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue] == kPassword];
+                }
+                break;
+            case kIdentifier:
+                [view setIdentifier:[NSString stringWithFormat:@"%s", attribute->value]];
                 break;
             default:
                 break;
@@ -248,80 +397,7 @@ static NSMutableDictionary *dictUtil;
     }
 }
 
-+ (void)setLayoutSizeForView:(UIView *)view superView:(UIView *)superView layoutSizeNameType:(AUILayoutSizeNameType)nameType layoutSizeValueType:(AUILayoutSizeValueType)valueType {
-    [view setTranslatesAutoresizingMaskIntoConstraints:NO];
-    switch (nameType) {
-        case kLayoutWidth:
-            switch (valueType) {
-                case kMatchParent:
-                {
-                    NSLayoutConstraint *width =[NSLayoutConstraint
-                                                constraintWithItem:view
-                                                attribute:NSLayoutAttributeWidth
-                                                relatedBy:0
-                                                toItem:superView
-                                                attribute:NSLayoutAttributeWidth
-                                                multiplier:1.0
-                                                constant:0];
-                    [superView addConstraint:width];
-                    NSLayoutConstraint *centerX =[NSLayoutConstraint
-                                                  constraintWithItem:view
-                                                  attribute:NSLayoutAttributeCenterX
-                                                  relatedBy:0
-                                                  toItem:superView
-                                                  attribute:NSLayoutAttributeCenterX
-                                                  multiplier:1.0
-                                                  constant:0];
-                    [superView addConstraint:centerX];
-                }
-                    break;
-                case kWrapContent:
-                    
-                    break;
-                    
-                default:
-                    break;
-            }
-            break;
-        case kLayoutHeight:
-            switch (valueType) {
-                case kMatchParent:
-                {
-                    NSLayoutConstraint *height =[NSLayoutConstraint
-                                                constraintWithItem:view
-                                                attribute:NSLayoutAttributeHeight
-                                                relatedBy:0
-                                                toItem:superView
-                                                attribute:NSLayoutAttributeHeight
-                                                multiplier:1.0
-                                                constant:0];
-                    [superView addConstraint:height];
-                    NSLayoutConstraint *centerY =[NSLayoutConstraint
-                                                  constraintWithItem:view
-                                                  attribute:NSLayoutAttributeCenterY
-                                                  relatedBy:0
-                                                  toItem:superView
-                                                  attribute:NSLayoutAttributeCenterY
-                                                  multiplier:1.0
-                                                  constant:0];
-                    [superView addConstraint:centerY];
-                }
-                    break;
-                case kWrapContent:
-                    
-                    break;
-                    
-                default:
-                    break;
-            }
-            break;
-        default:
-            break;
-    }
-}
-
-/*   
- 
+/*
  {
  id viewToBeReturn;
  switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", element->name]] integerValue]) {
