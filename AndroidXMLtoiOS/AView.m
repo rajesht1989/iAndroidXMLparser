@@ -298,7 +298,7 @@ static NSMutableDictionary *dictUtil;
                                                     relatedBy:0
                                                     toItem:superView
                                                     attribute:NSLayoutAttributeWidth
-                                                    multiplier:1.0
+                                                    multiplier:1.f
                                                     constant:0];
                         [superView addConstraint:width];
                         NSLayoutConstraint *centerX =[NSLayoutConstraint
