@@ -17,6 +17,9 @@
 @property (nonatomic, weak)id <UIViewHandlerDelegate>owner;
 @property (nonatomic, assign)NSInteger layoutType;
 @property (nonatomic, assign)UIView *relationView; //Can be a Sibling/Superview/Subview
+
+- (instancetype)copyHandler;
+
 @end
 
 @interface UIView (AView)
