@@ -460,7 +460,7 @@ static NSMutableDictionary *dictUtil;
                         break;
                     case kWrapContent:
                     {
-                        NSLayoutConstraint *width =[NSLayoutConstraint
+                     NSLayoutConstraint *width =[NSLayoutConstraint
                                                     constraintWithItem:view
                                                     attribute:NSLayoutAttributeWidth
                                                     relatedBy:NSLayoutRelationEqual
@@ -512,7 +512,7 @@ static NSMutableDictionary *dictUtil;
                         break;
                     case kWrapContent:
                     {
-                        NSLayoutConstraint *height =[NSLayoutConstraint
+                   /*     NSLayoutConstraint *height =[NSLayoutConstraint
                                                      constraintWithItem:view
                                                      attribute:NSLayoutAttributeHeight
                                                      relatedBy:NSLayoutRelationEqual
@@ -521,6 +521,7 @@ static NSMutableDictionary *dictUtil;
                                                      multiplier:1.0
                                                      constant:[UIView getHeightOfView:view]];
                         [view addConstraint:height];
+                    */
                     }
                         break;
                     case kFillParent:
