@@ -21,7 +21,7 @@
     UIViewHandler * viewHandler = [[UIViewHandler alloc] init];
     [viewHandler setSuperView:self.view];
     [viewHandler setOwner:self];
-    UIView *androidView = [UIView viewForXml:@"LinearLayout" andHandler:viewHandler];
+    UIView *androidView = [UIView viewForXml:@"activity_main" andHandler:viewHandler];
     NSLog(@"%@",androidView);
 //    [androidView setFrame:self.view.bounds];
 //    [self.view addSubview:androidView];

@@ -13,7 +13,6 @@
 
 const NSInteger Undefined = 0;
 
-
 /*
  //Layouts
  
@@ -100,7 +99,8 @@ typedef enum {
 
 typedef enum {
     kMatchParent = 90,
-    kWrapContent
+    kWrapContent,
+    kFillParent
 }AUILayoutSizeValueType;
 
 typedef enum {
@@ -122,6 +122,7 @@ typedef enum {
 typedef enum {
     kPassword = 210,
     kHintText,
+    kBackGroundColor,
     kLayoutGravity
 }AUIInputValueType;
 
@@ -264,6 +265,8 @@ static NSMutableDictionary *dictUtil;
         [dictUtil setObject:@(kText) forKey:@"android:text"];
         
         [dictUtil setObject:@(kCenter) forKey:@"center"];
+        
+        [dictUtil setObject:@(kBackGroundColor) forKey:@"android:background"];
     }
     return dictUtil;
 }
@@ -273,16 +276,16 @@ static NSMutableDictionary *dictUtil;
     NSError *error = nil;
     TBXML *tbxml = [TBXML tbxmlWithXMLData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:xmlName ofType:@"xml"]] error:&error];
     /*    NSDictionary *xmlDictionary = [XMLReader dictionaryForXMLData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:xmlName ofType:@"xml"]] error:nil];*/
-    [viewHandler.superView setBackgroundColor:[UIColor colorWithWhite:.7 alpha:.8]];
+//    [viewHandler.superView setBackgroundColor:[UIColor colorWithWhite:.7 alpha:.8]];
     
     UIScrollView *scrollView = [[UIScrollView alloc] init];
     [scrollView setTranslatesAutoresizingMaskIntoConstraints:NO];
     [viewHandler.superView addSubview:scrollView];
     
-    [viewHandler.superView addConstraint:[NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:viewHandler.superView attribute:NSLayoutAttributeLeadingMargin multiplier:1.f constant:0]];
-    [viewHandler.superView addConstraint:[NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:viewHandler.superView attribute:NSLayoutAttributeTrailingMargin multiplier:1.f constant:0]];
-    [viewHandler.superView addConstraint:[NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:viewHandler.superView attribute:NSLayoutAttributeTopMargin multiplier:1.f constant:0]];
-    [viewHandler.superView addConstraint:[NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:viewHandler.superView attribute:NSLayoutAttributeBottomMargin multiplier:1.f constant:0]];
+    [viewHandler.superView addConstraint:[NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:viewHandler.superView attribute:NSLayoutAttributeLeading multiplier:1.f constant:0]];
+    [viewHandler.superView addConstraint:[NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:viewHandler.superView attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0]];
+    [viewHandler.superView addConstraint:[NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:viewHandler.superView attribute:NSLayoutAttributeTop multiplier:1.f constant:0]];
+    [viewHandler.superView addConstraint:[NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:viewHandler.superView attribute:NSLayoutAttributeBottom multiplier:1.f constant:0]];
     
     UIViewHandler *subviewHandler = [viewHandler copyHandler];
     [subviewHandler setSuperView:scrollView];
@@ -300,7 +303,6 @@ static NSMutableDictionary *dictUtil;
             TBXMLAttribute *attribute = element->firstAttribute;
             [self configureLayoutView:view attribute:attribute handler:viewHandler];
             
-            //            Actual pixels = dp * ( dpi / 160 ),
             
             TBXMLElement *child = element->firstChild;
             UIViewHandler *subviewHandler = [[UIViewHandler alloc] init];
@@ -317,6 +319,8 @@ static NSMutableDictionary *dictUtil;
             break;
         case kRelativeLayout :
         {
+            //            Actual pixels = dp * ( dpi / 160 ),
+
             UIView *view = [[UIView alloc] init];
             viewToBeReturn = view;
             [viewHandler.superView addSubview:view];
@@ -363,6 +367,7 @@ static NSMutableDictionary *dictUtil;
         {
             UILabel *label = [[UILabel alloc] init];
             viewToBeReturn = label;
+            [label setNumberOfLines:0];
             [label.layer setBorderWidth:1.f];
             [label.layer setBorderColor:[[UIColor grayColor] CGColor]];
             [viewHandler.superView addSubview:label];
@@ -448,7 +453,8 @@ static NSMutableDictionary *dictUtil;
                         [view.superview addConstraint:centerX];
                     }
                         break;
-                        
+                    case kFillParent:
+                        break;
                     default:
                         break;
                 }
@@ -490,7 +496,8 @@ static NSMutableDictionary *dictUtil;
                         [view addConstraint:height];
                     }
                         break;
-                        
+                    case kFillParent:
+                        break;
                     default:
                         break;
                 }
@@ -514,12 +521,50 @@ static NSMutableDictionary *dictUtil;
             case kLayoutGravity:
                 [view setLayoutGravity:[[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] intValue]];
                 break;
+            case kBackGroundColor:
+                [view setBackgroundColor:[self colorWithHexString:[NSString stringWithFormat:@"%s", attribute->value]]];
+                break;
             default:
                 break;
         }
         NSLog(@"%@ %@",[NSString stringWithFormat:@"%s", attribute->name],[NSString stringWithFormat:@"%s", attribute->value]);
         attribute = attribute->next;
     }
+}
+
++ (UIColor *) colorWithHexString: (NSString *) stringToConvert{
+    NSString *cString = [[stringToConvert stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] uppercaseString];
+    unsigned int r, g, b,alpha = 1;
+    NSRange range;
+    range.location = 0;
+    range.length = 2;
+
+    // String should be 6 or 8 characters
+    if ([cString length] < 6) return [UIColor blackColor];
+    // strip 0X if it appears
+    if ([cString hasPrefix:@"0X"]) cString = [cString substringFromIndex:2];
+    if ([cString hasPrefix:@"#"]) cString = [cString substringFromIndex:1];
+    if ([cString length] == 8) {
+        [[NSScanner scannerWithString:[cString substringWithRange:range]] scanHexInt:&alpha];
+      cString = [cString substringFromIndex:2];
+    }
+    if ([cString length] != 6) return [UIColor blackColor];
+    // Separate into r, g, b substrings
+
+    NSString *rString = [cString substringWithRange:range];
+    range.location = 2;
+    NSString *gString = [cString substringWithRange:range];
+    range.location = 4;
+    NSString *bString = [cString substringWithRange:range];
+    // Scan values
+    [[NSScanner scannerWithString:rString] scanHexInt:&r];
+    [[NSScanner scannerWithString:gString] scanHexInt:&g];
+    [[NSScanner scannerWithString:bString] scanHexInt:&b];
+    
+    return [UIColor colorWithRed:((float) r / 255.0f)
+                           green:((float) g / 255.0f)
+                            blue:((float) b / 255.0f)
+                           alpha:((float) alpha / 255.0f)];
 }
 
 /*
