@@ -143,10 +143,15 @@ typedef enum {
     kCenter = 330,
 }AUILayoutGravityValueType;
 
-@implementation UIViewHandler
+typedef enum {
+    kLinearVerticalLayout = 360,
+    kLinearHorizontalLayout
+}ALinearLayoutType;
+
+@implementation AViewHandler
 
 - (instancetype)copyHandler {
-    UIViewHandler *viewHandlerCopy = [[UIViewHandler alloc] init];
+    AViewHandler *viewHandlerCopy = [[AViewHandler alloc] init];
     [viewHandlerCopy setSuperView:self.superView];
     [viewHandlerCopy setOwner:self.owner];
     [viewHandlerCopy setLayoutType:self.layoutType];
@@ -271,7 +276,7 @@ static NSMutableDictionary *dictUtil;
     return dictUtil;
 }
 
-+ (UIView *)viewForXml:(NSString *)xmlName andHandler:(UIViewHandler *)viewHandler
++ (UIView *)viewForXml:(NSString *)xmlName andHandler:(AViewHandler *)viewHandler
 {
     NSError *error = nil;
     TBXML *tbxml = [TBXML tbxmlWithXMLData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:xmlName ofType:@"xml"]] error:&error];
@@ -287,13 +292,13 @@ static NSMutableDictionary *dictUtil;
     [viewHandler.superView addConstraint:[NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:viewHandler.superView attribute:NSLayoutAttributeTop multiplier:1.f constant:0]];
     [viewHandler.superView addConstraint:[NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:viewHandler.superView attribute:NSLayoutAttributeBottom multiplier:1.f constant:0]];
     
-    UIViewHandler *subviewHandler = [viewHandler copyHandler];
+    AViewHandler *subviewHandler = [viewHandler copyHandler];
     [subviewHandler setSuperView:scrollView];
     [scrollView addSubview:[self subEntityFor:tbxml.rootXMLElement ansHandler:subviewHandler]];
     return scrollView;
 }
 
-+ (id)subEntityFor:(TBXMLElement *)element ansHandler:(UIViewHandler *)viewHandler {
++ (id)subEntityFor:(TBXMLElement *)element ansHandler:(AViewHandler *)viewHandler {
     id viewToBeReturn;
     switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", element->name]] integerValue]) {
         case kLinearLayout : {
@@ -305,10 +310,10 @@ static NSMutableDictionary *dictUtil;
             
             
             TBXMLElement *child = element->firstChild;
-            UIViewHandler *subviewHandler = [[UIViewHandler alloc] init];
+            AViewHandler *subviewHandler = [[AViewHandler alloc] init];
             [subviewHandler setSuperView:viewToBeReturn];
             [subviewHandler setOwner:viewHandler.owner];
-            [subviewHandler setLayoutType:kLinearLayout];
+            [subviewHandler setLayoutType:kLinearVerticalLayout];
             UIView *previousView;
             while (child) {
                 [subviewHandler setRelationView:previousView];
@@ -327,7 +332,7 @@ static NSMutableDictionary *dictUtil;
             TBXMLAttribute *attribute = element->firstAttribute;
             [self configureLayoutView:view attribute:attribute handler:viewHandler];
             TBXMLElement *child = element->firstChild;
-            UIViewHandler *subviewHandler = [[UIViewHandler alloc] init];
+            AViewHandler *subviewHandler = [[AViewHandler alloc] init];
             [subviewHandler setSuperView:viewToBeReturn];
             [subviewHandler setOwner:viewHandler.owner];
             [subviewHandler setLayoutType:kRelativeLayout];
@@ -380,9 +385,9 @@ static NSMutableDictionary *dictUtil;
     return viewToBeReturn;
 }
 
-+ (void)configureLayoutView:(UIView *)view attribute:(TBXMLAttribute *)attribute handler:(UIViewHandler *) handler {
++ (void)configureLayoutView:(UIView *)view attribute:(TBXMLAttribute *)attribute handler:(AViewHandler *) handler {
     [view setTranslatesAutoresizingMaskIntoConstraints:NO];
-    if (handler.layoutType == kLinearLayout) {
+    if (handler.layoutType == kLinearVerticalLayout) {
         if (handler.relationView) {
             NSLayoutConstraint *yConstraint =[NSLayoutConstraint
                                               constraintWithItem:view
@@ -403,6 +408,28 @@ static NSMutableDictionary *dictUtil;
                                               multiplier:1.f
                                               constant:Padding];
             [view.superview addConstraint:yConstraint];
+        }
+    }  else if (handler.layoutType == kLinearHorizontalLayout) {
+        if (handler.relationView) {
+            NSLayoutConstraint *xConstraint =[NSLayoutConstraint
+                                              constraintWithItem:view
+                                              attribute:NSLayoutAttributeLeft
+                                              relatedBy:NSLayoutRelationEqual
+                                              toItem:handler.relationView
+                                              attribute:NSLayoutAttributeLeft
+                                              multiplier:1.f
+                                              constant:Padding];
+            [view.superview addConstraint:xConstraint];
+        } else {
+            NSLayoutConstraint *xConstraint =[NSLayoutConstraint
+                                              constraintWithItem:view
+                                              attribute:NSLayoutAttributeLeft
+                                              relatedBy:NSLayoutRelationEqual
+                                              toItem:view.superview
+                                              attribute:NSLayoutAttributeLeft
+                                              multiplier:1.f
+                                              constant:Padding];
+            [view.superview addConstraint:xConstraint];
         }
     }
     while (attribute) {
@@ -597,7 +624,7 @@ static NSMutableDictionary *dictUtil;
  }
  TBXMLElement *child = element->firstChild;
  while (child) {
- UIViewHandler *subviewHandler = [[UIViewHandler alloc] init];
+ AViewHandler *subviewHandler = [[AViewHandler alloc] init];
  [subviewHandler setSuperView:viewToBeReturn];
  [subviewHandler setOwner:viewHandler.owner];
  [self subEntityFor:child ansHandler:subviewHandler];

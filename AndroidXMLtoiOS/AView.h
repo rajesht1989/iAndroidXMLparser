@@ -7,14 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-@protocol UIViewHandlerDelegate <UITextFieldDelegate>
+@protocol AViewHandlerDelegate <UITextFieldDelegate>
 @required
 - (void)buttonAction:(UIButton *)button;
 @end
 
-@interface UIViewHandler : NSObject
+@interface AViewHandler : NSObject
 @property (nonatomic, weak)UIView *superView;
-@property (nonatomic, weak)id <UIViewHandlerDelegate>owner;
+@property (nonatomic, weak)id <AViewHandlerDelegate>owner;
 @property (nonatomic, assign)NSInteger layoutType;
 @property (nonatomic, assign)UIView *relationView; //Can be a Sibling/Superview/Subview
 
@@ -23,6 +23,6 @@
 @end
 
 @interface UIView (AView)
-+ (UIView *)viewForXml:(NSString *)xmlName andHandler:(UIViewHandler *)viewHandler;
++ (UIView *)viewForXml:(NSString *)xmlName andHandler:(AViewHandler *)viewHandler;
 @end
 

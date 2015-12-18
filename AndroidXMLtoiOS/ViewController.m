@@ -10,7 +10,7 @@
 #import "XMLReader.h"
 #import "AView.h"
 
-@interface ViewController () <UIViewHandlerDelegate>
+@interface ViewController () <AViewHandlerDelegate>
 
 @end
 
@@ -18,7 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UIViewHandler * viewHandler = [[UIViewHandler alloc] init];
+    AViewHandler * viewHandler = [[AViewHandler alloc] init];
     [viewHandler setSuperView:self.view];
     [viewHandler setOwner:self];
     UIView *androidView = [UIView viewForXml:@"activity_main" andHandler:viewHandler];
