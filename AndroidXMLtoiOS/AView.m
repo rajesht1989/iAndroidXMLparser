@@ -121,9 +121,7 @@ typedef enum {
 
 typedef enum {
     kPassword = 210,
-    kHintText,
-    kBackGroundColor,
-    kLayoutGravity
+    kHintText
 }AUIInputValueType;
 
 typedef enum {
@@ -137,7 +135,10 @@ typedef enum {
 
 typedef enum {
     kText = 300,
-}AUILayoutTextNameType;
+    kBackGroundColor,
+    kLayoutGravity,
+    kLayoutOrientation
+}AUIGeneralNameType;
 
 typedef enum {
     kCenter = 330,
@@ -146,7 +147,7 @@ typedef enum {
 typedef enum {
     kLinearVerticalLayout = 360,
     kLinearHorizontalLayout
-}ALinearLayoutType;
+}ALinearLayoutOrientationValueType;
 
 @implementation AViewHandler
 
@@ -154,7 +155,6 @@ typedef enum {
     AViewHandler *viewHandlerCopy = [[AViewHandler alloc] init];
     [viewHandlerCopy setSuperView:self.superView];
     [viewHandlerCopy setOwner:self.owner];
-    [viewHandlerCopy setLayoutType:self.layoutType];
     [viewHandlerCopy setRelationView:self.relationView];
     return viewHandlerCopy;
 }
@@ -164,6 +164,9 @@ typedef enum {
 @interface UIView (AView_Private)
 
 @property (nonatomic, strong) NSString *identifier;
+@property (nonatomic, assign) NSInteger layoutType;
+@property (nonatomic, strong) NSMutableDictionary *viewDictionary;
+@property (nonatomic, strong) NSMutableDictionary *constraintDictionary;
 
 + (CGFloat)getHeightOfView:(UIView *)view;
 
@@ -172,6 +175,9 @@ typedef enum {
 @implementation UIView (AView)
 
 static char identifierInstance;
+static char layoutTypeInstance;
+static char viewDictionaryInstance;
+static char constraintDictionaryInstance;
 
 - (NSString *)identifier {
     return objc_getAssociatedObject(self, &identifierInstance);
@@ -183,6 +189,42 @@ static char identifierInstance;
                              identifier,
                              OBJC_ASSOCIATION_ASSIGN);
     [self didChangeValueForKey:@"identifierInstance"];
+}
+
+- (NSInteger)layoutType {
+    return [objc_getAssociatedObject(self, &layoutTypeInstance) integerValue];
+}
+
+- (void)setLayoutType:(NSInteger)layoutType {
+    [self willChangeValueForKey:@"layoutTypeInstance"];
+    objc_setAssociatedObject(self, &layoutTypeInstance,
+                             [NSNumber numberWithInteger:layoutType],
+                             OBJC_ASSOCIATION_ASSIGN);
+    [self didChangeValueForKey:@"layoutTypeInstance"];
+}
+
+- (NSMutableDictionary *)viewDictionary {
+    return objc_getAssociatedObject(self, &viewDictionaryInstance);
+}
+
+- (void)setViewDictionary:(NSMutableDictionary *)viewDictionary {
+    [self willChangeValueForKey:@"viewDictionaryInstance"];
+    objc_setAssociatedObject(self, &viewDictionaryInstance,
+                             viewDictionary,
+                             OBJC_ASSOCIATION_ASSIGN);
+    [self didChangeValueForKey:@"viewDictionaryInstance"];
+}
+
+- (NSMutableDictionary *)constraintDictionary {
+    return objc_getAssociatedObject(self, &constraintDictionaryInstance);
+}
+
+- (void)setConstraintDictionary:(NSMutableDictionary *)constraintDictionary {
+    [self willChangeValueForKey:@"constraintDictionaryInstance"];
+    objc_setAssociatedObject(self, &constraintDictionaryInstance,
+                             constraintDictionary,
+                             OBJC_ASSOCIATION_ASSIGN);
+    [self didChangeValueForKey:@"constraintDictionaryInstance"];
 }
 
 - (void)setAndroidText:(NSString *)text {
@@ -272,6 +314,12 @@ static NSMutableDictionary *dictUtil;
         [dictUtil setObject:@(kCenter) forKey:@"center"];
         
         [dictUtil setObject:@(kBackGroundColor) forKey:@"android:background"];
+        
+        [dictUtil setObject:@(kLayoutOrientation) forKey:@"android:orientation"];
+        
+        [dictUtil setObject:@(kLinearVerticalLayout) forKey:@"vertical"];
+        [dictUtil setObject:@(kLinearHorizontalLayout) forKey:@"horizontal"];
+        
     }
     return dictUtil;
 }
@@ -308,12 +356,11 @@ static NSMutableDictionary *dictUtil;
             TBXMLAttribute *attribute = element->firstAttribute;
             [self configureLayoutView:view attribute:attribute handler:viewHandler];
             
-            
+            [view setLayoutType:view.layoutType == kLinearHorizontalLayout ? kLinearHorizontalLayout : kLinearVerticalLayout];
             TBXMLElement *child = element->firstChild;
             AViewHandler *subviewHandler = [[AViewHandler alloc] init];
             [subviewHandler setSuperView:viewToBeReturn];
             [subviewHandler setOwner:viewHandler.owner];
-            [subviewHandler setLayoutType:kLinearVerticalLayout];
             UIView *previousView;
             while (child) {
                 [subviewHandler setRelationView:previousView];
@@ -335,7 +382,6 @@ static NSMutableDictionary *dictUtil;
             AViewHandler *subviewHandler = [[AViewHandler alloc] init];
             [subviewHandler setSuperView:viewToBeReturn];
             [subviewHandler setOwner:viewHandler.owner];
-            [subviewHandler setLayoutType:kRelativeLayout];
             while (child) {
                 [self subEntityFor:child ansHandler:subviewHandler];
                 child = child->nextSibling;
@@ -387,7 +433,7 @@ static NSMutableDictionary *dictUtil;
 
 + (void)configureLayoutView:(UIView *)view attribute:(TBXMLAttribute *)attribute handler:(AViewHandler *) handler {
     [view setTranslatesAutoresizingMaskIntoConstraints:NO];
-    if (handler.layoutType == kLinearVerticalLayout) {
+    if (view.superview.layoutType == kLinearVerticalLayout) {
         if (handler.relationView) {
             NSLayoutConstraint *yConstraint =[NSLayoutConstraint
                                               constraintWithItem:view
@@ -409,7 +455,7 @@ static NSMutableDictionary *dictUtil;
                                               constant:Padding];
             [view.superview addConstraint:yConstraint];
         }
-    }  else if (handler.layoutType == kLinearHorizontalLayout) {
+    }  else if (view.superview.layoutType == kLinearHorizontalLayout) {
         if (handler.relationView) {
             NSLayoutConstraint *xConstraint =[NSLayoutConstraint
                                               constraintWithItem:view
@@ -551,6 +597,9 @@ static NSMutableDictionary *dictUtil;
                 break;
             case kBackGroundColor:
                 [view setBackgroundColor:[self colorWithHexString:[NSString stringWithFormat:@"%s", attribute->value]]];
+                break;
+            case kLayoutOrientation:
+                [view setLayoutType:[[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] intValue]];
                 break;
             default:
                 break;
