@@ -193,8 +193,6 @@ typedef enum {
 @property (nonatomic, strong) NSMutableDictionary *viewDictionary;
 @property (nonatomic, strong) NSMutableArray *virtualConstraints;
 
-+ (CGFloat)getHeightOfView:(UIView *)view;
-
 @end
 
 @implementation UIView (AView)
@@ -300,19 +298,6 @@ static char virtualConstraintsInstance;
     return NO;
 }
 
-+ (CGFloat)getHeightOfView:(UIView *)view {
-    if ([view isKindOfClass:[UITextField class]]) {
-        return 40;
-    } else if ([view isKindOfClass:[UILabel class]]) {
-        return 40;
-    } else if ([view isKindOfClass:[UIImageView class]]) {
-        return 40;
-    } else if ([view isKindOfClass:[UIButton class]]) {
-        return 40;
-    }
-    return 0;
-}
-
 static NSMutableDictionary *dictUtil;
 + (NSDictionary *)dictUtil
 {
@@ -373,13 +358,6 @@ static NSMutableDictionary *dictUtil;
 {
     NSError *error = nil;
     TBXML *tbxml = [TBXML tbxmlWithXMLData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:xmlName ofType:@"xml"]] error:&error];
-    /*    NSDictionary *xmlDictionary = [XMLReader dictionaryForXMLData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:xmlName ofType:@"xml"]] error:nil];*/
-//    [viewHandler.superView setBackgroundColor:[UIColor colorWithWhite:.7 alpha:.8]];
-    
-
-    
-//    AViewHandler *subviewHandler = [viewHandler copyHandler];
-//    [subviewHandler setSuperView:scrollView];
     return [self subEntityFor:tbxml.rootXMLElement ansHandler:viewHandler];
 }
 
@@ -425,8 +403,28 @@ static NSMutableDictionary *dictUtil;
                                                  constant:0];
                     [view.superview addConstraint:bottom];
                 }
-                case kLinearHorizontalLayout:
+                    break;
+                case kLinearHorizontalLayout: {
+                    NSLayoutConstraint *height =[NSLayoutConstraint
+                                                constraintWithItem:view
+                                                attribute:NSLayoutAttributeHeight
+                                                relatedBy:NSLayoutRelationEqual
+                                                toItem:scrollView
+                                                attribute:NSLayoutAttributeHeight
+                                                multiplier:1.f
+                                                constant:0];
+                    [view.superview addConstraint:height];
                     
+                    NSLayoutConstraint *trailing =[NSLayoutConstraint
+                                                 constraintWithItem:view
+                                                 attribute:NSLayoutAttributeTrailing
+                                                 relatedBy:NSLayoutRelationEqual
+                                                 toItem:view.superview
+                                                 attribute:NSLayoutAttributeTrailing
+                                                 multiplier:1.f
+                                                 constant:0];
+                    [view.superview addConstraint:trailing];
+                }
                     break;
                     
                 default:
@@ -683,7 +681,7 @@ static NSMutableDictionary *dictUtil;
                                               attribute:NSLayoutAttributeLeft
                                               relatedBy:NSLayoutRelationEqual
                                               toItem:handler.relationView
-                                              attribute:NSLayoutAttributeLeft
+                                              attribute:NSLayoutAttributeRight
                                               multiplier:1.f
                                               constant:Padding];
             [view.superview addConstraint:xConstraint];
