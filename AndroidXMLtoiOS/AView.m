@@ -408,7 +408,7 @@ static NSMutableDictionary *dictUtil;
                     NSLayoutConstraint *height =[NSLayoutConstraint
                                                 constraintWithItem:view
                                                 attribute:NSLayoutAttributeHeight
-                                                relatedBy:NSLayoutRelationEqual
+                                                relatedBy:NSLayoutRelationLessThanOrEqual
                                                 toItem:scrollView
                                                 attribute:NSLayoutAttributeHeight
                                                 multiplier:1.f
@@ -538,8 +538,7 @@ static NSMutableDictionary *dictUtil;
                 break;
             case kLayoutWidth:
                 switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]) {
-                    case kMatchParent:
-                    {
+                    case kMatchParent: {
                         NSLayoutConstraint *leading =[NSLayoutConstraint
                                                     constraintWithItem:view
                                                     attribute:NSLayoutAttributeLeading
@@ -561,8 +560,7 @@ static NSMutableDictionary *dictUtil;
                         [view.superview addConstraint:trailing];
                     }
                         break;
-                    case kWrapContent:
-                    {
+                    case kWrapContent: {
                         NSLayoutConstraint *leading =[NSLayoutConstraint
                                                       constraintWithItem:view
                                                       attribute:NSLayoutAttributeLeading
@@ -592,8 +590,7 @@ static NSMutableDictionary *dictUtil;
                 break;
             case kLayoutHeight:
                 switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]) {
-                    case kMatchParent:
-                    {
+                    case kMatchParent: {
                         NSLayoutConstraint *top =[NSLayoutConstraint
                                                       constraintWithItem:view
                                                       attribute:NSLayoutAttributeTop
@@ -615,8 +612,7 @@ static NSMutableDictionary *dictUtil;
                         [view.superview addConstraint:bottom];
                     }
                         break;
-                    case kWrapContent:
-                    {
+                    case kWrapContent: {
                         NSLayoutConstraint *top =[NSLayoutConstraint
                                                   constraintWithItem:view
                                                   attribute:NSLayoutAttributeTop

@@ -23,8 +23,6 @@
     [viewHandler setOwner:self];
     UIView *androidView = [UIView viewForXml:@"LinearLayout" andHandler:viewHandler];
     NSLog(@"%@",androidView);
-//    [androidView setFrame:self.view.bounds];
-//    [self.view addSubview:androidView];
 }
 
 - (void)didReceiveMemoryWarning {
