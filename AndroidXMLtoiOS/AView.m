@@ -76,7 +76,7 @@ const NSInteger Undefined = 0;
  
  private final String IMG_SRC_ATTRIBUTE = "android:src";
  */
-static const NSInteger Padding = 20;
+static const NSInteger Padding = 8;
 typedef enum {
     kLinearLayout = 1,
     kRelativeLayout,
@@ -368,8 +368,57 @@ static NSMutableDictionary *dictUtil;
     
     AViewHandler *subviewHandler = [viewHandler copyHandler];
     [subviewHandler setSuperView:scrollView];
-    UIView *androidView = [self subEntityFor:tbxml.rootXMLElement ansHandler:subviewHandler];
-    [scrollView addSubview:androidView];
+    UIView *view = [self subEntityFor:tbxml.rootXMLElement ansHandler:subviewHandler];
+    switch (view.layoutType) {
+        case kLinearVerticalLayout: {
+            NSLayoutConstraint *width =[NSLayoutConstraint
+                                        constraintWithItem:view
+                                        attribute:NSLayoutAttributeWidth
+                                        relatedBy:NSLayoutRelationEqual
+                                        toItem:view.superview
+                                        attribute:NSLayoutAttributeWidth
+                                        multiplier:1.f
+                                        constant:0];
+            [view.superview addConstraint:width];
+            
+            NSLayoutConstraint *bottom =[NSLayoutConstraint
+                                         constraintWithItem:view
+                                         attribute:NSLayoutAttributeBottom
+                                         relatedBy:NSLayoutRelationEqual
+                                         toItem:view.superview
+                                         attribute:NSLayoutAttributeBottom
+                                         multiplier:1.f
+                                         constant:0];
+            [view.superview addConstraint:bottom];
+        }
+            break;
+        case kLinearHorizontalLayout: {
+            NSLayoutConstraint *height =[NSLayoutConstraint
+                                         constraintWithItem:view
+                                         attribute:NSLayoutAttributeHeight
+                                         relatedBy:NSLayoutRelationLessThanOrEqual
+                                         toItem:view.superview
+                                         attribute:NSLayoutAttributeHeight
+                                         multiplier:1.f
+                                         constant:0];
+            [view.superview addConstraint:height];
+            
+            NSLayoutConstraint *trailing =[NSLayoutConstraint
+                                           constraintWithItem:view
+                                           attribute:NSLayoutAttributeTrailing
+                                           relatedBy:NSLayoutRelationEqual
+                                           toItem:view.superview
+                                           attribute:NSLayoutAttributeTrailing
+                                           multiplier:1.f
+                                           constant:0];
+            [view.superview addConstraint:trailing];
+        }
+            break;
+            
+        default:
+            break;
+    }
+    [scrollView addSubview:view];
     return scrollView;
 }
 
@@ -384,56 +433,6 @@ static NSMutableDictionary *dictUtil;
             [self configureLayoutView:view attribute:attribute handler:viewHandler];
             
             [view setLayoutType:view.layoutType == kLinearHorizontalLayout ? kLinearHorizontalLayout : kLinearVerticalLayout];
-            switch (view.layoutType) {
-                case kLinearVerticalLayout: {
-                    NSLayoutConstraint *width =[NSLayoutConstraint
-                                                constraintWithItem:view
-                                                attribute:NSLayoutAttributeWidth
-                                                relatedBy:NSLayoutRelationEqual
-                                                toItem:view.superview
-                                                attribute:NSLayoutAttributeWidth
-                                                multiplier:1.f
-                                                constant:0];
-                    [view.superview addConstraint:width];
-                    
-                    NSLayoutConstraint *bottom =[NSLayoutConstraint
-                                                 constraintWithItem:view
-                                                 attribute:NSLayoutAttributeBottom
-                                                 relatedBy:NSLayoutRelationEqual
-                                                 toItem:view.superview
-                                                 attribute:NSLayoutAttributeBottom
-                                                 multiplier:1.f
-                                                 constant:0];
-                    [view.superview addConstraint:bottom];
-                }
-                    break;
-                case kLinearHorizontalLayout: {
-                    NSLayoutConstraint *height =[NSLayoutConstraint
-                                                constraintWithItem:view
-                                                attribute:NSLayoutAttributeHeight
-                                                relatedBy:NSLayoutRelationLessThanOrEqual
-                                                toItem:view.superview
-                                                attribute:NSLayoutAttributeHeight
-                                                multiplier:1.f
-                                                constant:0];
-                    [view.superview addConstraint:height];
-                    
-                    NSLayoutConstraint *trailing =[NSLayoutConstraint
-                                                 constraintWithItem:view
-                                                 attribute:NSLayoutAttributeTrailing
-                                                 relatedBy:NSLayoutRelationEqual
-                                                 toItem:view.superview
-                                                 attribute:NSLayoutAttributeTrailing
-                                                 multiplier:1.f
-                                                 constant:0];
-                    [view.superview addConstraint:trailing];
-                }
-                    break;
-                    
-                default:
-                    break;
-            }
-            
             TBXMLElement *child = element->firstChild;
             AViewHandler *subviewHandler = [[AViewHandler alloc] init];
             [subviewHandler setSuperView:view];
