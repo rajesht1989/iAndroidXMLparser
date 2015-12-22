@@ -282,7 +282,6 @@ static char virtualConstraintsInstance;
             if ([selfObject isKindOfClass:[UILabel class]] || [selfObject isKindOfClass:[UITextField class]]) {
                 [selfObject setTextAlignment:NSTextAlignmentCenter];
             } else if ([self isKindOfClass:[UIButton class]]) {
-                //                [selfObject :NSTextAlignmentCenter];
             }
             break;
             
@@ -358,25 +357,29 @@ static NSMutableDictionary *dictUtil;
 {
     NSError *error = nil;
     TBXML *tbxml = [TBXML tbxmlWithXMLData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:xmlName ofType:@"xml"]] error:&error];
-    return [self subEntityFor:tbxml.rootXMLElement ansHandler:viewHandler];
+    UIScrollView *scrollView = [[UIScrollView alloc] init];
+    [scrollView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [viewHandler.superView addSubview:scrollView];
+    
+    [viewHandler.superView addConstraint:[NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:viewHandler.superView attribute:NSLayoutAttributeLeading multiplier:1.f constant:0]];
+    [viewHandler.superView addConstraint:[NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:viewHandler.superView attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0]];
+    [viewHandler.superView addConstraint:[NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:viewHandler.superView attribute:NSLayoutAttributeTop multiplier:1.f constant:0]];
+    [viewHandler.superView addConstraint:[NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:viewHandler.superView attribute:NSLayoutAttributeBottom multiplier:1.f constant:0]];
+    
+    AViewHandler *subviewHandler = [viewHandler copyHandler];
+    [subviewHandler setSuperView:scrollView];
+    UIView *androidView = [self subEntityFor:tbxml.rootXMLElement ansHandler:subviewHandler];
+    [scrollView addSubview:androidView];
+    return scrollView;
 }
 
 + (id)subEntityFor:(TBXMLElement *)element ansHandler:(AViewHandler *)viewHandler {
     id viewToBeReturn;
     switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", element->name]] integerValue]) {
         case kLinearLayout : {
-            UIScrollView *scrollView = [[UIScrollView alloc] init];
-            viewToBeReturn = scrollView;
-            [scrollView setTranslatesAutoresizingMaskIntoConstraints:NO];
-            [viewHandler.superView addSubview:scrollView];
-            
-            [viewHandler.superView addConstraint:[NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:viewHandler.superView attribute:NSLayoutAttributeLeading multiplier:1.f constant:0]];
-            [viewHandler.superView addConstraint:[NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:viewHandler.superView attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0]];
-            [viewHandler.superView addConstraint:[NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:viewHandler.superView attribute:NSLayoutAttributeTop multiplier:1.f constant:0]];
-            [viewHandler.superView addConstraint:[NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:viewHandler.superView attribute:NSLayoutAttributeBottom multiplier:1.f constant:0]];
-
             UIView *view = [[UIView alloc] init];
-            [scrollView addSubview:view];
+            viewToBeReturn = view;
+            [viewHandler.superView addSubview:view];
             TBXMLAttribute *attribute = element->firstAttribute;
             [self configureLayoutView:view attribute:attribute handler:viewHandler];
             
@@ -387,7 +390,7 @@ static NSMutableDictionary *dictUtil;
                                                 constraintWithItem:view
                                                 attribute:NSLayoutAttributeWidth
                                                 relatedBy:NSLayoutRelationEqual
-                                                toItem:scrollView
+                                                toItem:view.superview
                                                 attribute:NSLayoutAttributeWidth
                                                 multiplier:1.f
                                                 constant:0];
@@ -409,7 +412,7 @@ static NSMutableDictionary *dictUtil;
                                                 constraintWithItem:view
                                                 attribute:NSLayoutAttributeHeight
                                                 relatedBy:NSLayoutRelationLessThanOrEqual
-                                                toItem:scrollView
+                                                toItem:view.superview
                                                 attribute:NSLayoutAttributeHeight
                                                 multiplier:1.f
                                                 constant:0];
@@ -538,6 +541,7 @@ static NSMutableDictionary *dictUtil;
                 break;
             case kLayoutWidth:
                 switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]) {
+                    case kFillParent:
                     case kMatchParent: {
                         NSLayoutConstraint *leading =[NSLayoutConstraint
                                                     constraintWithItem:view
@@ -582,14 +586,13 @@ static NSMutableDictionary *dictUtil;
                         [view.superview addConstraint:trailing];
                     }
                         break;
-                    case kFillParent:
-                        break;
                     default:
                         break;
                 }
                 break;
             case kLayoutHeight:
                 switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]) {
+                    case kFillParent:
                     case kMatchParent: {
                         NSLayoutConstraint *top =[NSLayoutConstraint
                                                       constraintWithItem:view
@@ -623,8 +626,6 @@ static NSMutableDictionary *dictUtil;
                                                   constant:0];
                         [view.superview addConstraint:top];
                     }
-                        break;
-                    case kFillParent:
                         break;
                     default:
                         break;
