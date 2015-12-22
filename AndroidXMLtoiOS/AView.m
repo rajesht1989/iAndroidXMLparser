@@ -376,37 +376,66 @@ static NSMutableDictionary *dictUtil;
     /*    NSDictionary *xmlDictionary = [XMLReader dictionaryForXMLData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:xmlName ofType:@"xml"]] error:nil];*/
 //    [viewHandler.superView setBackgroundColor:[UIColor colorWithWhite:.7 alpha:.8]];
     
-    UIScrollView *scrollView = [[UIScrollView alloc] init];
-    [scrollView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [viewHandler.superView addSubview:scrollView];
+
     
-    [viewHandler.superView addConstraint:[NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:viewHandler.superView attribute:NSLayoutAttributeLeading multiplier:1.f constant:0]];
-    [viewHandler.superView addConstraint:[NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:viewHandler.superView attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0]];
-    [viewHandler.superView addConstraint:[NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:viewHandler.superView attribute:NSLayoutAttributeTop multiplier:1.f constant:0]];
-    [viewHandler.superView addConstraint:[NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:viewHandler.superView attribute:NSLayoutAttributeBottom multiplier:1.f constant:0]];
-    
-    AViewHandler *subviewHandler = [viewHandler copyHandler];
-    [subviewHandler setSuperView:scrollView];
-    UIView *androidView = [self subEntityFor:tbxml.rootXMLElement ansHandler:subviewHandler];
-    [scrollView addSubview:androidView];
-    return scrollView;
+//    AViewHandler *subviewHandler = [viewHandler copyHandler];
+//    [subviewHandler setSuperView:scrollView];
+    return [self subEntityFor:tbxml.rootXMLElement ansHandler:viewHandler];
 }
 
 + (id)subEntityFor:(TBXMLElement *)element ansHandler:(AViewHandler *)viewHandler {
     id viewToBeReturn;
     switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", element->name]] integerValue]) {
         case kLinearLayout : {
+            UIScrollView *scrollView = [[UIScrollView alloc] init];
+            viewToBeReturn = scrollView;
+            [scrollView setTranslatesAutoresizingMaskIntoConstraints:NO];
+            [viewHandler.superView addSubview:scrollView];
+            
+            [viewHandler.superView addConstraint:[NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:viewHandler.superView attribute:NSLayoutAttributeLeading multiplier:1.f constant:0]];
+            [viewHandler.superView addConstraint:[NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:viewHandler.superView attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0]];
+            [viewHandler.superView addConstraint:[NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:viewHandler.superView attribute:NSLayoutAttributeTop multiplier:1.f constant:0]];
+            [viewHandler.superView addConstraint:[NSLayoutConstraint constraintWithItem:scrollView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:viewHandler.superView attribute:NSLayoutAttributeBottom multiplier:1.f constant:0]];
+
             UIView *view = [[UIView alloc] init];
-            viewToBeReturn = view;
-            [viewHandler.superView addSubview:view];
+            [scrollView addSubview:view];
             TBXMLAttribute *attribute = element->firstAttribute;
             [self configureLayoutView:view attribute:attribute handler:viewHandler];
             
             [view setLayoutType:view.layoutType == kLinearHorizontalLayout ? kLinearHorizontalLayout : kLinearVerticalLayout];
-        
+            switch (view.layoutType) {
+                case kLinearVerticalLayout: {
+                    NSLayoutConstraint *width =[NSLayoutConstraint
+                                                constraintWithItem:view
+                                                attribute:NSLayoutAttributeWidth
+                                                relatedBy:NSLayoutRelationEqual
+                                                toItem:scrollView
+                                                attribute:NSLayoutAttributeWidth
+                                                multiplier:1.f
+                                                constant:0];
+                    [view.superview addConstraint:width];
+                    
+                    NSLayoutConstraint *bottom =[NSLayoutConstraint
+                                                 constraintWithItem:view
+                                                 attribute:NSLayoutAttributeBottom
+                                                 relatedBy:NSLayoutRelationEqual
+                                                 toItem:view.superview
+                                                 attribute:NSLayoutAttributeBottom
+                                                 multiplier:1.f
+                                                 constant:0];
+                    [view.superview addConstraint:bottom];
+                }
+                case kLinearHorizontalLayout:
+                    
+                    break;
+                    
+                default:
+                    break;
+            }
+            
             TBXMLElement *child = element->firstChild;
             AViewHandler *subviewHandler = [[AViewHandler alloc] init];
-            [subviewHandler setSuperView:viewToBeReturn];
+            [subviewHandler setSuperView:view];
             [subviewHandler setOwner:viewHandler.owner];
             UIView *previousView;
             while (child) {
@@ -480,7 +509,6 @@ static NSMutableDictionary *dictUtil;
 }
 
 + (void)configureLayoutView:(UIView *)view attribute:(TBXMLAttribute *)attribute handler:(AViewHandler *)handler {
-//    NSLog(@"%d %d",handler.position.isFirstItem,handler.position.isLastItem);
     [view setTranslatesAutoresizingMaskIntoConstraints:NO];
     BOOL isMarginConstraint = [UIView attributeToMargin:view];
     while (attribute) {
@@ -523,7 +551,7 @@ static NSMutableDictionary *dictUtil;
                                                     multiplier:1.f
                                                     constant:0];
                         [view.superview addConstraint:leading];
-                        
+
                         NSLayoutConstraint *trailing =[NSLayoutConstraint
                                                       constraintWithItem:view
                                                       attribute:NSLayoutAttributeTrailing
@@ -533,7 +561,6 @@ static NSMutableDictionary *dictUtil;
                                                       multiplier:1.f
                                                       constant:0];
                         [view.superview addConstraint:trailing];
-                        
                     }
                         break;
                     case kWrapContent:
@@ -622,7 +649,7 @@ static NSMutableDictionary *dictUtil;
                                               attribute:NSLayoutAttributeTop
                                               relatedBy:NSLayoutRelationEqual
                                               toItem:handler.relationView
-                                              attribute:isMarginConstraint ? NSLayoutAttributeBottomMargin : NSLayoutAttributeBottom
+                                              attribute:NSLayoutAttributeBottom
                                               multiplier:1.f
                                               constant:Padding];
             [view.superview addConstraint:yConstraint];
