@@ -441,8 +441,7 @@ static NSMutableDictionary *dictUtil;
             }
         }
             break;
-        case kRelativeLayout :
-        {
+        case kRelativeLayout : {
             //            Actual pixels = dp * ( dpi / 160 ),
             
             UIView *view = [[UIView alloc] init];
@@ -464,8 +463,7 @@ static NSMutableDictionary *dictUtil;
         case kWebViewLayout :
         case kGridViewLayout :
             break;
-        case kButton :
-        {
+        case kButton : {
             UIButton *button = [[UIButton alloc] init];
             viewToBeReturn = button;
             [handler.superView addSubview:button];
@@ -475,8 +473,7 @@ static NSMutableDictionary *dictUtil;
             [self configureLayoutView:button attribute:element->firstAttribute handler:handler];
         }
             break;
-        case kTextField :
-        {
+        case kTextField : {
             UITextField *textField = [[UITextField alloc] init];
             [textField setDelegate:handler.owner];
             [textField.layer setBorderWidth:1.f];
@@ -486,8 +483,7 @@ static NSMutableDictionary *dictUtil;
             [self configureLayoutView:textField attribute:element->firstAttribute handler:handler];
         }
             break;
-        case kTextView :
-        {
+        case kTextView : {
             UILabel *label = [[UILabel alloc] init];
             viewToBeReturn = label;
             [label setNumberOfLines:0];
@@ -572,9 +568,7 @@ static NSMutableDictionary *dictUtil;
                                                constant:Padding];
                 [viewToBeReturn.superview addConstraint:trailing];
             }
-            
             break;
-            
         default:
             break;
         }
@@ -632,15 +626,15 @@ static NSMutableDictionary *dictUtil;
                     switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]) {
                         case kFillParent:
                         case kMatchParent: {
-                                NSLayoutConstraint *leading =[NSLayoutConstraint
-                             constraintWithItem:view
-                             attribute:NSLayoutAttributeLeading
-                             relatedBy:NSLayoutRelationEqual
-                             toItem:view.superview
-                             attribute:isMarginConstraint ? NSLayoutAttributeLeadingMargin : NSLayoutAttributeLeading
-                             multiplier:1.f
-                             constant:0];
-                             [view.superview addConstraint:leading];
+                            NSLayoutConstraint *leading =[NSLayoutConstraint
+                                                          constraintWithItem:view
+                                                          attribute:NSLayoutAttributeLeading
+                                                          relatedBy:NSLayoutRelationEqual
+                                                          toItem:view.superview
+                                                          attribute:isMarginConstraint ? NSLayoutAttributeLeadingMargin : NSLayoutAttributeLeading
+                                                          multiplier:1.f
+                                                          constant:0];
+                            [view.superview addConstraint:leading];
                             NSLayoutConstraint *trailing =[NSLayoutConstraint
                                                            constraintWithItem:view
                                                            attribute:NSLayoutAttributeTrailing
@@ -674,7 +668,27 @@ static NSMutableDictionary *dictUtil;
                             [view.superview addConstraint:trailing];
                         }
                             break;
-                        default:
+                        default: {
+                            NSLayoutConstraint *leading =[NSLayoutConstraint
+                                                          constraintWithItem:view
+                                                          attribute:NSLayoutAttributeLeading
+                                                          relatedBy:NSLayoutRelationEqual
+                                                          toItem:view.superview
+                                                          attribute:isMarginConstraint ? NSLayoutAttributeLeadingMargin : NSLayoutAttributeLeading
+                                                          multiplier:1.f
+                                                          constant:0];
+                            [view.superview addConstraint:leading];
+                            
+                            NSLayoutConstraint *width =[NSLayoutConstraint
+                                                           constraintWithItem:view
+                                                           attribute:NSLayoutAttributeWidth
+                                                           relatedBy:NSLayoutRelationEqual
+                                                           toItem:nil
+                                                           attribute:NSLayoutAttributeNotAnAttribute
+                                                           multiplier:1.f
+                                                           constant:[self pixels:[NSString stringWithFormat:@"%s", attribute->value]]];
+                            [view addConstraint:width];
+                        }
                             break;
                     }
                     break;
@@ -705,7 +719,17 @@ static NSMutableDictionary *dictUtil;
                             [view.superview addConstraint:top];
                         }
                             break;
-                        default:
+                        default: {
+                            NSLayoutConstraint *height =[NSLayoutConstraint
+                                                        constraintWithItem:view
+                                                        attribute:NSLayoutAttributeHeight
+                                                        relatedBy:NSLayoutRelationEqual
+                                                        toItem:nil
+                                                        attribute:NSLayoutAttributeNotAnAttribute
+                                                        multiplier:1.f
+                                                        constant:[self pixels:[NSString stringWithFormat:@"%s", attribute->value]]];
+                            [view addConstraint:height];
+                        }
                             break;
                     }
             }
@@ -718,14 +742,14 @@ static NSMutableDictionary *dictUtil;
                         case kFillParent:
                         case kMatchParent: {
                             NSLayoutConstraint *leading =[NSLayoutConstraint
-                             constraintWithItem:view
-                             attribute:NSLayoutAttributeLeading
-                             relatedBy:NSLayoutRelationEqual
-                             toItem:view.superview
-                             attribute:isMarginConstraint ? NSLayoutAttributeLeadingMargin : NSLayoutAttributeLeading
-                             multiplier:1.f
-                             constant:0];
-                             [view.superview addConstraint:leading];
+                                                          constraintWithItem:view
+                                                          attribute:NSLayoutAttributeLeading
+                                                          relatedBy:NSLayoutRelationEqual
+                                                          toItem:view.superview
+                                                          attribute:isMarginConstraint ? NSLayoutAttributeLeadingMargin : NSLayoutAttributeLeading
+                                                          multiplier:1.f
+                                                          constant:0];
+                            [view.superview addConstraint:leading];
                             
                             NSLayoutConstraint *trailing =[NSLayoutConstraint
                                                            constraintWithItem:view
@@ -765,21 +789,21 @@ static NSMutableDictionary *dictUtil;
                     }
             }
         }
-          default: {
+        default: {
             switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->name]] integerValue]) {
                 case kLayoutWidth:
                     switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]) {
                         case kFillParent:
                         case kMatchParent: {
                             NSLayoutConstraint *leading =[NSLayoutConstraint
-                             constraintWithItem:view
-                             attribute:NSLayoutAttributeLeading
-                             relatedBy:NSLayoutRelationEqual
-                             toItem:view.superview
-                             attribute:isMarginConstraint ? NSLayoutAttributeLeadingMargin : NSLayoutAttributeLeading
-                             multiplier:1.f
-                             constant:0];
-                             [view.superview addConstraint:leading];
+                                                          constraintWithItem:view
+                                                          attribute:NSLayoutAttributeLeading
+                                                          relatedBy:NSLayoutRelationEqual
+                                                          toItem:view.superview
+                                                          attribute:isMarginConstraint ? NSLayoutAttributeLeadingMargin : NSLayoutAttributeLeading
+                                                          multiplier:1.f
+                                                          constant:0];
+                            [view.superview addConstraint:leading];
                             
                             NSLayoutConstraint *trailing =[NSLayoutConstraint
                                                            constraintWithItem:view
@@ -842,15 +866,15 @@ static NSMutableDictionary *dictUtil;
                                                          constant:0];
                             [view.superview addConstraint:bottom];
                             
-//                            NSLayoutConstraint *height =[NSLayoutConstraint
-//                                                         constraintWithItem:view
-//                                                         attribute:NSLayoutAttributeHeight
-//                                                         relatedBy:NSLayoutRelationEqual
-//                                                         toItem:view.superview
-//                                                         attribute:NSLayoutAttributeHeight
-//                                                         multiplier:1.f
-//                                                         constant:0];
-//                            [view.superview addConstraint:height];
+                            //                            NSLayoutConstraint *height =[NSLayoutConstraint
+                            //                                                         constraintWithItem:view
+                            //                                                         attribute:NSLayoutAttributeHeight
+                            //                                                         relatedBy:NSLayoutRelationEqual
+                            //                                                         toItem:view.superview
+                            //                                                         attribute:NSLayoutAttributeHeight
+                            //                                                         multiplier:1.f
+                            //                                                         constant:0];
+                            //                            [view.superview addConstraint:height];
                         }
                             break;
                         case kWrapContent: {
@@ -880,7 +904,7 @@ static NSMutableDictionary *dictUtil;
     NSRange range;
     range.location = 0;
     range.length = 2;
-
+    
     // String should be 6 or 8 characters
     if ([cString length] < 6) return [UIColor blackColor];
     // strip 0X if it appears
@@ -888,11 +912,11 @@ static NSMutableDictionary *dictUtil;
     if ([cString hasPrefix:@"#"]) cString = [cString substringFromIndex:1];
     if ([cString length] == 8) {
         [[NSScanner scannerWithString:[cString substringWithRange:range]] scanHexInt:&alpha];
-      cString = [cString substringFromIndex:2];
+        cString = [cString substringFromIndex:2];
     }
     if ([cString length] != 6) return [UIColor blackColor];
     // Separate into r, g, b substrings
-
+    
     NSString *rString = [cString substringWithRange:range];
     range.location = 2;
     NSString *gString = [cString substringWithRange:range];
@@ -907,6 +931,29 @@ static NSMutableDictionary *dictUtil;
                            green:((float) g / 255.0f)
                             blue:((float) b / 255.0f)
                            alpha:((float) alpha / 255.0f)];
+}
+
++ (CGFloat)pixels:(NSString *)dp {
+    float scale = 1; //http://stackoverflow.com/questions/3860305/get-ppi-of-iphone-ipad-ipod-touch-at-runtime
+    if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
+        scale = [[UIScreen mainScreen] scale];
+    }
+    float dpi;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        dpi = 132 * scale;
+    } else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        dpi = 163 * scale;
+    } else {
+        dpi = 160 * scale;
+    }
+    
+    CGFloat fdp;
+    if ([dp hasSuffix:@"dp"]) {
+        dp = [dp stringByReplacingOccurrencesOfString:@"dp" withString:@""];
+    }
+    fdp = [dp floatValue];
+    CGFloat px = fdp * (dpi / 160);
+    return px;
 }
 
 @end
