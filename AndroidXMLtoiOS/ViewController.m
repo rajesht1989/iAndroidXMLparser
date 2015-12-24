@@ -22,12 +22,6 @@
     [viewHandler setSuperView:self.view];
     [viewHandler setOwner:self];
     UIView *androidView = [UIView viewForXml:@"LinearLayout" andHandler:viewHandler];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:viewHandler.superView attribute:NSLayoutAttributeLeading multiplier:1.f constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:viewHandler.superView attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.topLayoutGuide attribute:NSLayoutAttributeBottom multiplier:1.f constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:viewHandler.superView attribute:NSLayoutAttributeBottom multiplier:1.f constant:0]];
-    [self.view setNeedsUpdateConstraints];
-    [self.view layoutIfNeeded];
     NSLog(@"%@",androidView);
 }
 

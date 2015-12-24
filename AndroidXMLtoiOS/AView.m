@@ -82,7 +82,8 @@ typedef enum {
     kRelativeLayout,
     kWebViewLayout,
     kListViewLayout,
-    kGridViewLayout
+    kGridViewLayout,
+    kScrollView
 }ALayoutType;
 
 typedef enum {
@@ -308,6 +309,8 @@ static NSMutableDictionary *dictUtil;
         [dictUtil setObject:@(kWebViewLayout) forKey:@"WebViewLayout"];
         [dictUtil setObject:@(kListViewLayout) forKey:@"ListViewLayout"];
         [dictUtil setObject:@(kGridViewLayout) forKey:@"GridViewLayout"];
+        [dictUtil setObject:@(kScrollView) forKey:@"ScrollView"];
+        [dictUtil setObject:@(kScrollView) forKey:@"HorizontalScrollView"];
         
         [dictUtil setObject:@(kButton) forKey:@"Button"];
         [dictUtil setObject:@(kTextField) forKey:@"EditText"];
@@ -357,69 +360,82 @@ static NSMutableDictionary *dictUtil;
 {
     NSError *error = nil;
     TBXML *tbxml = [TBXML tbxmlWithXMLData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:xmlName ofType:@"xml"]] error:&error];
-    UIScrollView *scrollView = [[UIScrollView alloc] init];
-    [scrollView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [viewHandler.superView addSubview:scrollView];
-    
-    AViewHandler *subviewHandler = [viewHandler copyHandler];
-    [subviewHandler setSuperView:scrollView];
-    UIView *view = [self subEntityFor:tbxml.rootXMLElement ansHandler:subviewHandler];
-    switch (view.layoutType) {
-        case kLinearVerticalLayout: {
-            NSLayoutConstraint *width =[NSLayoutConstraint
-                                        constraintWithItem:view
-                                        attribute:NSLayoutAttributeWidth
-                                        relatedBy:NSLayoutRelationEqual
-                                        toItem:view.superview
-                                        attribute:NSLayoutAttributeWidth
-                                        multiplier:1.f
-                                        constant:0];
-            [view.superview addConstraint:width];
-            
-            NSLayoutConstraint *bottom =[NSLayoutConstraint
-                                         constraintWithItem:view
-                                         attribute:NSLayoutAttributeBottom
-                                         relatedBy:NSLayoutRelationEqual
-                                         toItem:view.superview
-                                         attribute:NSLayoutAttributeBottom
-                                         multiplier:1.f
-                                         constant:0];
-            [view.superview addConstraint:bottom];
-        }
-            break;
-        case kLinearHorizontalLayout: {
-            NSLayoutConstraint *height =[NSLayoutConstraint
-                                         constraintWithItem:view
-                                         attribute:NSLayoutAttributeHeight
-                                         relatedBy:NSLayoutRelationLessThanOrEqual
-                                         toItem:view.superview
-                                         attribute:NSLayoutAttributeHeight
-                                         multiplier:1.f
-                                         constant:0];
-            [view.superview addConstraint:height];
-            
-            NSLayoutConstraint *trailing =[NSLayoutConstraint
-                                           constraintWithItem:view
-                                           attribute:NSLayoutAttributeTrailing
-                                           relatedBy:NSLayoutRelationEqual
-                                           toItem:view.superview
-                                           attribute:NSLayoutAttributeTrailing
-                                           multiplier:1.f
-                                           constant:0];
-            [view.superview addConstraint:trailing];
-        }
-            break;
-            
-        default:
-            break;
-    }
-    [scrollView addSubview:view];
-    return scrollView;
+//    UIScrollView *scrollView = [[UIScrollView alloc] init];
+//    [scrollView setTranslatesAutoresizingMaskIntoConstraints:NO];
+//    [viewHandler.superView addSubview:scrollView];
+//    
+//    AViewHandler *subviewHandler = [viewHandler copyHandler];
+//    [subviewHandler setSuperView:scrollView];
+//    UIView *view = [self subEntityFor:tbxml.rootXMLElement ansHandler:subviewHandler];
+//    switch (view.layoutType) {
+//        case kLinearVerticalLayout: {
+//            NSLayoutConstraint *width =[NSLayoutConstraint
+//                                        constraintWithItem:view
+//                                        attribute:NSLayoutAttributeWidth
+//                                        relatedBy:NSLayoutRelationEqual
+//                                        toItem:view.superview
+//                                        attribute:NSLayoutAttributeWidth
+//                                        multiplier:1.f
+//                                        constant:0];
+//            [view.superview addConstraint:width];
+//            
+//            NSLayoutConstraint *bottom =[NSLayoutConstraint
+//                                         constraintWithItem:view
+//                                         attribute:NSLayoutAttributeBottom
+//                                         relatedBy:NSLayoutRelationEqual
+//                                         toItem:view.superview
+//                                         attribute:NSLayoutAttributeBottom
+//                                         multiplier:1.f
+//                                         constant:0];
+//            [view.superview addConstraint:bottom];
+//        }
+//            break;
+//        case kLinearHorizontalLayout: {
+//            NSLayoutConstraint *height =[NSLayoutConstraint
+//                                         constraintWithItem:view
+//                                         attribute:NSLayoutAttributeHeight
+//                                         relatedBy:NSLayoutRelationLessThanOrEqual
+//                                         toItem:view.superview
+//                                         attribute:NSLayoutAttributeHeight
+//                                         multiplier:1.f
+//                                         constant:0];
+//            [view.superview addConstraint:height];
+//            
+//            NSLayoutConstraint *trailing =[NSLayoutConstraint
+//                                           constraintWithItem:view
+//                                           attribute:NSLayoutAttributeTrailing
+//                                           relatedBy:NSLayoutRelationEqual
+//                                           toItem:view.superview
+//                                           attribute:NSLayoutAttributeTrailing
+//                                           multiplier:1.f
+//                                           constant:0];
+//            [view.superview addConstraint:trailing];
+//        }
+//            break;
+//            
+//        default:
+//            break;
+//    }
+//    [scrollView addSubview:view];
+    UIView *view = [self subEntityFor:tbxml.rootXMLElement ansHandler:viewHandler];
+    [viewHandler.superView addSubview:view];
+    return view;
 }
 
 + (id)subEntityFor:(TBXMLElement *)element ansHandler:(AViewHandler *)handler {
     UIView *viewToBeReturn;
     switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", element->name]] integerValue]) {
+        case kScrollView : {
+            UIScrollView *view = [[UIScrollView alloc] init];
+            viewToBeReturn = view;
+            [handler.superView addSubview:view];
+            TBXMLAttribute *attribute = element->firstAttribute;
+            [self configureLayoutView:view attribute:attribute handler:handler];
+            AViewHandler *subviewHandler = [handler copyHandler];
+            [subviewHandler setSuperView:view];
+            [self subEntityFor:element->firstChild ansHandler:subviewHandler];
+        }
+            break;
         case kLinearLayout : {
             UIView *view = [[UIView alloc] init];
             viewToBeReturn = view;
@@ -442,8 +458,6 @@ static NSMutableDictionary *dictUtil;
         }
             break;
         case kRelativeLayout : {
-            //            Actual pixels = dp * ( dpi / 160 ),
-            
             UIView *view = [[UIView alloc] init];
             viewToBeReturn = view;
             [handler.superView addSubview:view];
@@ -680,13 +694,13 @@ static NSMutableDictionary *dictUtil;
                             [view.superview addConstraint:leading];
                             
                             NSLayoutConstraint *width =[NSLayoutConstraint
-                                                           constraintWithItem:view
-                                                           attribute:NSLayoutAttributeWidth
-                                                           relatedBy:NSLayoutRelationEqual
-                                                           toItem:nil
-                                                           attribute:NSLayoutAttributeNotAnAttribute
-                                                           multiplier:1.f
-                                                           constant:[self pixels:[NSString stringWithFormat:@"%s", attribute->value]]];
+                                                        constraintWithItem:view
+                                                        attribute:NSLayoutAttributeWidth
+                                                        relatedBy:NSLayoutRelationEqual
+                                                        toItem:nil
+                                                        attribute:NSLayoutAttributeNotAnAttribute
+                                                        multiplier:1.f
+                                                        constant:[self pixels:[NSString stringWithFormat:@"%s", attribute->value]]];
                             [view addConstraint:width];
                         }
                             break;
@@ -721,13 +735,13 @@ static NSMutableDictionary *dictUtil;
                             break;
                         default: {
                             NSLayoutConstraint *height =[NSLayoutConstraint
-                                                        constraintWithItem:view
-                                                        attribute:NSLayoutAttributeHeight
-                                                        relatedBy:NSLayoutRelationEqual
-                                                        toItem:nil
-                                                        attribute:NSLayoutAttributeNotAnAttribute
-                                                        multiplier:1.f
-                                                        constant:[self pixels:[NSString stringWithFormat:@"%s", attribute->value]]];
+                                                         constraintWithItem:view
+                                                         attribute:NSLayoutAttributeHeight
+                                                         relatedBy:NSLayoutRelationEqual
+                                                         toItem:nil
+                                                         attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1.f
+                                                         constant:[self pixels:[NSString stringWithFormat:@"%s", attribute->value]]];
                             [view addConstraint:height];
                         }
                             break;
@@ -763,7 +777,7 @@ static NSMutableDictionary *dictUtil;
                         }
                             break;
                         case kWrapContent: {
-                            NSLayoutConstraint *leading =[NSLayoutConstraint
+/*                            NSLayoutConstraint *leading =[NSLayoutConstraint
                                                           constraintWithItem:view
                                                           attribute:NSLayoutAttributeLeading
                                                           relatedBy:NSLayoutRelationEqual
@@ -782,13 +796,66 @@ static NSMutableDictionary *dictUtil;
                                                            multiplier:1.f
                                                            constant:0];
                             [view.superview addConstraint:trailing];
+ */
                         }
                             break;
-                        default:
+                        default : {
+                            NSLayoutConstraint *width =[NSLayoutConstraint
+                                                        constraintWithItem:view
+                                                        attribute:NSLayoutAttributeWidth
+                                                        relatedBy:NSLayoutRelationEqual
+                                                        toItem:nil
+                                                        attribute:NSLayoutAttributeNotAnAttribute
+                                                        multiplier:1.f
+                                                        constant:[self pixels:[NSString stringWithFormat:@"%s", attribute->value]]];
+                            [view addConstraint:width];
+                        }
+                            break;
+                    }
+                    break;
+                case kLayoutHeight:
+                    switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]) {
+                        case kFillParent:
+                        case kMatchParent: {
+                            NSLayoutConstraint *bottom =[NSLayoutConstraint
+                                                         constraintWithItem:view
+                                                         attribute:NSLayoutAttributeBottom
+                                                         relatedBy:NSLayoutRelationEqual
+                                                         toItem:view.superview
+                                                         attribute:isMarginConstraint ? NSLayoutAttributeBottomMargin : NSLayoutAttributeBottom
+                                                         multiplier:1.f
+                                                         constant:0];
+                            [view.superview addConstraint:bottom];
+                        }
+                            break;
+                        case kWrapContent: {
+                            NSLayoutConstraint *top =[NSLayoutConstraint
+                                                      constraintWithItem:view
+                                                      attribute:NSLayoutAttributeTop
+                                                      relatedBy:NSLayoutRelationGreaterThanOrEqual
+                                                      toItem:view.superview
+                                                      attribute:isMarginConstraint ? NSLayoutAttributeTopMargin : NSLayoutAttributeTop
+                                                      multiplier:1.f
+                                                      constant:0];
+                            [view.superview addConstraint:top];
+                        }
+                            break;
+                        default: {
+                            NSLayoutConstraint *height =[NSLayoutConstraint
+                                                         constraintWithItem:view
+                                                         attribute:NSLayoutAttributeHeight
+                                                         relatedBy:NSLayoutRelationEqual
+                                                         toItem:nil
+                                                         attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1.f
+                                                         constant:[self pixels:[NSString stringWithFormat:@"%s", attribute->value]]];
+                            [view addConstraint:height];
+                        }
                             break;
                     }
             }
         }
+            break;
         default: {
             switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->name]] integerValue]) {
                 case kLayoutWidth:
@@ -838,7 +905,17 @@ static NSMutableDictionary *dictUtil;
                             [view.superview addConstraint:trailing];
                         }
                             break;
-                        default:
+                        default: {
+                            NSLayoutConstraint *height =[NSLayoutConstraint
+                                                         constraintWithItem:view
+                                                         attribute:NSLayoutAttributeHeight
+                                                         relatedBy:NSLayoutRelationEqual
+                                                         toItem:nil
+                                                         attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1.f
+                                                         constant:[self pixels:[NSString stringWithFormat:@"%s", attribute->value]]];
+                            [view addConstraint:height];
+                        }
                             break;
                     }
                     break;
@@ -865,16 +942,6 @@ static NSMutableDictionary *dictUtil;
                                                          multiplier:1.f
                                                          constant:0];
                             [view.superview addConstraint:bottom];
-                            
-                            //                            NSLayoutConstraint *height =[NSLayoutConstraint
-                            //                                                         constraintWithItem:view
-                            //                                                         attribute:NSLayoutAttributeHeight
-                            //                                                         relatedBy:NSLayoutRelationEqual
-                            //                                                         toItem:view.superview
-                            //                                                         attribute:NSLayoutAttributeHeight
-                            //                                                         multiplier:1.f
-                            //                                                         constant:0];
-                            //                            [view.superview addConstraint:height];
                         }
                             break;
                         case kWrapContent: {
@@ -933,11 +1000,15 @@ static NSMutableDictionary *dictUtil;
                            alpha:((float) alpha / 255.0f)];
 }
 
+
+//Below method written with reference of http://stackoverflow.com/questions/3860305/get-ppi-of-iphone-ipad-ipod-touch-at-runtime
 + (CGFloat)pixels:(NSString *)dp {
-    float scale = 1; //http://stackoverflow.com/questions/3860305/get-ppi-of-iphone-ipad-ipod-touch-at-runtime
-    if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
+    float scale = 1;
+ /*
+  if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
         scale = [[UIScreen mainScreen] scale];
     }
+  */
     float dpi;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         dpi = 132 * scale;
