@@ -533,7 +533,7 @@ static NSMutableDictionary *dictUtil;
                                           toItem:viewToBeReturn.superview
                                           attribute:isMarginConstraint ? NSLayoutAttributeTopMargin : NSLayoutAttributeTop
                                           multiplier:1.f
-                                          constant:Padding];
+                                          constant:isMarginConstraint ? 0 :Padding];
                 [viewToBeReturn.superview addConstraint:top];
             }
             if (handler.position.isLastItem) {
@@ -544,7 +544,7 @@ static NSMutableDictionary *dictUtil;
                                              toItem:viewToBeReturn.superview
                                              attribute:isMarginConstraint ? NSLayoutAttributeBottomMargin : NSLayoutAttributeBottom
                                              multiplier:1.f
-                                             constant:-Padding];
+                                             constant:isMarginConstraint ? 0 :Padding];
                 [viewToBeReturn.superview addConstraint:bottom];
             }
         }
@@ -569,18 +569,18 @@ static NSMutableDictionary *dictUtil;
                                               toItem:viewToBeReturn.superview
                                               attribute:isMarginConstraint ? NSLayoutAttributeLeadingMargin :  NSLayoutAttributeLeading
                                               multiplier:1.f
-                                              constant:Padding];
+                                              constant:isMarginConstraint ? 0 :Padding];
                 [viewToBeReturn.superview addConstraint:leading];
             }
             if (handler.position.isLastItem) {
                 NSLayoutConstraint *trailing =[NSLayoutConstraint
                                                constraintWithItem:viewToBeReturn
                                                attribute:NSLayoutAttributeTrailing
-                                               relatedBy:NSLayoutRelationEqual
+                                               relatedBy:NSLayoutRelationLessThanOrEqual
                                                toItem:viewToBeReturn.superview
                                                attribute:isMarginConstraint ? NSLayoutAttributeTrailingMargin : NSLayoutAttributeTrailing
                                                multiplier:1.f
-                                               constant:Padding];
+                                               constant:isMarginConstraint ? 0 :-Padding];
                 [viewToBeReturn.superview addConstraint:trailing];
             }
             break;
