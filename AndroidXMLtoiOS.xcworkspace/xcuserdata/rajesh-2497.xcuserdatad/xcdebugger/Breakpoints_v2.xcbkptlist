@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AndroidXMLtoiOS/AView.m"
-            timestampString = "473161487.672992"
+            timestampString = "473162678.143476"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "487"
-            endingLineNumber = "487"
+            startingLineNumber = "517"
+            endingLineNumber = "517"
             landmarkName = "+subEntityFor:ansHandler:"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AndroidXMLtoiOS/AView.m"
-            timestampString = "473161487.672992"
+            timestampString = "473162678.143476"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "496"
-            endingLineNumber = "496"
+            startingLineNumber = "526"
+            endingLineNumber = "526"
             landmarkName = "+subEntityFor:ansHandler:"
             landmarkType = "5">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AndroidXMLtoiOS/AView.m"
-            timestampString = "473161487.672992"
+            timestampString = "473162678.143476"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "509"
-            endingLineNumber = "509"
+            startingLineNumber = "539"
+            endingLineNumber = "539"
             landmarkName = "+subEntityFor:ansHandler:"
             landmarkType = "5">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AndroidXMLtoiOS/AView.m"
-            timestampString = "473161487.672992"
+            timestampString = "473162678.143476"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "475"
-            endingLineNumber = "475"
+            startingLineNumber = "505"
+            endingLineNumber = "505"
             landmarkName = "+subEntityFor:ansHandler:"
             landmarkType = "5">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AndroidXMLtoiOS/AView.m"
-            timestampString = "473161487.672992"
+            timestampString = "473162410.757345"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "215"
-            endingLineNumber = "215"
+            startingLineNumber = "216"
+            endingLineNumber = "216"
             landmarkName = "-setIdentifier:"
             landmarkType = "5">
          </BreakpointContent>
@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AndroidXMLtoiOS/AView.m"
-            timestampString = "473161487.672992"
+            timestampString = "473162678.143476"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "626"
-            endingLineNumber = "626"
+            startingLineNumber = "653"
+            endingLineNumber = "653"
             landmarkName = "+configureLayoutView:attribute:handler:"
             landmarkType = "5">
          </BreakpointContent>
@@ -122,11 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AndroidXMLtoiOS/AView.m"
-            timestampString = "473161487.672992"
+            timestampString = "473162410.757345"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "269"
-            endingLineNumber = "269"
+            startingLineNumber = "270"
+            endingLineNumber = "270"
             landmarkName = "-setAndroidText:"
             landmarkType = "5">
          </BreakpointContent>
@@ -155,27 +155,11 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AndroidXMLtoiOS/AView.m"
-            timestampString = "473161487.672992"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1053"
-            endingLineNumber = "1053"
-            landmarkName = "+colorWithHexString:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "AndroidXMLtoiOS/AView.m"
-            timestampString = "473161487.672992"
+            timestampString = "473162678.143476"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1080"
@@ -187,15 +171,31 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AndroidXMLtoiOS/AView.m"
+            timestampString = "473162678.143476"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1107"
+            endingLineNumber = "1107"
+            landmarkName = "+colorWithHexString:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AndroidXMLtoiOS/AView.m"
-            timestampString = "473161487.672992"
+            timestampString = "473162678.143476"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "637"
-            endingLineNumber = "637"
+            startingLineNumber = "664"
+            endingLineNumber = "664"
             landmarkName = "+configureLayoutView:attribute:handler:"
             landmarkType = "5">
          </BreakpointContent>
@@ -207,11 +207,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AndroidXMLtoiOS/AView.m"
-            timestampString = "473161487.672992"
+            timestampString = "473162410.757345"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "223"
-            endingLineNumber = "223"
+            startingLineNumber = "224"
+            endingLineNumber = "224"
             landmarkName = "-layoutType"
             landmarkType = "5">
          </BreakpointContent>
@@ -223,11 +223,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AndroidXMLtoiOS/AView.m"
-            timestampString = "473161487.672992"
+            timestampString = "473162410.757345"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "227"
-            endingLineNumber = "227"
+            startingLineNumber = "228"
+            endingLineNumber = "228"
             landmarkName = "-setLayoutType:"
             landmarkType = "5">
          </BreakpointContent>
@@ -239,11 +239,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AndroidXMLtoiOS/AView.m"
-            timestampString = "473161487.672992"
+            timestampString = "473162410.757345"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "235"
-            endingLineNumber = "235"
+            startingLineNumber = "236"
+            endingLineNumber = "236"
             landmarkName = "-viewDictionary"
             landmarkType = "5">
          </BreakpointContent>
@@ -255,11 +255,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AndroidXMLtoiOS/AView.m"
-            timestampString = "473161487.672992"
+            timestampString = "473162410.757345"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "212"
-            endingLineNumber = "212"
+            startingLineNumber = "213"
+            endingLineNumber = "213"
             landmarkName = "-setIdentifier:"
             landmarkType = "5">
          </BreakpointContent>
@@ -271,11 +271,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AndroidXMLtoiOS/AView.m"
-            timestampString = "473161487.672992"
+            timestampString = "473162678.143476"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "634"
-            endingLineNumber = "634"
+            startingLineNumber = "661"
+            endingLineNumber = "661"
             landmarkName = "+configureLayoutView:attribute:handler:"
             landmarkType = "5">
          </BreakpointContent>
@@ -287,11 +287,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AndroidXMLtoiOS/AView.m"
-            timestampString = "473161487.672992"
+            timestampString = "473162410.757345"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "297"
-            endingLineNumber = "297"
+            startingLineNumber = "298"
+            endingLineNumber = "298"
             landmarkName = "+attributeToMargin:"
             landmarkType = "5">
          </BreakpointContent>
@@ -303,11 +303,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AndroidXMLtoiOS/AView.m"
-            timestampString = "473161487.672992"
+            timestampString = "473162678.143476"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "605"
-            endingLineNumber = "605"
+            startingLineNumber = "632"
+            endingLineNumber = "632"
             landmarkName = "+subEntityFor:ansHandler:"
             landmarkType = "5">
          </BreakpointContent>
@@ -319,11 +319,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AndroidXMLtoiOS/AView.m"
-            timestampString = "473161487.672992"
+            timestampString = "473162410.757345"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "431"
-            endingLineNumber = "431"
+            startingLineNumber = "432"
+            endingLineNumber = "432"
             landmarkName = "+subEntityFor:ansHandler:"
             landmarkType = "5">
          </BreakpointContent>
@@ -335,11 +335,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AndroidXMLtoiOS/AView.m"
-            timestampString = "473161487.672992"
+            timestampString = "473162678.143476"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "609"
-            endingLineNumber = "609"
+            startingLineNumber = "636"
+            endingLineNumber = "636"
             landmarkName = "+configureLayoutView:attribute:handler:"
             landmarkType = "5">
          </BreakpointContent>
@@ -351,27 +351,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AndroidXMLtoiOS/AView.m"
-            timestampString = "473161487.672992"
+            timestampString = "473162678.143476"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "925"
-            endingLineNumber = "925"
-            landmarkName = "+configureConstraintsForView:attribute:handler:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "AndroidXMLtoiOS/AView.m"
-            timestampString = "473161487.672992"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "651"
-            endingLineNumber = "651"
+            startingLineNumber = "952"
+            endingLineNumber = "952"
             landmarkName = "+configureConstraintsForView:attribute:handler:"
             landmarkType = "5">
          </BreakpointContent>
@@ -383,11 +367,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AndroidXMLtoiOS/AView.m"
-            timestampString = "473161487.672992"
+            timestampString = "473162678.143476"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1090"
-            endingLineNumber = "1090"
+            startingLineNumber = "1117"
+            endingLineNumber = "1117"
             landmarkName = "+pixels:"
             landmarkType = "5">
          </BreakpointContent>
@@ -399,11 +383,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AndroidXMLtoiOS/AView.m"
-            timestampString = "473161487.672992"
+            timestampString = "473162678.143476"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1111"
-            endingLineNumber = "1111"
+            startingLineNumber = "1138"
+            endingLineNumber = "1138"
             landmarkName = "+pixels:"
             landmarkType = "5">
          </BreakpointContent>
@@ -415,11 +399,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AndroidXMLtoiOS/AView.m"
-            timestampString = "473161487.672992"
+            timestampString = "473162678.143476"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "648"
-            endingLineNumber = "648"
+            startingLineNumber = "675"
+            endingLineNumber = "675"
             landmarkName = "+configureLayoutView:attribute:handler:"
             landmarkType = "5">
          </BreakpointContent>
@@ -443,16 +427,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AndroidXMLtoiOS/AView.m"
-            timestampString = "473161487.672992"
+            timestampString = "473162793.556992"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "651"
-            endingLineNumber = "651"
-            landmarkName = "+configureConstraintsForView:attribute:handler:"
+            startingLineNumber = "475"
+            endingLineNumber = "475"
+            landmarkName = "+subEntityFor:ansHandler:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

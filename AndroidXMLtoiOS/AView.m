@@ -83,7 +83,8 @@ typedef enum {
     kWebViewLayout,
     kListViewLayout,
     kGridViewLayout,
-    kScrollView
+    kScrollView,
+    kHorizontalScrollView
 }ALayoutType;
 
 typedef enum {
@@ -312,7 +313,7 @@ static NSMutableDictionary *dictUtil;
         [dictUtil setObject:@(kListViewLayout) forKey:@"ListViewLayout"];
         [dictUtil setObject:@(kGridViewLayout) forKey:@"GridViewLayout"];
         [dictUtil setObject:@(kScrollView) forKey:@"ScrollView"];
-        [dictUtil setObject:@(kScrollView) forKey:@"HorizontalScrollView"];
+        [dictUtil setObject:@(kHorizontalScrollView) forKey:@"HorizontalScrollView"];
         
         [dictUtil setObject:@(kButton) forKey:@"Button"];
         [dictUtil setObject:@(kTextField) forKey:@"EditText"];
@@ -431,14 +432,43 @@ static NSMutableDictionary *dictUtil;
     UIView *viewToBeReturn;
     switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", element->name]] integerValue]) {
         case kScrollView : {
-            UIScrollView *view = [[UIScrollView alloc] init];
-            viewToBeReturn = view;
-            [handler.superView addSubview:view];
+            UIScrollView *scrollView = [[UIScrollView alloc] init];
+            viewToBeReturn = scrollView;
+            [handler.superView addSubview:scrollView];
             TBXMLAttribute *attribute = element->firstAttribute;
-            [self configureLayoutView:view attribute:attribute handler:handler];
+            [self configureLayoutView:scrollView attribute:attribute handler:handler];
             AViewHandler *subviewHandler = [handler copyHandler];
-            [subviewHandler setSuperView:view];
-            [self subEntityFor:element->firstChild ansHandler:subviewHandler];
+            [subviewHandler setSuperView:scrollView];
+            UIView *subview = [self subEntityFor:element->firstChild ansHandler:subviewHandler];
+            NSLayoutConstraint *width =[NSLayoutConstraint
+                                        constraintWithItem:subview
+                                        attribute:NSLayoutAttributeWidth
+                                        relatedBy:NSLayoutRelationEqual
+                                        toItem:viewToBeReturn
+                                        attribute:NSLayoutAttributeWidth
+                                        multiplier:1.f
+                                        constant:0];
+            [viewToBeReturn addConstraint:width];
+        }
+            break;
+        case kHorizontalScrollView : {
+            UIScrollView *scrollView = [[UIScrollView alloc] init];
+            viewToBeReturn = scrollView;
+            [handler.superView addSubview:scrollView];
+            TBXMLAttribute *attribute = element->firstAttribute;
+            [self configureLayoutView:scrollView attribute:attribute handler:handler];
+            AViewHandler *subviewHandler = [handler copyHandler];
+            [subviewHandler setSuperView:scrollView];
+            UIView *subview = [self subEntityFor:element->firstChild ansHandler:subviewHandler];
+            NSLayoutConstraint *height =[NSLayoutConstraint
+                                        constraintWithItem:subview
+                                        attribute:NSLayoutAttributeHeight
+                                        relatedBy:NSLayoutRelationEqual
+                                        toItem:viewToBeReturn
+                                        attribute:NSLayoutAttributeHeight
+                                        multiplier:1.f
+                                        constant:0];
+            [viewToBeReturn addConstraint:height];
         }
             break;
         case kLinearLayout : {
@@ -547,8 +577,7 @@ static NSMutableDictionary *dictUtil;
                                           constant:isMarginConstraint ? 0 :Padding];
                 [viewToBeReturn.superview addConstraint:top];
             }
-            if (handler.position.isLastItem) {
-            /*    if (isMarginConstraint) { //should be added for scrollview
+            if (handler.position.isLastItem && isMarginConstraint && [viewToBeReturn.superview.superview isKindOfClass:[UIScrollView class]]) {
                     NSLayoutConstraint *bottom =[NSLayoutConstraint
                                                  constraintWithItem:viewToBeReturn
                                                  attribute:NSLayoutAttributeBottom
@@ -558,8 +587,6 @@ static NSMutableDictionary *dictUtil;
                                                  multiplier:1.f
                                                  constant:isMarginConstraint ? 0 :Padding];
                     [viewToBeReturn.superview addConstraint:bottom];
-                }
-                */
             }
         }
             break;
@@ -1051,7 +1078,7 @@ static NSMutableDictionary *dictUtil;
 }
 + (UIColor *) colorWithHexString: (NSString *) stringToConvert{
     NSString *cString = [[stringToConvert stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] uppercaseString];
-    unsigned int r, g, b,alpha = 1;
+    unsigned int r, g, b,alpha = 255;
     NSRange range;
     range.location = 0;
     range.length = 2;
