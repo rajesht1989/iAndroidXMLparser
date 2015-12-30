@@ -273,7 +273,7 @@ static char virtualConstraintsInstance;
     } else if ([selfObject isKindOfClass:[UILabel class]]) {
         [selfObject setText:text];
     } else if ([self isKindOfClass:[UIImageView class]]) {
-        [(UIImageView *)selfObject setImage:[UIImage imageNamed:@"1"]];
+        [(UIImageView *)selfObject setImage:[UIImage imageNamed:@"abc"]];
     } else if ([self isKindOfClass:[UIButton class]]) {
         [selfObject setTitle:text forState:UIControlStateNormal];
     }
@@ -808,15 +808,27 @@ static NSMutableDictionary *dictUtil;
                     switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]) {
                         case kFillParent:
                         case kMatchParent: {
-                            NSLayoutConstraint *leading =[NSLayoutConstraint
-                                                          constraintWithItem:view
-                                                          attribute:NSLayoutAttributeLeading
-                                                          relatedBy:NSLayoutRelationEqual
-                                                          toItem:view.superview
-                                                          attribute:isMarginConstraint ? NSLayoutAttributeLeadingMargin : NSLayoutAttributeLeading
-                                                          multiplier:1.f
-                                                          constant:0];
-                            [view.superview addConstraint:leading];
+                            if (handler.relationView) {
+                                NSLayoutConstraint *leading =[NSLayoutConstraint
+                                                              constraintWithItem:view
+                                                              attribute:NSLayoutAttributeLeading
+                                                              relatedBy:NSLayoutRelationEqual
+                                                              toItem:handler.relationView
+                                                              attribute: NSLayoutAttributeTrailing
+                                                              multiplier:1.f
+                                                              constant:Padding];
+                                [view.superview addConstraint:leading];
+                            } else {
+                                NSLayoutConstraint *leading =[NSLayoutConstraint
+                                                              constraintWithItem:view
+                                                              attribute:NSLayoutAttributeLeading
+                                                              relatedBy:NSLayoutRelationEqual
+                                                              toItem:view.superview
+                                                              attribute:isMarginConstraint ? NSLayoutAttributeLeadingMargin : NSLayoutAttributeLeading
+                                                              multiplier:1.f
+                                                              constant:0];
+                                [view.superview addConstraint:leading];
+                            }
                             
                             NSLayoutConstraint *trailing =[NSLayoutConstraint
                                                            constraintWithItem:view
