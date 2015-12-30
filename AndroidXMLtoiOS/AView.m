@@ -137,6 +137,7 @@ typedef enum {
 typedef enum {
     kText = 300,
     kBackGroundColor,
+    kImageSrc,
     kLayoutGravity,
     kLayoutOrientation
 }AUIGeneralNameType;
@@ -271,6 +272,7 @@ static char virtualConstraintsInstance;
     } else if ([selfObject isKindOfClass:[UILabel class]]) {
         [selfObject setText:text];
     } else if ([self isKindOfClass:[UIImageView class]]) {
+        [(UIImageView *)selfObject setImage:[UIImage imageNamed:@"1"]];
     } else if ([self isKindOfClass:[UIButton class]]) {
         [selfObject setTitle:text forState:UIControlStateNormal];
     }
@@ -337,6 +339,7 @@ static NSMutableDictionary *dictUtil;
         [dictUtil setObject:@(kHintText) forKey:@"android:hint"];
         [dictUtil setObject:@(kLayoutGravity) forKey:@"android:layout_gravity"];
         
+        
         [dictUtil setObject:@(kIdentifier) forKey:@"android:id"];
         
         [dictUtil setObject:@(kLayoutMarginTop) forKey:@"android:layout_marginTop"];
@@ -346,7 +349,8 @@ static NSMutableDictionary *dictUtil;
         [dictUtil setObject:@(kCenter) forKey:@"center"];
         
         [dictUtil setObject:@(kBackGroundColor) forKey:@"android:background"];
-        
+        [dictUtil setObject:@(kImageSrc) forKey:@"android:src"];
+
         [dictUtil setObject:@(kLayoutOrientation) forKey:@"android:orientation"];
         
         [dictUtil setObject:@(kLinearVerticalLayout) forKey:@"vertical"];
@@ -508,6 +512,13 @@ static NSMutableDictionary *dictUtil;
             [self configureLayoutView:label attribute:element->firstAttribute handler:handler];
         }
             break;
+        case kImageView : {
+            UIImageView *imageView = [[UIImageView alloc] init];
+            viewToBeReturn = imageView;
+            [handler.superView addSubview:imageView];
+            [self configureLayoutView:imageView attribute:element->firstAttribute handler:handler];
+        }
+            break;
         default:
             break;
     }
@@ -537,15 +548,18 @@ static NSMutableDictionary *dictUtil;
                 [viewToBeReturn.superview addConstraint:top];
             }
             if (handler.position.isLastItem) {
-                NSLayoutConstraint *bottom =[NSLayoutConstraint
-                                             constraintWithItem:viewToBeReturn
-                                             attribute:NSLayoutAttributeBottom
-                                             relatedBy:NSLayoutRelationLessThanOrEqual
-                                             toItem:viewToBeReturn.superview
-                                             attribute:isMarginConstraint ? NSLayoutAttributeBottomMargin : NSLayoutAttributeBottom
-                                             multiplier:1.f
-                                             constant:isMarginConstraint ? 0 :Padding];
-                [viewToBeReturn.superview addConstraint:bottom];
+            /*    if (isMarginConstraint) { //should be added for scrollview
+                    NSLayoutConstraint *bottom =[NSLayoutConstraint
+                                                 constraintWithItem:viewToBeReturn
+                                                 attribute:NSLayoutAttributeBottom
+                                                 relatedBy:NSLayoutRelationLessThanOrEqual
+                                                 toItem:viewToBeReturn.superview
+                                                 attribute:NSLayoutAttributeBottomMargin
+                                                 multiplier:1.f
+                                                 constant:isMarginConstraint ? 0 :Padding];
+                    [viewToBeReturn.superview addConstraint:bottom];
+                }
+                */
             }
         }
             break;
@@ -604,6 +618,7 @@ static NSMutableDictionary *dictUtil;
                     [(UITextField *)view setSecureTextEntry:[[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue] == kPassword];
                 }
                 break;
+            case kImageSrc:
             case kText:
                 [view setAndroidText:[NSString stringWithFormat:@"%s", attribute->value]];
                 break;
