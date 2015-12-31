@@ -29,7 +29,7 @@ AItemPositionMake(BOOL isFirstItem,BOOL isLastItem)
 @property (nonatomic, weak)id <AViewHandlerDelegate>owner;
 @property (nonatomic, assign)UIView *relationView; //Can be a Sibling/Superview/Subview
 @property (nonatomic, assign)AItemPosition position; 
-
+@property (nonatomic, strong)NSMutableDictionary *attributeDict;
 
 - (instancetype)copyHandler;
 
