@@ -18,8 +18,47 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    UIView *view = [[UIView alloc] init];
+    [view setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addSubview:view];
+    
+    [self.view addConstraints:@[
+                                [NSLayoutConstraint constraintWithItem:view
+                                                             attribute:NSLayoutAttributeTop
+                                                             relatedBy:NSLayoutRelationEqual
+                                                                toItem:self.topLayoutGuide
+                                                             attribute:NSLayoutAttributeBottom
+                                                            multiplier:1.0
+                                                              constant:0],
+                                
+                                [NSLayoutConstraint constraintWithItem:view
+                                                             attribute:NSLayoutAttributeLeft
+                                                             relatedBy:NSLayoutRelationEqual
+                                                                toItem:self.view
+                                                             attribute:NSLayoutAttributeLeft
+                                                            multiplier:1.0
+                                                              constant:0],
+                                
+                                [NSLayoutConstraint constraintWithItem:view
+                                                             attribute:NSLayoutAttributeBottom
+                                                             relatedBy:NSLayoutRelationEqual
+                                                                toItem:self.view
+                                                             attribute:NSLayoutAttributeBottom
+                                                            multiplier:1.0
+                                                              constant:0],
+                                
+                                [NSLayoutConstraint constraintWithItem:view
+                                                             attribute:NSLayoutAttributeRight
+                                                             relatedBy:NSLayoutRelationEqual
+                                                                toItem:self.view
+                                                             attribute:NSLayoutAttributeRight
+                                                            multiplier:1
+                                                              constant:0],
+                                
+                                ]];
     AViewHandler * viewHandler = [[AViewHandler alloc] init];
-    [viewHandler setSuperView:self.view];
+    [viewHandler setSuperView:view];
     [viewHandler setOwner:self];
     UIView *androidView = [UIView viewForXml:@"LinearLayout" andHandler:viewHandler];
     NSLog(@"%@",androidView);
