@@ -9,6 +9,7 @@
 #import "AView.h"
 #import "XMLReader.h"
 #import "TBXML.h"
+#import "TTTAttributedLabel.h"
 #import <objc/runtime.h>
 
 const NSInteger Undefined = 0;
@@ -102,6 +103,7 @@ typedef enum {
 
 typedef enum {
     kLayoutMarginTop = 270,
+    kLayoutPadding,
     kLayoutBelow
 }AUILayoutRelationNameType;
 
@@ -280,6 +282,17 @@ static char virtualConstraintsInstance;
     }
 }
 
+- (void)setLayoutPadding:(NSString *)padding {
+    id selfObject = self;
+    if ([selfObject isKindOfClass:[UITextField class]]) {
+    } else if ([selfObject isKindOfClass:[UILabel class]]) {
+        CGFloat fPadding = [UIView pixels:padding];
+        [selfObject setTextInsets:UIEdgeInsetsMake(fPadding, fPadding, fPadding, fPadding)];
+    } else if ([self isKindOfClass:[UIImageView class]]) {
+    } else if ([self isKindOfClass:[UIButton class]]) {
+    }
+}
+
 + (BOOL)attributeToMargin:(UIView *)view {
     if ([view isKindOfClass:[UILabel class]] || [view isKindOfClass:[UIImageView class]] || [view isKindOfClass:[UITextField class]] || [view isKindOfClass:[UIButton class]]) {
         return YES;
@@ -330,6 +343,7 @@ static NSMutableDictionary *dictUtil;
         [dictUtil setObject:@(kIdentifier) forKey:@"android:id"];
         
         [dictUtil setObject:@(kLayoutMarginTop) forKey:@"android:layout_marginTop"];
+        [dictUtil setObject:@(kLayoutPadding) forKey:@"android:padding"];
         [dictUtil setObject:@(kLayoutBelow) forKey:@"android:layout_below"];
         [dictUtil setObject:@(kText) forKey:@"android:text"];
         
@@ -463,7 +477,7 @@ static NSMutableDictionary *dictUtil;
         }
             break;
         case kTextView : {
-            UILabel *label = [[UILabel alloc] init];
+            UILabel *label = [TTTAttributedLabel new];
             viewToBeReturn = label;
             [label setNumberOfLines:0];
             [label.layer setBorderWidth:1.f];
@@ -567,39 +581,42 @@ static NSMutableDictionary *dictUtil;
     while (attribute) {
         NSLog(@"%@ %@",[NSString stringWithFormat:@"%s", attribute->name],[NSString stringWithFormat:@"%s", attribute->value]);
         switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->name]] integerValue]) {
-            case kIdentifier:
+            case kIdentifier :
                 [view setIdentifier:[NSString stringWithFormat:@"%s", attribute->value]];
                 [view.superview.viewDictionary setObject:view forKey:view.identifier];
                 break;
-            case kSecureText:
+            case kSecureText :
                 if ([view isKindOfClass:[UITextField class]]) {
                     [(UITextField *)view setSecureTextEntry:[[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue] == kPassword];
                 }
                 break;
-            case kImageSrc:
-            case kText:
+            case kImageSrc :
+            case kText :
                 [view setAndroidText:[NSString stringWithFormat:@"%s", attribute->value]];
                 break;
-            case kHintText:
+            case kHintText :
                 if ([view isKindOfClass:[UITextField class]]) {
                     [(UITextField *)view setPlaceholder:[NSString stringWithFormat:@"%s", attribute->value]];
                 }
                 break;
-            case kLayoutGravity:
+            case kLayoutGravity :
                 [view setLayoutGravity:[[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] intValue]];
                 break;
-            case kBackGroundColor:
+            case kBackGroundColor :
                 [view setBackgroundColor:[self colorWithHexString:[NSString stringWithFormat:@"%s", attribute->value]]];
                 break;
-            case kLayoutOrientation:
+            case kLayoutOrientation :
                 [view setLayoutType:[[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] intValue]];
                 break;
-            case kLayoutWidth:
-            case kLayoutHeight:
+            case kLayoutWidth :
+            case kLayoutHeight :
                 [self configureConstraintsForView:view attribute:attribute handler:handler];
                 break;
-            case kLayoutBelow:
+            case kLayoutBelow :
                 [self reserveAndroidConstraintsForView:view attribute:attribute handler:handler];
+                break;
+            case kLayoutPadding :
+                [view setLayoutPadding:[NSString stringWithFormat:@"%s", attribute->value]];
                 break;
             default:
                 break;

@@ -17,6 +17,7 @@
 		9257100D1C212F750029FEC0 /* LinearLayout.xml in Resources */ = {isa = PBXBuildFile; fileRef = 9257100C1C212F750029FEC0 /* LinearLayout.xml */; };
 		925A4B601C23EDDA00A6E824 /* activity_main.xml in Resources */ = {isa = PBXBuildFile; fileRef = 925A4B5F1C23EDDA00A6E824 /* activity_main.xml */; };
 		925F731B1C33DC8800ED2511 /* abc.png in Resources */ = {isa = PBXBuildFile; fileRef = 925F731A1C33DC8700ED2511 /* abc.png */; };
+		927A656F1C3A8B06009A57CC /* TTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 927A656E1C3A8B06009A57CC /* TTTAttributedLabel.m */; };
 		9281A9911C058E4400934462 /* RelativeLayout.xml in Resources */ = {isa = PBXBuildFile; fileRef = 9281A9901C058E4400934462 /* RelativeLayout.xml */; };
 		9281A9941C058F8A00934462 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9281A9931C058F8A00934462 /* XMLReader.m */; };
 		9281A9961C0593A500934462 /* activity.json in Resources */ = {isa = PBXBuildFile; fileRef = 9281A9951C0593A500934462 /* activity.json */; };
@@ -39,6 +40,8 @@
 		9257100C1C212F750029FEC0 /* LinearLayout.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LinearLayout.xml; sourceTree = "<group>"; };
 		925A4B5F1C23EDDA00A6E824 /* activity_main.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = activity_main.xml; path = ../../../../AndroidStudioProjects/ToExportXML/app/src/main/res/layout/activity_main.xml; sourceTree = "<group>"; };
 		925F731A1C33DC8700ED2511 /* abc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = abc.png; sourceTree = "<group>"; };
+		927A656D1C3A8B06009A57CC /* TTTAttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTTAttributedLabel.h; sourceTree = "<group>"; };
+		927A656E1C3A8B06009A57CC /* TTTAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTTAttributedLabel.m; sourceTree = "<group>"; };
 		9281A9901C058E4400934462 /* RelativeLayout.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = RelativeLayout.xml; sourceTree = "<group>"; };
 		9281A9921C058F8A00934462 /* XMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLReader.h; sourceTree = "<group>"; };
 		9281A9931C058F8A00934462 /* XMLReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLReader.m; sourceTree = "<group>"; };
@@ -94,6 +97,8 @@
 				920393291C03267500F5303B /* AppDelegate.m */,
 				9203932B1C03267500F5303B /* ViewController.h */,
 				9203932C1C03267500F5303B /* ViewController.m */,
+				927A656D1C3A8B06009A57CC /* TTTAttributedLabel.h */,
+				927A656E1C3A8B06009A57CC /* TTTAttributedLabel.m */,
 				9281A9971C05DF5B00934462 /* AView.h */,
 				9281A9981C05DF5B00934462 /* AView.m */,
 				9281A9921C058F8A00934462 /* XMLReader.h */,
@@ -259,6 +264,7 @@
 				9281A9941C058F8A00934462 /* XMLReader.m in Sources */,
 				9281A9991C05DF5B00934462 /* AView.m in Sources */,
 				920393271C03267500F5303B /* main.m in Sources */,
+				927A656F1C3A8B06009A57CC /* TTTAttributedLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
