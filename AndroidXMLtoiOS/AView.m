@@ -47,7 +47,7 @@ const NSInteger Undefined = 0;
  private final String CENTER_PARENT_ATTRIBUTE = "android:layout_centerInParent";
  private final String IMG_SRC_ATTRIBUTE = "android:src";
  */
-static const NSInteger Padding = 8;
+static const NSInteger Padding = 0;
 typedef enum {
     kLinearLayout = 1,
     kRelativeLayout,
@@ -77,7 +77,8 @@ typedef enum {
 }AUILayoutSizeValueType;
 
 typedef enum {
-    kLayoutPaddingTop= 120,
+    kLayoutPadding = 120,
+    kLayoutPaddingTop,
     kLayoutPaddingLeft,
     kLayoutPaddingBottom,
     kLayoutPaddingRight
@@ -102,8 +103,11 @@ typedef enum {
 }AUIObjectIdentifierNameType;
 
 typedef enum {
-    kLayoutMarginTop = 270,
-    kLayoutPadding,
+    kLayoutMargin = 270,
+    kLayoutMarginTop,
+    kLayoutMarginLeft,
+    kLayoutMarginBottom,
+    kLayoutMarginRight,
     kLayoutBelow
 }AUILayoutRelationNameType;
 
@@ -282,15 +286,159 @@ static char virtualConstraintsInstance;
     }
 }
 
+- (void)setLayoutMargin:(NSString *)margin {
+    id selfObject = self;
+    id subObject;
+    if ([selfObject subviews].count) {
+        subObject = [[selfObject subviews] firstObject];
+        for (NSLayoutConstraint *aConstraint in [selfObject constraints]) {
+            if ([aConstraint.firstItem isEqual:subObject] && [aConstraint.secondItem isEqual:selfObject]) {
+                [aConstraint setActive:NO];
+            }
+        }
+    } else {
+        if ([selfObject isKindOfClass:[UITextField class]]) {
+            subObject = [[UITextField alloc] init];
+        } else if ([selfObject isKindOfClass:[UILabel class]]) {
+            subObject = [[UILabel alloc] init];
+            [subObject setNumberOfLines:0];
+            [subObject setText:[selfObject text]];
+            [subObject setBackgroundColor:[selfObject backgroundColor]];
+            [[subObject layer] setBorderColor:[[selfObject layer] borderColor]];
+            [[subObject layer] setBorderWidth:[[selfObject layer] borderWidth]];
+            
+            [selfObject setText:nil];
+            [[selfObject layer] setBorderColor:[[UIColor clearColor] CGColor]];
+            [selfObject setBackgroundColor:[UIColor clearColor]];
+        } else if ([self isKindOfClass:[UIImageView class]]) {
+            subObject = [[UIImageView alloc] init];
+        } else if ([self isKindOfClass:[UIButton class]]) {
+            subObject = [[UIButton alloc] init];
+        }
+        [self addSubview:subObject];
+        [subObject setTranslatesAutoresizingMaskIntoConstraints:NO];
+    }
+    
+    CGFloat fMargin = [UIView pixels:margin];
+    NSLayoutConstraint *top =[NSLayoutConstraint
+                              constraintWithItem:subObject
+                              attribute:NSLayoutAttributeTop
+                              relatedBy:NSLayoutRelationEqual
+                              toItem:self
+                              attribute:NSLayoutAttributeTop
+                              multiplier:1.f
+                              constant:fMargin];
+    [self addConstraint:top];
+    NSLayoutConstraint *bottom =[NSLayoutConstraint
+                                 constraintWithItem:subObject
+                                 attribute:NSLayoutAttributeBottom
+                                 relatedBy:NSLayoutRelationEqual
+                                 toItem:self
+                                 attribute:NSLayoutAttributeBottom
+                                 multiplier:1.f
+                                 constant:-fMargin];
+    [self addConstraint:bottom];
+    
+    NSLayoutConstraint *leading =[NSLayoutConstraint
+                                  constraintWithItem:subObject
+                                  attribute:NSLayoutAttributeLeading
+                                  relatedBy:NSLayoutRelationEqual
+                                  toItem:self
+                                  attribute:NSLayoutAttributeLeading
+                                  multiplier:1.f
+                                  constant:fMargin];
+    [self addConstraint:leading];
+    NSLayoutConstraint *trailing =[NSLayoutConstraint
+                                   constraintWithItem:subObject
+                                   attribute:NSLayoutAttributeTrailing
+                                   relatedBy:NSLayoutRelationEqual
+                                   toItem:self
+                                   attribute:NSLayoutAttributeTrailing
+                                   multiplier:1.f
+                                   constant:-fMargin];
+    [self addConstraint:trailing];
+}
+
+- (void)setLayoutMargin:(NSString *)margin type:(AUILayoutRelationNameType)type{
+    switch (type) {
+        case kLayoutMarginTop :
+            break;
+        case kLayoutMarginLeft :
+            break;
+        case kLayoutMarginBottom :
+            break;
+        case kLayoutMarginRight :
+            break;
+        default:
+            break;
+    }
+}
+
 - (void)setLayoutPadding:(NSString *)padding {
     id selfObject = self;
-    if ([selfObject isKindOfClass:[UITextField class]]) {
-    } else if ([selfObject isKindOfClass:[UILabel class]]) {
-        CGFloat fPadding = [UIView pixels:padding];
-        [selfObject setTextInsets:UIEdgeInsetsMake(fPadding, fPadding, fPadding, fPadding)];
-    } else if ([self isKindOfClass:[UIImageView class]]) {
-    } else if ([self isKindOfClass:[UIButton class]]) {
+    id subObject;
+    if ([selfObject subviews].count) {
+        subObject = [[selfObject subviews] firstObject];
+        for (NSLayoutConstraint *aConstraint in [selfObject constraints]) {
+            if ([aConstraint.firstItem isEqual:subObject] && [aConstraint.secondItem isEqual:selfObject]) {
+                [aConstraint setActive:NO];
+            }
+        }
+    } else {
+        if ([selfObject isKindOfClass:[UITextField class]]) {
+            subObject = [[UITextField alloc] init];
+        } else if ([selfObject isKindOfClass:[UILabel class]]) {
+            subObject = [[UILabel alloc] init];
+            [subObject setNumberOfLines:0];
+            [subObject setText:[selfObject text]];
+            [selfObject setText:nil];
+        } else if ([self isKindOfClass:[UIImageView class]]) {
+            subObject = [[UIImageView alloc] init];
+        } else if ([self isKindOfClass:[UIButton class]]) {
+            subObject = [[UIButton alloc] init];
+        }
+        [self addSubview:subObject];
+        [subObject setTranslatesAutoresizingMaskIntoConstraints:NO];
     }
+
+        CGFloat fPadding = [UIView pixels:padding];
+        NSLayoutConstraint *top =[NSLayoutConstraint
+                                  constraintWithItem:subObject
+                                  attribute:NSLayoutAttributeTop
+                                  relatedBy:NSLayoutRelationEqual
+                                  toItem:self
+                                  attribute:NSLayoutAttributeTop
+                                  multiplier:1.f
+                                  constant:fPadding];
+        [self addConstraint:top];
+        NSLayoutConstraint *bottom =[NSLayoutConstraint
+                                     constraintWithItem:subObject
+                                     attribute:NSLayoutAttributeBottom
+                                     relatedBy:NSLayoutRelationEqual
+                                     toItem:self
+                                     attribute:NSLayoutAttributeBottom
+                                     multiplier:1.f
+                                     constant:-fPadding];
+        [self addConstraint:bottom];
+        
+        NSLayoutConstraint *leading =[NSLayoutConstraint
+                                      constraintWithItem:subObject
+                                      attribute:NSLayoutAttributeLeading
+                                      relatedBy:NSLayoutRelationEqual
+                                      toItem:self
+                                      attribute:NSLayoutAttributeLeading
+                                      multiplier:1.f
+                                      constant:fPadding];
+        [self addConstraint:leading];
+        NSLayoutConstraint *trailing =[NSLayoutConstraint
+                                       constraintWithItem:subObject
+                                       attribute:NSLayoutAttributeTrailing
+                                       relatedBy:NSLayoutRelationEqual
+                                       toItem:self
+                                       attribute:NSLayoutAttributeTrailing
+                                       multiplier:1.f
+                                       constant:-fPadding];
+        [self addConstraint:trailing];
 }
 
 + (BOOL)attributeToMargin:(UIView *)view {
@@ -326,10 +474,17 @@ static NSMutableDictionary *dictUtil;
         [dictUtil setObject:@(kMatchParent) forKey:@"match_parent"];
         [dictUtil setObject:@(kWrapContent) forKey:@"wrap_content"];
         
+        [dictUtil setObject:@(kLayoutPadding) forKey:@"android:padding"];
         [dictUtil setObject:@(kLayoutPaddingTop) forKey:@"android:paddingTop"];
         [dictUtil setObject:@(kLayoutPaddingLeft) forKey:@"android:paddingLeft"];
         [dictUtil setObject:@(kLayoutPaddingBottom) forKey:@"android:paddingBottom"];
         [dictUtil setObject:@(kLayoutPaddingRight) forKey:@"android:paddingRight"];
+        
+        [dictUtil setObject:@(kLayoutMargin) forKey:@"android:layout_margin"];
+        [dictUtil setObject:@(kLayoutMarginTop) forKey:@"android:layout_marginTop"];
+        [dictUtil setObject:@(kLayoutMarginLeft) forKey:@"android:layout_marginLeft"];
+        [dictUtil setObject:@(kLayoutMarginBottom) forKey:@"android:layout_marginBottom"];
+        [dictUtil setObject:@(kLayoutMarginRight) forKey:@"android:layout_marginRight"];
         
         [dictUtil setObject:@(kLayoutPaddingHorizontalMargin) forKey:@"@dimen/activity_horizontal_margin"];
         [dictUtil setObject:@(kLayoutPaddingVerticalMargin) forKey:@"@dimen/activity_vertical_margin"];
@@ -339,11 +494,8 @@ static NSMutableDictionary *dictUtil;
         [dictUtil setObject:@(kHintText) forKey:@"android:hint"];
         [dictUtil setObject:@(kLayoutGravity) forKey:@"android:layout_gravity"];
         
-        
         [dictUtil setObject:@(kIdentifier) forKey:@"android:id"];
         
-        [dictUtil setObject:@(kLayoutMarginTop) forKey:@"android:layout_marginTop"];
-        [dictUtil setObject:@(kLayoutPadding) forKey:@"android:padding"];
         [dictUtil setObject:@(kLayoutBelow) forKey:@"android:layout_below"];
         [dictUtil setObject:@(kText) forKey:@"android:text"];
         
@@ -356,7 +508,6 @@ static NSMutableDictionary *dictUtil;
         
         [dictUtil setObject:@(kLinearVerticalLayout) forKey:@"vertical"];
         [dictUtil setObject:@(kLinearHorizontalLayout) forKey:@"horizontal"];
-        
     }
     return dictUtil;
 }
@@ -477,7 +628,7 @@ static NSMutableDictionary *dictUtil;
         }
             break;
         case kTextView : {
-            UILabel *label = [TTTAttributedLabel new];
+            UILabel *label = [[UILabel alloc] init];
             viewToBeReturn = label;
             [label setNumberOfLines:0];
             [label.layer setBorderWidth:1.f];
@@ -617,6 +768,15 @@ static NSMutableDictionary *dictUtil;
                 break;
             case kLayoutPadding :
                 [view setLayoutPadding:[NSString stringWithFormat:@"%s", attribute->value]];
+                break;
+            case kLayoutMargin :
+                [view setLayoutMargin:[NSString stringWithFormat:@"%s", attribute->value]];
+                break;
+            case kLayoutMarginTop :
+            case kLayoutMarginLeft :
+            case kLayoutMarginBottom :
+            case kLayoutMarginRight :
+                [view setLayoutMargin:[NSString stringWithFormat:@"%s", attribute->value] type:(AUILayoutRelationNameType)[[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->name]] integerValue]];
                 break;
             default:
                 break;
