@@ -7,10 +7,93 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TBXML.h"
 @protocol AViewHandlerDelegate <UITextFieldDelegate>
 @required
 - (void)buttonAction:(UIButton *)button;
 @end
+
+
+static const NSInteger Padding = 0;
+typedef enum {
+    kLinearLayout = 1,
+    kRelativeLayout,
+    kWebViewLayout,
+    kListViewLayout,
+    kGridViewLayout,
+    kScrollView,
+    kHorizontalScrollView,
+    kButton,
+    kTextField,
+    kTextView,
+    kImageView,
+}AndroidObjectType;
+
+
+typedef enum {
+    kLayoutWidth = 60,
+    kLayoutHeight
+}AUILayoutSizeNameType;
+
+typedef enum {
+    kMatchParent = 90,
+    kWrapContent,
+    kFillParent,
+    kCustom
+}AUILayoutSizeValueType;
+
+typedef enum {
+    kLayoutPadding = 120,
+    kLayoutPaddingTop,
+    kLayoutPaddingLeft,
+    kLayoutPaddingBottom,
+    kLayoutPaddingRight
+}AUILayoutPaddingNameType;
+
+typedef enum {
+    kLayoutPaddingHorizontalMargin = 150,
+    kLayoutPaddingVerticalMargin
+}AUILayoutPaddingValueType;
+
+typedef enum {
+    kSecureText = 180,
+}AUIInputNameType;
+
+typedef enum {
+    kPassword = 210,
+    kHintText
+}AUIInputValueType;
+
+typedef enum {
+    kIdentifier = 240,
+}AUIObjectIdentifierNameType;
+
+typedef enum {
+    kLayoutMargin = 270,
+    kLayoutMarginTop,
+    kLayoutMarginLeft,
+    kLayoutMarginBottom,
+    kLayoutMarginRight,
+    kLayoutBelow
+}AUILayoutRelationNameType;
+
+typedef enum {
+    kText = 300,
+    kBackGroundColor,
+    kImageSrc,
+    kLayoutGravity,
+    kLayoutOrientation
+}AUIGeneralNameType;
+
+typedef enum {
+    kCenter = 330,
+}AUILayoutGravityValueType;
+
+typedef enum {
+    kLinearVerticalLayout = 360,
+    kLinearHorizontalLayout
+}ALinearLayoutOrientationValueType;
+
 typedef struct {
     BOOL isFirstItem;
     BOOL isLastItem;
@@ -24,7 +107,48 @@ AItemPositionMake(BOOL isFirstItem,BOOL isLastItem)
     position.isLastItem = isLastItem;
     return position;
 }
-@interface AViewHandler : NSObject
+
+typedef struct {
+    CGFloat paddingTop;
+    CGFloat paddingLeft;
+    CGFloat paddingBottom;
+    CGFloat paddingRight;
+} AndroidPadding;
+
+CG_INLINE AndroidPadding
+AndroidPaddingMake( CGFloat paddingTop,
+                   CGFloat paddingLeft,
+                   CGFloat paddingBottom,
+                   CGFloat paddingRight) {
+    AndroidPadding padding;
+    padding.paddingTop = paddingTop;
+    padding.paddingLeft = paddingLeft;
+    padding.paddingBottom = paddingBottom;
+    padding.paddingRight = paddingRight;
+    return padding;
+}
+
+typedef struct {
+    CGFloat marginTop;
+    CGFloat marginLeft;
+    CGFloat marginBottom;
+    CGFloat marginRight;
+} AndroidMargin;
+
+CG_INLINE AndroidMargin
+AndroidMarginMake( CGFloat marginTop,
+                   CGFloat marginLeft,
+                   CGFloat marginBottom,
+                   CGFloat marginRight) {
+    AndroidMargin margin;
+    margin.marginTop = marginTop;
+    margin.marginLeft = marginLeft;
+    margin.marginBottom = marginBottom;
+    margin.marginRight = marginRight;
+    return margin;
+}
+
+@interface AndroidViewHandler : NSObject
 @property (nonatomic, weak)UIView *superView;
 @property (nonatomic, weak)id <AViewHandlerDelegate>owner;
 @property (nonatomic, assign)UIView *relationView; //Can be a Sibling/Superview/Subview
@@ -32,10 +156,14 @@ AItemPositionMake(BOOL isFirstItem,BOOL isLastItem)
 @property (nonatomic, strong)NSMutableDictionary *attributeDict;
 
 - (instancetype)copyHandler;
+- (void)loadAttributeDict:(TBXMLElement*)element;
 
 @end
 
 @interface UIView (AView)
-+ (UIView *)viewForXml:(NSString *)xmlName andHandler:(AViewHandler *)viewHandler;
++ (NSDictionary *)dataDictionary;
++ (UIView *)viewForXml:(NSString *)xmlName andHandler:(AndroidViewHandler *)viewHandler;
++ (CGFloat)pixels:(NSString *)dp;
++ (UIColor *) colorWithHexString: (NSString *) stringToConvert;
 @end
 

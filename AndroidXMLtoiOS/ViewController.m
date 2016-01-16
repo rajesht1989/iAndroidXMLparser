@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "XMLReader.h"
 #import "AView.h"
+#import "AndroidView.h"
 
 @interface ViewController () <AViewHandlerDelegate>
 
@@ -57,10 +58,10 @@
                                                               constant:0],
                                 
                                 ]];
-    AViewHandler * viewHandler = [[AViewHandler alloc] init];
+    AndroidViewHandler * viewHandler = [[AndroidViewHandler alloc] init];
     [viewHandler setSuperView:view];
     [viewHandler setOwner:self];
-    UIView *androidView = [UIView viewForXml:@"LinearLayout" andHandler:viewHandler];
+    UIView *androidView = [AndroidView viewForXml:@"activity_main" andHandler:viewHandler];
     NSLog(@"%@",androidView);
 }
 

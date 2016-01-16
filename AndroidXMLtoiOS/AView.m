@@ -47,96 +47,17 @@ const NSInteger Undefined = 0;
  private final String CENTER_PARENT_ATTRIBUTE = "android:layout_centerInParent";
  private final String IMG_SRC_ATTRIBUTE = "android:src";
  */
-static const NSInteger Padding = 0;
-typedef enum {
-    kLinearLayout = 1,
-    kRelativeLayout,
-    kWebViewLayout,
-    kListViewLayout,
-    kGridViewLayout,
-    kScrollView,
-    kHorizontalScrollView
-}ALayoutType;
 
-typedef enum {
-    kButton = 30,
-    kTextField,
-    kTextView,
-    kImageView,
-}AUIObjectType;
-
-typedef enum {
-    kLayoutWidth = 60,
-    kLayoutHeight
-}AUILayoutSizeNameType;
-
-typedef enum {
-    kMatchParent = 90,
-    kWrapContent,
-    kFillParent
-}AUILayoutSizeValueType;
-
-typedef enum {
-    kLayoutPadding = 120,
-    kLayoutPaddingTop,
-    kLayoutPaddingLeft,
-    kLayoutPaddingBottom,
-    kLayoutPaddingRight
-}AUILayoutPaddingNameType;
-
-typedef enum {
-    kLayoutPaddingHorizontalMargin = 150,
-    kLayoutPaddingVerticalMargin
-}AUILayoutPaddingValueType;
-
-typedef enum {
-    kSecureText = 180,
-}AUIInputNameType;
-
-typedef enum {
-    kPassword = 210,
-    kHintText
-}AUIInputValueType;
-
-typedef enum {
-    kIdentifier = 240,
-}AUIObjectIdentifierNameType;
-
-typedef enum {
-    kLayoutMargin = 270,
-    kLayoutMarginTop,
-    kLayoutMarginLeft,
-    kLayoutMarginBottom,
-    kLayoutMarginRight,
-    kLayoutBelow
-}AUILayoutRelationNameType;
-
-typedef enum {
-    kText = 300,
-    kBackGroundColor,
-    kImageSrc,
-    kLayoutGravity,
-    kLayoutOrientation
-}AUIGeneralNameType;
-
-typedef enum {
-    kCenter = 330,
-}AUILayoutGravityValueType;
-
-typedef enum {
-    kLinearVerticalLayout = 360,
-    kLinearHorizontalLayout
-}ALinearLayoutOrientationValueType;
-
-@implementation AViewHandler
+@implementation AndroidViewHandler
 
 - (instancetype)copyHandler {
-    AViewHandler *viewHandlerCopy = [[AViewHandler alloc] init];
+    AndroidViewHandler *viewHandlerCopy = [[AndroidViewHandler alloc] init];
     [viewHandlerCopy setSuperView:self.superView];
     [viewHandlerCopy setOwner:self.owner];
     [viewHandlerCopy setRelationView:self.relationView];
     return viewHandlerCopy;
 }
+
 - (NSMutableDictionary *)attributeDict {
     if (!_attributeDict) {
         _attributeDict = [[NSMutableDictionary alloc] init];
@@ -449,7 +370,7 @@ static char virtualConstraintsInstance;
 }
 
 static NSMutableDictionary *dictUtil;
-+ (NSDictionary *)dictUtil
++ (NSDictionary *)dataDictionary
 {
     if (!dictUtil)
     {
@@ -512,7 +433,7 @@ static NSMutableDictionary *dictUtil;
     return dictUtil;
 }
 
-+ (UIView *)viewForXml:(NSString *)xmlName andHandler:(AViewHandler *)viewHandler
++ (UIView *)viewForXml:(NSString *)xmlName andHandler:(AndroidViewHandler *)viewHandler
 {
     NSError *error = nil;
     TBXML *tbxml = [TBXML tbxmlWithXMLData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:xmlName ofType:@"xml"]] error:&error];
@@ -520,17 +441,17 @@ static NSMutableDictionary *dictUtil;
     return view;
 }
 
-+ (id)subEntityFor:(TBXMLElement *)element ansHandler:(AViewHandler *)handler {
++ (id)subEntityFor:(TBXMLElement *)element ansHandler:(AndroidViewHandler *)handler {
     [handler loadAttributeDict:element];
     UIView *viewToBeReturn;
-    switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", element->name]] integerValue]) {
+    switch ([[[self dataDictionary] objectForKey:[NSString stringWithFormat:@"%s", element->name]] integerValue]) {
         case kScrollView : {
             UIScrollView *scrollView = [[UIScrollView alloc] init];
             viewToBeReturn = scrollView;
             [handler.superView addSubview:scrollView];
             TBXMLAttribute *attribute = element->firstAttribute;
             [self configureLayoutView:scrollView attribute:attribute handler:handler];
-            AViewHandler *subviewHandler = [handler copyHandler];
+            AndroidViewHandler *subviewHandler = [handler copyHandler];
             [subviewHandler setSuperView:scrollView];
             UIView *subview = [self subEntityFor:element->firstChild ansHandler:subviewHandler];
             NSLayoutConstraint *width =[NSLayoutConstraint
@@ -550,7 +471,7 @@ static NSMutableDictionary *dictUtil;
             [handler.superView addSubview:scrollView];
             TBXMLAttribute *attribute = element->firstAttribute;
             [self configureLayoutView:scrollView attribute:attribute handler:handler];
-            AViewHandler *subviewHandler = [handler copyHandler];
+            AndroidViewHandler *subviewHandler = [handler copyHandler];
             [subviewHandler setSuperView:scrollView];
             UIView *subview = [self subEntityFor:element->firstChild ansHandler:subviewHandler];
             NSLayoutConstraint *height =[NSLayoutConstraint
@@ -573,7 +494,7 @@ static NSMutableDictionary *dictUtil;
             
             [view setLayoutType:view.layoutType == kLinearHorizontalLayout ? kLinearHorizontalLayout : kLinearVerticalLayout];
             TBXMLElement *child = element->firstChild;
-            AViewHandler *subviewHandler = [[AViewHandler alloc] init];
+            AndroidViewHandler *subviewHandler = [[AndroidViewHandler alloc] init];
             [subviewHandler setSuperView:view];
             [subviewHandler setOwner:handler.owner];
             UIView *previousView;
@@ -593,7 +514,7 @@ static NSMutableDictionary *dictUtil;
             TBXMLAttribute *attribute = element->firstAttribute;
             [self configureLayoutView:view attribute:attribute handler:handler];
             TBXMLElement *child = element->firstChild;
-            AViewHandler *subviewHandler = [[AViewHandler alloc] init];
+            AndroidViewHandler *subviewHandler = [[AndroidViewHandler alloc] init];
             [subviewHandler setSuperView:viewToBeReturn];
             [subviewHandler setOwner:handler.owner];
             while (child) {
@@ -727,18 +648,18 @@ static NSMutableDictionary *dictUtil;
     return viewToBeReturn;
 }
 
-+ (void)configureLayoutView:(UIView *)view attribute:(TBXMLAttribute *)attribute handler:(AViewHandler *)handler {
++ (void)configureLayoutView:(UIView *)view attribute:(TBXMLAttribute *)attribute handler:(AndroidViewHandler *)handler {
     [view setTranslatesAutoresizingMaskIntoConstraints:NO];
     while (attribute) {
         NSLog(@"%@ %@",[NSString stringWithFormat:@"%s", attribute->name],[NSString stringWithFormat:@"%s", attribute->value]);
-        switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->name]] integerValue]) {
+        switch ([[[self dataDictionary] objectForKey:[NSString stringWithFormat:@"%s", attribute->name]] integerValue]) {
             case kIdentifier :
                 [view setIdentifier:[NSString stringWithFormat:@"%s", attribute->value]];
                 [view.superview.viewDictionary setObject:view forKey:view.identifier];
                 break;
             case kSecureText :
                 if ([view isKindOfClass:[UITextField class]]) {
-                    [(UITextField *)view setSecureTextEntry:[[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue] == kPassword];
+                    [(UITextField *)view setSecureTextEntry:[[[self dataDictionary] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue] == kPassword];
                 }
                 break;
             case kImageSrc :
@@ -751,13 +672,13 @@ static NSMutableDictionary *dictUtil;
                 }
                 break;
             case kLayoutGravity :
-                [view setLayoutGravity:[[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] intValue]];
+                [view setLayoutGravity:[[[self dataDictionary] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] intValue]];
                 break;
             case kBackGroundColor :
                 [view setBackgroundColor:[self colorWithHexString:[NSString stringWithFormat:@"%s", attribute->value]]];
                 break;
             case kLayoutOrientation :
-                [view setLayoutType:[[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] intValue]];
+                [view setLayoutType:[[[self dataDictionary] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] intValue]];
                 break;
             case kLayoutWidth :
             case kLayoutHeight :
@@ -776,7 +697,7 @@ static NSMutableDictionary *dictUtil;
             case kLayoutMarginLeft :
             case kLayoutMarginBottom :
             case kLayoutMarginRight :
-                [view setLayoutMargin:[NSString stringWithFormat:@"%s", attribute->value] type:(AUILayoutRelationNameType)[[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->name]] integerValue]];
+                [view setLayoutMargin:[NSString stringWithFormat:@"%s", attribute->value] type:(AUILayoutRelationNameType)[[[self dataDictionary] objectForKey:[NSString stringWithFormat:@"%s", attribute->name]] integerValue]];
                 break;
             default:
                 break;
@@ -785,13 +706,13 @@ static NSMutableDictionary *dictUtil;
     }
 }
 
-+ (void)configureConstraintsForView:(UIView *)view attribute:(TBXMLAttribute *)attribute handler:(AViewHandler *)handler {
++ (void)configureConstraintsForView:(UIView *)view attribute:(TBXMLAttribute *)attribute handler:(AndroidViewHandler *)handler {
     BOOL isMarginConstraint = [UIView attributeToMargin:view];
     switch (view.superview.layoutType) {
         case kLinearVerticalLayout: {
-            switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->name]] integerValue]) {
+            switch ([[[self dataDictionary] objectForKey:[NSString stringWithFormat:@"%s", attribute->name]] integerValue]) {
                 case kLayoutWidth:
-                    switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]) {
+                    switch ([[[self dataDictionary] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]) {
                         case kFillParent:
                         case kMatchParent: {
                             NSLayoutConstraint *leading =[NSLayoutConstraint
@@ -871,7 +792,7 @@ static NSMutableDictionary *dictUtil;
                     }
                     break;
                 case kLayoutHeight:
-                    switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]) {
+                    switch ([[[self dataDictionary] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]) {
                         case kFillParent:
                         case kMatchParent: {
                             NSLayoutConstraint *bottom =[NSLayoutConstraint
@@ -914,9 +835,9 @@ static NSMutableDictionary *dictUtil;
         }
             break;
         case kLinearHorizontalLayout: {
-            switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->name]] integerValue]) {
+            switch ([[[self dataDictionary] objectForKey:[NSString stringWithFormat:@"%s", attribute->name]] integerValue]) {
                 case kLayoutWidth:
-                    switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]) {
+                    switch ([[[self dataDictionary] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]) {
                         case kFillParent:
                         case kMatchParent: {
                             if (handler.relationView) {
@@ -990,7 +911,7 @@ static NSMutableDictionary *dictUtil;
                     }
                     break;
                 case kLayoutHeight:
-                    switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]) {
+                    switch ([[[self dataDictionary] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]) {
                         case kFillParent:
                         case kMatchParent: {
                             NSLayoutConstraint *top =[NSLayoutConstraint
@@ -1072,9 +993,9 @@ static NSMutableDictionary *dictUtil;
         }
             break;
         case kRelativeLayout : {
-            switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->name]] integerValue]) {
+            switch ([[[self dataDictionary] objectForKey:[NSString stringWithFormat:@"%s", attribute->name]] integerValue]) {
                 case kLayoutWidth:
-                    switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]) {
+                    switch ([[[self dataDictionary] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]) {
                         case kFillParent:
                         case kMatchParent: {
                             NSLayoutConstraint *leading =[NSLayoutConstraint
@@ -1135,7 +1056,7 @@ static NSMutableDictionary *dictUtil;
                     }
                     break;
                 case kLayoutHeight:
-                    switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]) {
+                    switch ([[[self dataDictionary] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]) {
                         case kFillParent:
                         case kMatchParent: {
                             NSLayoutConstraint *top =[NSLayoutConstraint
@@ -1199,9 +1120,9 @@ static NSMutableDictionary *dictUtil;
         }
             break;
         default: {
-            switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->name]] integerValue]) {
+            switch ([[[self dataDictionary] objectForKey:[NSString stringWithFormat:@"%s", attribute->name]] integerValue]) {
                 case kLayoutWidth:
-                    switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]) {
+                    switch ([[[self dataDictionary] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]) {
                         case kFillParent:
                         case kMatchParent: {
                             NSLayoutConstraint *leading =[NSLayoutConstraint
@@ -1262,7 +1183,7 @@ static NSMutableDictionary *dictUtil;
                     }
                     break;
                 case kLayoutHeight:
-                    switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]) {
+                    switch ([[[self dataDictionary] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] integerValue]) {
                         case kFillParent:
                         case kMatchParent: {
                             NSLayoutConstraint *top =[NSLayoutConstraint
@@ -1327,8 +1248,8 @@ static NSMutableDictionary *dictUtil;
     }
 }
 
-+ (void)reserveAndroidConstraintsForView:(UIView *)view attribute:(TBXMLAttribute *)attribute handler:(AViewHandler *)handler {
-    switch ([[[self dictUtil] objectForKey:[NSString stringWithFormat:@"%s", attribute->name]] integerValue]) {
++ (void)reserveAndroidConstraintsForView:(UIView *)view attribute:(TBXMLAttribute *)attribute handler:(AndroidViewHandler *)handler {
+    switch ([[[self dataDictionary] objectForKey:[NSString stringWithFormat:@"%s", attribute->name]] integerValue]) {
         case kLayoutBelow :
             [self setIdentifierIfNeededForView:view handler:handler];
             [view.superview.virtualConstraints addObject:[AndroidConstraint constraintWithid:view.identifier attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toId:[NSString stringWithFormat:@"%s", attribute->value] attribute:NSLayoutAttributeBottom multiplier:1 constant:Padding]];
@@ -1344,7 +1265,7 @@ static NSMutableDictionary *dictUtil;
     }
 }
 
-+ (void)setIdentifierIfNeededForView:(UIView *)view handler:(AViewHandler *)handler{
++ (void)setIdentifierIfNeededForView:(UIView *)view handler:(AndroidViewHandler *)handler{
     if (!view.identifier) {
         [view setIdentifier:handler.attributeDict[@"android:id"]];
     }

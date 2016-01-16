@@ -14,6 +14,7 @@
 		920393301C03267500F5303B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9203932E1C03267500F5303B /* Main.storyboard */; };
 		920393321C03267500F5303B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 920393311C03267500F5303B /* Assets.xcassets */; };
 		920393351C03267500F5303B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 920393331C03267500F5303B /* LaunchScreen.storyboard */; };
+		9208D5EE1C3E7FC900B99298 /* AndroidView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9208D5ED1C3E7FC800B99298 /* AndroidView.m */; };
 		9257100D1C212F750029FEC0 /* LinearLayout.xml in Resources */ = {isa = PBXBuildFile; fileRef = 9257100C1C212F750029FEC0 /* LinearLayout.xml */; };
 		925A4B601C23EDDA00A6E824 /* activity_main.xml in Resources */ = {isa = PBXBuildFile; fileRef = 925A4B5F1C23EDDA00A6E824 /* activity_main.xml */; };
 		925F731B1C33DC8800ED2511 /* abc.png in Resources */ = {isa = PBXBuildFile; fileRef = 925F731A1C33DC8700ED2511 /* abc.png */; };
@@ -37,6 +38,8 @@
 		920393311C03267500F5303B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		920393341C03267500F5303B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		920393361C03267500F5303B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9208D5EC1C3E7FC800B99298 /* AndroidView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AndroidView.h; sourceTree = "<group>"; };
+		9208D5ED1C3E7FC800B99298 /* AndroidView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AndroidView.m; sourceTree = "<group>"; };
 		9257100C1C212F750029FEC0 /* LinearLayout.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LinearLayout.xml; sourceTree = "<group>"; };
 		925A4B5F1C23EDDA00A6E824 /* activity_main.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = activity_main.xml; path = ../../../../AndroidStudioProjects/ToExportXML/app/src/main/res/layout/activity_main.xml; sourceTree = "<group>"; };
 		925F731A1C33DC8700ED2511 /* abc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = abc.png; sourceTree = "<group>"; };
@@ -101,6 +104,8 @@
 				927A656E1C3A8B06009A57CC /* TTTAttributedLabel.m */,
 				9281A9971C05DF5B00934462 /* AView.h */,
 				9281A9981C05DF5B00934462 /* AView.m */,
+				9208D5EC1C3E7FC800B99298 /* AndroidView.h */,
+				9208D5ED1C3E7FC800B99298 /* AndroidView.m */,
 				9281A9921C058F8A00934462 /* XMLReader.h */,
 				9281A9931C058F8A00934462 /* XMLReader.m */,
 				9281A9951C0593A500934462 /* activity.json */,
@@ -263,6 +268,7 @@
 				9203932A1C03267500F5303B /* AppDelegate.m in Sources */,
 				9281A9941C058F8A00934462 /* XMLReader.m in Sources */,
 				9281A9991C05DF5B00934462 /* AView.m in Sources */,
+				9208D5EE1C3E7FC900B99298 /* AndroidView.m in Sources */,
 				920393271C03267500F5303B /* main.m in Sources */,
 				927A656F1C3A8B06009A57CC /* TTTAttributedLabel.m in Sources */,
 			);
