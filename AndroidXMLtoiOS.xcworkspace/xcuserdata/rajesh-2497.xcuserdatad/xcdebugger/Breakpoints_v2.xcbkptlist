@@ -555,15 +555,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AndroidXMLtoiOS/AndroidView.m"
-            timestampString = "474567213.065186"
+            timestampString = "474790622.804396"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
             landmarkName = "-initWithElement:handler:"
             landmarkType = "5">
          </BreakpointContent>
@@ -575,27 +575,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AndroidXMLtoiOS/AndroidView.m"
-            timestampString = "474620813.906643"
+            timestampString = "474790622.804396"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "27"
-            endingLineNumber = "27"
-            landmarkName = "+entityFor:handler:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "AndroidXMLtoiOS/AndroidView.m"
-            timestampString = "474631583.069468"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "301"
-            endingLineNumber = "301"
+            startingLineNumber = "303"
+            endingLineNumber = "303"
             landmarkName = "-setContent:"
             landmarkType = "5">
          </BreakpointContent>
@@ -607,11 +591,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AndroidXMLtoiOS/AndroidView.m"
-            timestampString = "474631583.069468"
+            timestampString = "474790622.804396"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "296"
-            endingLineNumber = "296"
+            startingLineNumber = "298"
+            endingLineNumber = "298"
             landmarkName = "-setPreviousView:"
             landmarkType = "5">
          </BreakpointContent>
@@ -635,15 +619,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AndroidXMLtoiOS/AndroidView.m"
-            timestampString = "474641760.19928"
+            timestampString = "474790622.804396"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "343"
-            endingLineNumber = "343"
+            startingLineNumber = "342"
+            endingLineNumber = "342"
             landmarkName = "+configureVerticalLinearLayoutForView:"
             landmarkType = "5">
          </BreakpointContent>
@@ -655,11 +639,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AndroidXMLtoiOS/AndroidView.m"
-            timestampString = "474631583.069468"
+            timestampString = "474790622.804396"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "186"
-            endingLineNumber = "186"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
             landmarkName = "-configureView:attribute:handler:"
             landmarkType = "5">
          </BreakpointContent>
@@ -671,12 +655,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AndroidXMLtoiOS/AndroidView.m"
-            timestampString = "474642163.907055"
+            timestampString = "474790622.804396"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "340"
-            endingLineNumber = "340"
-            landmarkName = "+configureVerticalLinearLayoutForView:"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
+            landmarkName = "-initWithElement:handler:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

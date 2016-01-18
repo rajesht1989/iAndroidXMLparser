@@ -18,19 +18,20 @@
 + (UIView *)viewForXml:(NSString *)xmlName andHandler:(AndroidViewHandler *)handler {
     NSError *error = nil;
     TBXML *tbxml = [TBXML tbxmlWithXMLData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:xmlName ofType:@"xml"]] error:&error];
-    return [self entityFor:tbxml.rootXMLElement handler:handler];
+    AndroidView *view = [self entityFor:tbxml.rootXMLElement handler:handler];
+    [view configureLayout];
+    return view;
 }
 
 + (id)entityFor:(TBXMLElement *)element handler:(AndroidViewHandler *)handler {
     AndroidView *view = [[self alloc] initWithElement:element handler:handler];
     [handler.superView addSubview:view];
-    [view setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [view configureLayout];
     return view;
 }
 
 - (instancetype)initWithElement:(TBXMLElement *)element handler:(AndroidViewHandler *)handler {
     if (self = [super init]) {
+        [self setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self setElement:element];
         [self setObjectType:[[[self.class dataDictionary] objectForKey:[TBXML elementName:element]] intValue]];
         
@@ -69,6 +70,7 @@
                     AndroidView *currentView = [self.class entityFor:child handler:subviewHandler];
                     [currentView setPreviousView:previousView];
                     [currentView setParentView:self];
+                    [currentView configureLayout];
                     previousView = currentView;
                     child = child->nextSibling;
                 }
@@ -337,9 +339,6 @@
 }
 
 + (void)configureVerticalLinearLayoutForView:(AndroidView*) androidView {
-//    if (androidView.parentView) {
-//        return;
-//    }
     UIView *superView = androidView.parentView.foregroundView ? androidView.parentView.foregroundView : androidView.superview;
     AndroidView *previousView = androidView.previousView;
     AndroidView *nextView = androidView.nextView;
