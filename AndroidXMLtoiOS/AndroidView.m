@@ -29,6 +29,10 @@
     return view;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"Object - %p \n Frame - %@ \n Objectype - %d \n Element %@ \n Subviews - %@",self, NSStringFromCGRect(self.frame),[self objectType],_elementDict,self.subviews];
+}
+
 - (instancetype)initWithElement:(TBXMLElement *)element handler:(AndroidViewHandler *)handler {
     if (self = [super init]) {
         [self setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -70,7 +74,6 @@
                     AndroidView *currentView = [self.class entityFor:child handler:subviewHandler];
                     [currentView setPreviousView:previousView];
                     [currentView setParentView:self];
-                    [currentView configureLayout];
                     previousView = currentView;
                     child = child->nextSibling;
                 }
@@ -420,7 +423,7 @@
 + (void)configureHorizontalLinearLayoutForView:(AndroidView*) androidView {
     UIView *superView = androidView.parentView.foregroundView ? androidView.parentView.foregroundView : androidView.superview;
     AndroidView *previousView = androidView.previousView;
-//    AndroidView *nextView = androidView.nextView;
+    AndroidView *nextView = androidView.nextView;
     
     switch (androidView.widthType) {
         case kFillParent :
@@ -436,18 +439,21 @@
                                             [NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeTrailing multiplier:1 constant:-androidView.margin.marginRight]
                                             ]];
             }
+            
             break;
         case kWrapContent :
             if (previousView) {
                 [superView addConstraints:@[
-                                            [NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:previousView attribute:NSLayoutAttributeTrailing multiplier:1 constant:previousView.margin.marginRight + androidView.margin.marginLeft],
-                                            [NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationLessThanOrEqual toItem:superView attribute:NSLayoutAttributeTrailing multiplier:1 constant:-androidView.margin.marginRight]
+                                            [NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:previousView attribute:NSLayoutAttributeTrailing multiplier:1 constant:previousView.margin.marginRight + androidView.margin.marginLeft]
                                             ]];
             } else {
                 [superView addConstraints:@[
-                                            [NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeLeading multiplier:1 constant:androidView.margin.marginLeft],
-                                            [NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationLessThanOrEqual toItem:superView attribute:NSLayoutAttributeTrailing multiplier:1 constant:-androidView.margin.marginRight]
+                                            [NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeLeading multiplier:1 constant:androidView.margin.marginLeft]
                                             ]];
+            }
+            
+             if(!nextView) {
+                 [superView addConstraint:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationLessThanOrEqual toItem:superView attribute:NSLayoutAttributeTrailing multiplier:1 constant:-androidView.margin.marginRight]];
             }
             break;
         case kCustom:
@@ -468,6 +474,11 @@
     switch (androidView.heightType) {
         case kFillParent :
         case kMatchParent :
+            [superView addConstraints:@[
+                                        [NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeTop multiplier:1 constant:androidView.margin.marginTop],
+                                        [NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeBottom multiplier:1 constant:-androidView.margin.marginBottom]
+                                        ]];
+            break;
         case kWrapContent :
             [superView addConstraints:@[
                                         [NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeTop multiplier:1 constant:androidView.margin.marginTop],
