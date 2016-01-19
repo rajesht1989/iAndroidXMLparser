@@ -30,7 +30,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"Object - %p \n Frame - %@ \n Objectype - %d \n Element %@ \n Subviews - %@",self, NSStringFromCGRect(self.frame),[self objectType],_elementDict,self.subviews];
+    return [NSString stringWithFormat:@"\n Object - %p Identifier - %@  \n Frame - %@ \n Objectype - %d \n Element %@ \n Subviews - %@  \n SubviewDict - %@ \n\n",self, _identifier, NSStringFromCGRect(self.frame),[self objectType],_elementDict,[self subviews],_subviewDict];
 }
 
 - (instancetype)initWithElement:(TBXMLElement *)element handler:(AndroidViewHandler *)handler {
@@ -86,10 +86,13 @@
                 [self addSubview:view];
                 TBXMLAttribute *attribute = element->firstAttribute;
                 [self configureView:view attribute:attribute handler:handler];
+                
                 TBXMLElement *child = element->firstChild;
-                AndroidViewHandler *subviewHandler = [[AndroidViewHandler alloc] init];
-                [subviewHandler setOwner:handler.owner];
+                AndroidViewHandler *subviewHandler = [handler copyHandler];
+                [subviewHandler setSuperView:view];
                 while (child) {
+                    AndroidView *currentView = [self.class entityFor:child handler:subviewHandler];
+                    [currentView setParentView:self];
                     child = child->nextSibling;
                 }
             }
@@ -297,6 +300,16 @@
     if(!_parentView.firstChildView) {
         _parentView.firstChildView = self;
     }
+    if (_identifier) {
+        [parentView.subviewDict setObject:self forKey:_identifier];
+    }
+}
+
+- (NSMutableDictionary *)subviewDict {
+    if (!_subviewDict) {
+        _subviewDict = [NSMutableDictionary dictionary];
+    }
+    return _subviewDict;
 }
 
 - (void)setPreviousView:(AndroidView *)previousView {

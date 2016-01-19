@@ -15,6 +15,7 @@
 + (UIView *)viewForXml:(NSString *)xmlName andHandler:(AndroidViewHandler *)handler;
 
 @property (nonatomic, strong)NSMutableDictionary *elementDict;
+@property (nonatomic, strong)NSMutableDictionary *subviewDict;
 @property (nonatomic, assign)TBXMLElement *element;
 @property (nonatomic, strong)NSString *identifier;
 @property (nonatomic, strong)id foregroundView;

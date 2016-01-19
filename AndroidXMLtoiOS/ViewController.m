@@ -61,7 +61,7 @@
     AndroidViewHandler * viewHandler = [[AndroidViewHandler alloc] init];
     [viewHandler setSuperView:view];
     [viewHandler setOwner:self];
-    UIView *androidView = [AndroidView viewForXml:@"activity_main" andHandler:viewHandler];
+    UIView *androidView = [AndroidView viewForXml:@"relativeayout" andHandler:viewHandler];
     NSLog(@"%@",androidView);
 }
 

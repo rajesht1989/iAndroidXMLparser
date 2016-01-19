@@ -23,6 +23,7 @@
 		9281A9941C058F8A00934462 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9281A9931C058F8A00934462 /* XMLReader.m */; };
 		9281A9961C0593A500934462 /* activity.json in Resources */ = {isa = PBXBuildFile; fileRef = 9281A9951C0593A500934462 /* activity.json */; };
 		9281A9991C05DF5B00934462 /* AView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9281A9981C05DF5B00934462 /* AView.m */; };
+		92D74DC71C4E0DAC00FBF176 /* relativeayout.xml in Resources */ = {isa = PBXBuildFile; fileRef = 92D74DC61C4E0DAC00FBF176 /* relativeayout.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		9281A9951C0593A500934462 /* activity.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = activity.json; sourceTree = "<group>"; };
 		9281A9971C05DF5B00934462 /* AView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AView.h; sourceTree = "<group>"; };
 		9281A9981C05DF5B00934462 /* AView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AView.m; sourceTree = "<group>"; };
+		92D74DC61C4E0DAC00FBF176 /* relativeayout.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = relativeayout.xml; path = ../../../../AndroidStudioProjects/ToExportXML/app/src/main/res/layout/relativeayout.xml; sourceTree = "<group>"; };
 		B5B0DE4D4D7443D61FABF2EF /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -113,6 +115,7 @@
 				920393311C03267500F5303B /* Assets.xcassets */,
 				920393331C03267500F5303B /* LaunchScreen.storyboard */,
 				920393361C03267500F5303B /* Info.plist */,
+				92D74DC61C4E0DAC00FBF176 /* relativeayout.xml */,
 				925A4B5F1C23EDDA00A6E824 /* activity_main.xml */,
 				9281A9901C058E4400934462 /* RelativeLayout.xml */,
 				9257100C1C212F750029FEC0 /* LinearLayout.xml */,
@@ -205,6 +208,7 @@
 				9281A9911C058E4400934462 /* RelativeLayout.xml in Resources */,
 				920393321C03267500F5303B /* Assets.xcassets in Resources */,
 				920393301C03267500F5303B /* Main.storyboard in Resources */,
+				92D74DC71C4E0DAC00FBF176 /* relativeayout.xml in Resources */,
 				925A4B601C23EDDA00A6E824 /* activity_main.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
