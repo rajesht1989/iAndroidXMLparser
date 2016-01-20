@@ -74,7 +74,7 @@ typedef enum {
     kLayoutMarginLeft,
     kLayoutMarginBottom,
     kLayoutMarginRight,
-    kLayoutBelow
+    
 }AUILayoutRelationNameType;
 
 typedef enum {
@@ -93,6 +93,32 @@ typedef enum {
     kLinearVerticalLayout = 360,
     kLinearHorizontalLayout
 }ALinearLayoutOrientationValueType;
+
+typedef enum {
+    kLayoutAbove = 390,
+    kLayoutBelow,
+    kLayoutAlignBaseline,
+    kLayoutAlignBottom,
+    kLayoutAlignEnd,
+    kLayoutAlignLeft,
+    kLayoutAlignParentBottom,
+    kLayoutAlignParentEnd,
+    kLayoutAlignParentLeft,
+    kLayoutAlignParentRight,
+    kLayoutAlignParentStart,
+    kLayoutAlignParentTop,
+    kLayoutAlignRight,
+    kLayoutAlignStart,
+    kLayoutAlignTop,
+    kLayoutAlignWithParentIfMissing,
+    kLayoutCenterHorizontal,
+    kLayoutCenterInParent,
+    kLayoutCenterInVertical,
+    kLayoutToEndOf,
+    kLayoutToLeftOf,
+    kLayoutToRightOf,
+    kLayoutToStartOf
+}ARelativeLayoutAttributeValueType;
 
 typedef struct {
     BOOL isFirstItem;

@@ -417,7 +417,6 @@ static NSMutableDictionary *dictUtil;
         
         [dictUtil setObject:@(kIdentifier) forKey:@"android:id"];
         
-        [dictUtil setObject:@(kLayoutBelow) forKey:@"android:layout_below"];
         [dictUtil setObject:@(kText) forKey:@"android:text"];
         
         [dictUtil setObject:@(kCenter) forKey:@"center"];
@@ -429,6 +428,30 @@ static NSMutableDictionary *dictUtil;
         
         [dictUtil setObject:@(kLinearVerticalLayout) forKey:@"vertical"];
         [dictUtil setObject:@(kLinearHorizontalLayout) forKey:@"horizontal"];
+        
+        [dictUtil setObject:@(kLayoutAbove) forKey:@"android:layout_above"];
+        [dictUtil setObject:@(kLayoutBelow) forKey:@"android:layout_below"];
+        [dictUtil setObject:@(kLayoutAlignBaseline) forKey:@"android:layout_alignBaseline"];
+        [dictUtil setObject:@(kLayoutAlignBottom) forKey:@"android:layout_alignBottom"];
+        [dictUtil setObject:@(kLayoutAlignEnd) forKey:@"android:layout_alignEnd"];
+        [dictUtil setObject:@(kLayoutAlignLeft) forKey:@"android:layout_alignLeft"];
+        [dictUtil setObject:@(kLayoutAlignParentBottom) forKey:@"android:layout_alignParentBottom"];
+        [dictUtil setObject:@(kLayoutAlignParentEnd) forKey:@"android:layout_alignParentEnd"];
+        [dictUtil setObject:@(kLayoutAlignParentLeft) forKey:@"android:layout_alignParentLeft"];
+        [dictUtil setObject:@(kLayoutAlignParentRight) forKey:@"android:layout_alignParentRight"];
+        [dictUtil setObject:@(kLayoutAlignParentStart) forKey:@"android:layout_alignParentStart"];
+        [dictUtil setObject:@(kLayoutAlignParentTop) forKey:@"android:layout_alignParentTop"];
+        [dictUtil setObject:@(kLayoutAlignRight) forKey:@"android:layout_alignRight"];
+        [dictUtil setObject:@(kLayoutAlignStart) forKey:@"android:layout_alignStart"];
+        [dictUtil setObject:@(kLayoutAlignTop) forKey:@"android:layout_alignTop"];
+        [dictUtil setObject:@(kLayoutAlignWithParentIfMissing) forKey:@"android:layout_alignWithParentIfMissing"];
+        [dictUtil setObject:@(kLayoutCenterHorizontal) forKey:@"android:layout_centerHorizontal"];
+        [dictUtil setObject:@(kLayoutCenterInParent) forKey:@"android:layout_centerInParent"];
+        [dictUtil setObject:@(kLayoutCenterInVertical) forKey:@"android:layout_centerVertical"];
+        [dictUtil setObject:@(kLayoutToEndOf) forKey:@"android:layout_toEndOf"];
+        [dictUtil setObject:@(kLayoutToLeftOf) forKey:@"android:layout_toLeftOf"];
+        [dictUtil setObject:@(kLayoutToRightOf) forKey:@"android:layout_toRightOf"];
+        [dictUtil setObject:@(kLayoutToStartOf) forKey:@"android:layout_toStartOf"];
     }
     return dictUtil;
 }

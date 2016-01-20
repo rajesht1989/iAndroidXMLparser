@@ -90,9 +90,12 @@
                 TBXMLElement *child = element->firstChild;
                 AndroidViewHandler *subviewHandler = [handler copyHandler];
                 [subviewHandler setSuperView:view];
+                AndroidView *previousView;
                 while (child) {
                     AndroidView *currentView = [self.class entityFor:child handler:subviewHandler];
+                    [currentView setPreviousView:previousView];
                     [currentView setParentView:self];
+                    previousView = currentView;
                     child = child->nextSibling;
                 }
             }
@@ -408,38 +411,16 @@
         }
             break;
         case kScrollView :
-            [self configureScrollView];
+            [self.class configureScrollViewForView:self];
             break;
         case kHorizontalScrollView :
-            [self configureHorizontalScrollView];
+            [self.class configureHorizontalScrollViewForView:self];
             break;
+        case kRelativeLayout :
+            [self.class configureRelativeLayoutForView:self];
         default:
             break;
     }
-}
-
-- (void)configureScrollView {
-    [self configureLayout];
-    [self.parentView.foregroundView addConstraint:[NSLayoutConstraint
-                                   constraintWithItem:self
-                                   attribute:NSLayoutAttributeWidth
-                                   relatedBy:NSLayoutRelationEqual
-                                   toItem:self.parentView.foregroundView
-                                   attribute:NSLayoutAttributeWidth
-                                   multiplier:1.f
-                                   constant:0]];
-}
-
-- (void)configureHorizontalScrollView {
-    [self configureLayout];
-    [self.parentView.foregroundView addConstraint:[NSLayoutConstraint
-                                                   constraintWithItem:self
-                                                   attribute:NSLayoutAttributeHeight
-                                                   relatedBy:NSLayoutRelationEqual
-                                                   toItem:self.parentView.foregroundView
-                                                   attribute:NSLayoutAttributeHeight
-                                                   multiplier:1.f
-                                                   constant:0]];
 }
 
 + (void)configureVerticalLinearLayoutForView:(AndroidView*) androidView {
@@ -592,6 +573,43 @@
         default:
             break;
     }
+    
+    AndroidView *childView = [androidView firstChildView];
+    while (childView) {
+        [childView configureLayoutAsPerSuperView];
+        childView = childView.nextView;
+    }
+}
+
++ (void)configureScrollViewForView:(AndroidView *)androidView {
+    [androidView configureLayout];
+    [androidView.parentView.foregroundView addConstraint:[NSLayoutConstraint
+                                                          constraintWithItem:androidView
+                                                          attribute:NSLayoutAttributeWidth
+                                                          relatedBy:NSLayoutRelationEqual
+                                                          toItem:androidView.parentView.foregroundView
+                                                          attribute:NSLayoutAttributeWidth
+                                                          multiplier:1.f
+                                                          constant:0]];
+}
+
++ (void)configureHorizontalScrollViewForView:(AndroidView *)androidView {
+    [androidView configureLayout];
+    [androidView.parentView.foregroundView addConstraint:[NSLayoutConstraint
+                                                          constraintWithItem:androidView
+                                                          attribute:NSLayoutAttributeHeight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                          toItem:androidView.parentView.foregroundView
+                                                          attribute:NSLayoutAttributeHeight
+                                                          multiplier:1.f
+                                                          constant:0]];
+}
+
++ (void)configureRelativeLayoutForView:(AndroidView *)androidView  {
+    
+    
+    
+    
     
     AndroidView *childView = [androidView firstChildView];
     while (childView) {
