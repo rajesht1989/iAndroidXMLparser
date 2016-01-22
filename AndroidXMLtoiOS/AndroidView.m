@@ -95,6 +95,7 @@
                     AndroidView *currentView = [self.class entityFor:child handler:subviewHandler];
                     [currentView setPreviousView:previousView];
                     [currentView setParentView:self];
+                    [currentView setDefaultLayout];
                     previousView = currentView;
                     child = child->nextSibling;
                 }
@@ -234,8 +235,6 @@
                 }
             }
                 break;
-            case kLayoutBelow :
-                break;
             case kLayoutMargin : {
                 CGFloat fMargin = [UIView pixels:[TBXML attributeValue:attribute]];
                 [self setMargin:AndroidMarginMake(fMargin, fMargin, fMargin, fMargin)];
@@ -269,6 +268,76 @@
                 break;
             case kLayoutPaddingRight :
                 _padding.paddingRight = [UIView pixels:[TBXML attributeValue:attribute]];
+                break;
+            //RelativeLayout related
+            case kLayoutAbove :
+                [self setLayoutAbove:[TBXML attributeValue:attribute]];
+                break;
+            case kLayoutBelow :
+                [self setLayoutBelow:[TBXML attributeValue:attribute]];
+                break;
+            case kLayoutAlignBaseline :
+                [self setLayoutAlignBaseLine:[TBXML attributeValue:attribute]];
+                break;
+            case kLayoutAlignBottom :
+                [self setLayoutAlignBottom:[TBXML attributeValue:attribute]];
+                break;
+            case kLayoutAlignEnd :
+                [self setLayoutAlignEnd:[TBXML attributeValue:attribute]];
+                break;
+            case kLayoutAlignLeft :
+                [self setLayoutAlignLeft:[TBXML attributeValue:attribute]];
+                break;
+            case kLayoutAlignRight :
+                [self setLayoutAlignRight:[TBXML attributeValue:attribute]];
+                break;
+            case kLayoutAlignStart :
+                [self setLayoutAlignStart:[TBXML attributeValue:attribute]];
+                break;
+            case kLayoutAlignTop :
+                [self setLayoutAlignTop:[TBXML attributeValue:attribute]];
+                break;
+            case kLayoutToEndOf :
+                [self setLayoutToEndOf:[TBXML attributeValue:attribute]];
+                break;
+            case kLayoutToLeftOf :
+                [self setLayoutToLeftOf:[TBXML attributeValue:attribute]];
+                break;
+            case kLayoutToRightOf :
+                [self setLayoutToRightOf:[TBXML attributeValue:attribute]];
+                break;
+            case kLayoutToStartOf :
+                [self setLayoutToStartOf:[TBXML attributeValue:attribute]];
+                break;
+            case kLayoutAlignParentBottom :
+                [self setIsAlignParentBottom:[[TBXML attributeValue:attribute] boolValue]];
+                break;
+            case kLayoutAlignParentEnd :
+                [self setIsAlignParentEnd:[[TBXML attributeValue:attribute] boolValue]];
+                break;
+            case kLayoutAlignParentLeft :
+                [self setIsAlignParentLeft:[[TBXML attributeValue:attribute] boolValue]];
+                break;
+            case kLayoutAlignParentRight :
+                [self setIsAlignParentRight:[[TBXML attributeValue:attribute] boolValue]];
+                break;
+            case kLayoutAlignParentStart :
+                [self setIsAlignParentStart:[[TBXML attributeValue:attribute] boolValue]];
+                break;
+            case kLayoutAlignParentTop :
+                [self setIsAlignParentTop:[[TBXML attributeValue:attribute] boolValue]];
+                break;
+            case kLayoutAlignWithParentIfMissing :
+                [self setIsAlignWithparentIfMissing:[[TBXML attributeValue:attribute] boolValue]];
+                break;
+            case kLayoutCenterHorizontal :
+                [self setIsAlignCenterHorizontal:[[TBXML attributeValue:attribute] boolValue]];
+                break;
+            case kLayoutCenterVertical :
+                [self setIsAlignCenterInParent:[[TBXML attributeValue:attribute] boolValue]];
+                break;
+            case kLayoutCenterInParent :
+                [self setIsAlignCenterInParent:[[TBXML attributeValue:attribute] boolValue]];
                 break;
             default:
                 break;
@@ -340,7 +409,7 @@
     }
 }
 
-- (void)configureLayout {
+- (void)setDefaultLayout {
     UIView *superView = self.superview;
     switch (self.widthType) {
         case kFillParent :
@@ -386,6 +455,10 @@
         default:
             break;
     }
+}
+
+- (void)configureLayout {
+    [self setDefaultLayout];
     AndroidView *childView = [self firstChildView];
     while (childView) {
         [childView configureLayoutAsPerSuperView];

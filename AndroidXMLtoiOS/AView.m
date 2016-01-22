@@ -447,7 +447,7 @@ static NSMutableDictionary *dictUtil;
         [dictUtil setObject:@(kLayoutAlignWithParentIfMissing) forKey:@"android:layout_alignWithParentIfMissing"];
         [dictUtil setObject:@(kLayoutCenterHorizontal) forKey:@"android:layout_centerHorizontal"];
         [dictUtil setObject:@(kLayoutCenterInParent) forKey:@"android:layout_centerInParent"];
-        [dictUtil setObject:@(kLayoutCenterInVertical) forKey:@"android:layout_centerVertical"];
+        [dictUtil setObject:@(kLayoutCenterVertical) forKey:@"android:layout_centerVertical"];
         [dictUtil setObject:@(kLayoutToEndOf) forKey:@"android:layout_toEndOf"];
         [dictUtil setObject:@(kLayoutToLeftOf) forKey:@"android:layout_toLeftOf"];
         [dictUtil setObject:@(kLayoutToRightOf) forKey:@"android:layout_toRightOf"];

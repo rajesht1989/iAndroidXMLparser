@@ -113,7 +113,7 @@ typedef enum {
     kLayoutAlignWithParentIfMissing,
     kLayoutCenterHorizontal,
     kLayoutCenterInParent,
-    kLayoutCenterInVertical,
+    kLayoutCenterVertical,
     kLayoutToEndOf,
     kLayoutToLeftOf,
     kLayoutToRightOf,
