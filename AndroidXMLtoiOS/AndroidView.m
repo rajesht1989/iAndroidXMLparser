@@ -33,6 +33,10 @@
     return [NSString stringWithFormat:@"\n Object - %p Identifier - %@  \n Frame - %@ \n Objectype - %d \n Element %@ \n Subviews - %@  \n SubviewDict - %@ \n\n",self, _identifier, NSStringFromCGRect(self.frame),[self objectType],_elementDict,[self subviews],_subviewDict];
 }
 
+- (UIView *)androidSuperview {
+    return self.parentView.foregroundView ? self.parentView.foregroundView :self.superview;
+}
+
 - (instancetype)initWithElement:(TBXMLElement *)element handler:(AndroidViewHandler *)handler {
     if (self = [super init]) {
         [self setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -410,23 +414,22 @@
 }
 
 - (void)setDefaultLayout {
-    UIView *superView = self.superview;
+    UIView *superView = [self androidSuperview];
     switch (self.widthType) {
         case kFillParent :
         case kMatchParent :
-            [superView addConstraints:@[
-                                        [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeLeading multiplier:1 constant:self.margin.marginLeft],
-                                        [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeTrailing multiplier:1 constant:-self.margin.marginRight]
-                                        ]];
+            [self setLeadingMargin:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeLeading multiplier:1 constant:self.margin.marginLeft]];
+            [self setTrailingMargin:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeTrailing multiplier:1 constant:-self.margin.marginRight]];
+            [superView addConstraints:@[_leadingMargin, _trailingMargin]];
             break;
         case kWrapContent :
-            [superView addConstraints:@[
-                                        [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeLeading multiplier:1 constant:self.margin.marginLeft],
-                                        [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationLessThanOrEqual toItem:superView attribute:NSLayoutAttributeTrailing multiplier:1 constant:-self.margin.marginRight]
-                                        ]];
+            [self setLeadingMargin:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeLeading multiplier:1 constant:self.margin.marginLeft]];
+            [self setTrailingMargin:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationLessThanOrEqual toItem:superView attribute:NSLayoutAttributeTrailing multiplier:1 constant:-self.margin.marginRight]];
+            [superView addConstraints:@[_leadingMargin, _trailingMargin]];
             break;
         case kCustom:
-            [superView addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeLeading multiplier:1 constant:self.margin.marginLeft]];
+            [self setLeadingMargin:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeLeading multiplier:1 constant:self.margin.marginLeft]];
+            [superView addConstraints:@[_leadingMargin]];
             [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:self.fWidth]];
             break;
         default:
@@ -436,20 +439,19 @@
     switch (self.heightType) {
         case kFillParent :
         case kMatchParent :
-            [superView addConstraints:@[
-                                        [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeTop multiplier:1 constant:self.margin.marginTop],
-                                        [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeBottom multiplier:1 constant:self.margin.marginBottom]
-                                        ]];
+            [self setTopMargin:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeTop multiplier:1 constant:self.margin.marginTop]];
+            [self setBottomMargin:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeBottom multiplier:1 constant:self.margin.marginBottom]];
+            [superView addConstraints:@[_topMargin, _bottomMargin]];
             break;
         case kWrapContent :
-            [superView addConstraints:@[
-                                        [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeTop multiplier:1 constant:self.margin.marginTop],
-                                        [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationLessThanOrEqual toItem:superView attribute:NSLayoutAttributeBottom multiplier:1 constant:-self.margin.marginBottom] ]];
-            
+            [self setTopMargin:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeTop multiplier:1 constant:self.margin.marginTop]];
+            [self setBottomMargin:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationLessThanOrEqual toItem:superView attribute:NSLayoutAttributeBottom multiplier:1 constant:-self.margin.marginBottom]];
+            [superView addConstraints:@[_topMargin, _bottomMargin]];
             break;
         case kCustom:
-            [superView addConstraints:@[[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeTop multiplier:1 constant:self.margin.marginTop],
-                                        [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationLessThanOrEqual toItem:superView attribute:NSLayoutAttributeBottom multiplier:1 constant:-self.margin.marginBottom]]];
+            [self setTopMargin:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeTop multiplier:1 constant:self.margin.marginTop]];
+            [self setBottomMargin:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationLessThanOrEqual toItem:superView attribute:NSLayoutAttributeBottom multiplier:1 constant:-self.margin.marginBottom]];
+            [superView addConstraints:@[_topMargin, _bottomMargin]];
             [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:self.fHeight]];
             break;
         default:
@@ -497,7 +499,7 @@
 }
 
 + (void)configureVerticalLinearLayoutForView:(AndroidView*) androidView {
-    UIView *superView = androidView.parentView.foregroundView ? androidView.parentView.foregroundView : androidView.superview;
+    UIView *superView = [androidView androidSuperview];
     AndroidView *previousView = androidView.previousView;
     AndroidView *nextView = androidView.nextView;
     
@@ -574,7 +576,7 @@
 }
 
 + (void)configureHorizontalLinearLayoutForView:(AndroidView*) androidView {
-    UIView *superView = androidView.parentView.foregroundView ? androidView.parentView.foregroundView : androidView.superview;
+    UIView *superView = [androidView androidSuperview];
     AndroidView *previousView = androidView.previousView;
     AndroidView *nextView = androidView.nextView;
     
@@ -679,6 +681,28 @@
 }
 
 + (void)configureRelativeLayoutForView:(AndroidView *)androidView  {
+    UIView *superView = [androidView androidSuperview];
+
+    if(androidView.isAlignParentEnd || androidView.isAlignParentRight) {
+        [androidView.trailingMargin setActive:NO];
+        [androidView setTrailingMargin:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeTrailing multiplier:1 constant:-androidView.margin.marginRight]];
+        [superView addConstraint:androidView.trailingMargin];
+        [androidView.leadingMargin setActive:NO];
+        if (androidView.isAlignParentLeft || androidView.isAlignParentStart) {
+            [androidView.leadingMargin setActive:YES];
+        }
+    }
+    
+    if (androidView.isAlignParentBottom) {
+        [androidView.bottomMargin setActive:NO];
+        [androidView setBottomMargin:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeBottom multiplier:1 constant:-androidView.margin.marginBottom]];
+        [superView addConstraint:androidView.bottomMargin];
+
+        [androidView.topMargin setActive:NO];
+        if (androidView.isAlignParentTop) {
+            [androidView.topMargin setActive:YES];
+        }
+    }
     
     
     

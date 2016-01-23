@@ -13,7 +13,7 @@
 @interface AndroidView : UIView
 
 + (UIView *)viewForXml:(NSString *)xmlName andHandler:(AndroidViewHandler *)handler;
-
+- (UIView *)androidSuperview;
 @property (nonatomic, strong)NSMutableDictionary *elementDict;
 @property (nonatomic, strong)NSMutableDictionary *subviewDict;
 @property (nonatomic, assign)TBXMLElement *element;
@@ -31,6 +31,11 @@
 @property (nonatomic, weak)AndroidView *firstChildView;
 @property (nonatomic, weak)AndroidView *previousView;
 @property (nonatomic, weak)AndroidView *nextView;
+
+@property (nonatomic, weak)NSLayoutConstraint *leadingMargin;
+@property (nonatomic, weak)NSLayoutConstraint *trailingMargin;
+@property (nonatomic, weak)NSLayoutConstraint *topMargin;
+@property (nonatomic, weak)NSLayoutConstraint *bottomMargin;
 
 //RelativeLayout
 @property (nonatomic, assign)BOOL isAlignParentStart;
