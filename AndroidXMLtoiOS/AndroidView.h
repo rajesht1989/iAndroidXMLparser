@@ -44,7 +44,7 @@
 @property (nonatomic, assign)BOOL isAlignParentRight;
 @property (nonatomic, assign)BOOL isAlignParentEnd;
 @property (nonatomic, assign)BOOL isAlignParentBottom;
-@property (nonatomic, assign)BOOL isAlignWithparentIfMissing;
+@property (nonatomic, assign)BOOL isAlignWithparentIfMissing;//Not now
 @property (nonatomic, assign)BOOL isAlignCenterHorizontal;
 @property (nonatomic, assign)BOOL isAlignCenterVertical;
 @property (nonatomic, assign)BOOL isAlignCenterInParent;

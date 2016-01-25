@@ -682,6 +682,7 @@
 
 + (void)configureRelativeLayoutForView:(AndroidView *)androidView  {
     UIView *superView = [androidView androidSuperview];
+    AndroidView *parentView = [androidView parentView];
 
     if(androidView.isAlignParentEnd || androidView.isAlignParentRight) {
         [androidView.trailingMargin setActive:NO];
@@ -690,6 +691,9 @@
         [androidView.leadingMargin setActive:NO];
         if (androidView.isAlignParentLeft || androidView.isAlignParentStart) {
             [androidView.leadingMargin setActive:YES];
+        } else {
+            [androidView setLeadingMargin:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:superView attribute:NSLayoutAttributeLeading multiplier:1 constant:androidView.margin.marginLeft]];
+            [superView addConstraint:androidView.leadingMargin];
         }
     }
     
@@ -701,11 +705,70 @@
         [androidView.topMargin setActive:NO];
         if (androidView.isAlignParentTop) {
             [androidView.topMargin setActive:YES];
+        } else {
+            [androidView setTopMargin:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:superView attribute:NSLayoutAttributeTop multiplier:1 constant:androidView.margin.marginTop]];
+            [superView addConstraint:androidView.topMargin];
         }
     }
+ 
+    if (androidView.layoutToStartOf || androidView.layoutToLeftOf) {
+        NSString *rightViewId = androidView.layoutToStartOf;
+        if (!rightViewId.length) {
+            rightViewId = androidView.layoutToLeftOf;
+        }
+        AndroidView *rightView = [[parentView subviewDict] objectForKey:rightViewId];
+        [androidView.trailingMargin setActive:NO];
+        [androidView setTrailingMargin:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:rightView attribute:NSLayoutAttributeLeading multiplier:1 constant:androidView.margin.marginLeft + parentView.margin.marginRight]];
+        [superView addConstraint:androidView.trailingMargin];
+    }
     
+    if (androidView.layoutToRightOf || androidView.layoutToEndOf) {
+        NSString *leftViewId = androidView.layoutToRightOf;
+        if (!leftViewId.length) {
+            leftViewId = androidView.layoutToEndOf;
+        }
+        AndroidView *leftView = [[parentView subviewDict] objectForKey:leftViewId];
+        [androidView.leadingMargin setActive:NO];
+        [androidView setLeadingMargin:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:leftView attribute:NSLayoutAttributeTrailing multiplier:1 constant:androidView.margin.marginLeft + parentView.margin.marginRight]];
+        [superView addConstraint:androidView.leadingMargin];
+    }
     
+    if (androidView.isAlignCenterHorizontal) {
+        [superView addConstraint:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
+    }
     
+    if (androidView.isAlignCenterVertical) {
+        [superView addConstraint:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
+    }
+    
+    if (androidView.isAlignCenterInParent) {
+        [superView addConstraints:@[
+                                        [NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeCenterX multiplier:1 constant:0],
+                                        [NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]
+                                    ]];
+    }
+    
+    if (androidView.layoutAlignStart || androidView.layoutAlignLeft) {
+        NSString *alignViewId = androidView.layoutAlignStart;
+        if (!alignViewId.length) {
+            alignViewId = androidView.layoutAlignLeft;
+        }
+        AndroidView *alignView = [[parentView subviewDict] objectForKey:alignViewId];
+        [androidView.leadingMargin setActive:NO];
+        [androidView setLeadingMargin:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:alignView attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
+        [superView addConstraint:androidView.leadingMargin];
+    }
+    
+    if (androidView.layoutAlignRight || androidView.layoutAlignEnd) {
+        NSString *alignViewId = androidView.layoutAlignRight;
+        if (!alignViewId.length) {
+            alignViewId = androidView.layoutAlignEnd;
+        }
+        AndroidView *alignView = [[parentView subviewDict] objectForKey:alignViewId];
+        [androidView.leadingMargin setActive:NO];
+        [androidView setLeadingMargin:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:alignView attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
+        [superView addConstraint:androidView.leadingMargin];
+    }
     
     
     AndroidView *childView = [androidView firstChildView];
