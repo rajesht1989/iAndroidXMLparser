@@ -422,6 +422,7 @@ static NSMutableDictionary *dictUtil;
         [dictUtil setObject:@(kCenter) forKey:@"center"];
         
         [dictUtil setObject:@(kBackGroundColor) forKey:@"android:background"];
+        [dictUtil setObject:@(kTextColor) forKey:@"android:textColor"];
         [dictUtil setObject:@(kImageSrc) forKey:@"android:src"];
         
         [dictUtil setObject:@(kLayoutOrientation) forKey:@"android:orientation"];

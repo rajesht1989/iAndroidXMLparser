@@ -42,6 +42,7 @@
         [self setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self setElement:element];
         [self setObjectType:[[[self.class dataDictionary] objectForKey:[TBXML elementName:element]] intValue]];
+        [self setClipsToBounds:YES];
         
         switch (self.objectType) {
             case kScrollView : {
@@ -138,7 +139,6 @@
                 break;
             case kImageView : {
                 UIImageView *imageView = [[UIImageView alloc] init];
-                [imageView setContentMode:UIViewContentModeCenter];
                 [self addSubview:imageView];
                 [self configureView:imageView attribute:element->firstAttribute handler:handler];
             }
@@ -203,6 +203,9 @@
                 break;
             case kBackGroundColor :
                 [self setBackgroundColor:[self.class colorWithHexString:[TBXML attributeValue:attribute]]];
+                break;
+            case kTextColor :
+                [self setForegroundColor:[TBXML attributeValue:attribute]];
                 break;
             case kLayoutOrientation :
                 [self setLinearLayoutType:[[[self.class dataDictionary] objectForKey:[TBXML attributeValue:attribute]] intValue]];
@@ -402,11 +405,28 @@
             [_foregroundView setText:content];
             break;
         case kImageView:
-            /* [_foregroundView setImage:[UIImage imageNamed:@"content"]]; */
-            [_foregroundView setImage:[UIImage imageNamed:@"abc"]];
+            [_foregroundView setImage:[UIImage imageNamed:content]];
+            /* [_foregroundView setImage:[UIImage imageNamed:content]]; */
+//            [_foregroundView setImage:[UIImage imageNamed:@"abc"]];
             break;
         case kTextField:
             [_foregroundView setText:content];
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)setForegroundColor:(NSString *)fgColor {
+    switch (_objectType) {
+        case kButton :
+            [_foregroundView setTitleColor:[self.class colorWithHexString:fgColor] forState:UIControlStateNormal];
+            break;
+        case kTextView :
+        case kTextField :
+            [_foregroundView setTextColor:[self.class colorWithHexString:fgColor]];
+            break;
+        case kImageView:
             break;
         default:
             break;

@@ -17,6 +17,8 @@
 		9208D5EE1C3E7FC900B99298 /* AndroidView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9208D5ED1C3E7FC800B99298 /* AndroidView.m */; };
 		9257100D1C212F750029FEC0 /* LinearLayout.xml in Resources */ = {isa = PBXBuildFile; fileRef = 9257100C1C212F750029FEC0 /* LinearLayout.xml */; };
 		925A4B601C23EDDA00A6E824 /* activity_main.xml in Resources */ = {isa = PBXBuildFile; fileRef = 925A4B5F1C23EDDA00A6E824 /* activity_main.xml */; };
+		925CDCC11C5893C00084E479 /* offer.png in Resources */ = {isa = PBXBuildFile; fileRef = 925CDCC01C5893C00084E479 /* offer.png */; };
+		925CDCC31C5893C60084E479 /* star_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 925CDCC21C5893C60084E479 /* star_1.png */; };
 		925F731B1C33DC8800ED2511 /* abc.png in Resources */ = {isa = PBXBuildFile; fileRef = 925F731A1C33DC8700ED2511 /* abc.png */; };
 		927A656F1C3A8B06009A57CC /* TTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 927A656E1C3A8B06009A57CC /* TTTAttributedLabel.m */; };
 		9281A9911C058E4400934462 /* RelativeLayout.xml in Resources */ = {isa = PBXBuildFile; fileRef = 9281A9901C058E4400934462 /* RelativeLayout.xml */; };
@@ -43,6 +45,8 @@
 		9208D5ED1C3E7FC800B99298 /* AndroidView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AndroidView.m; sourceTree = "<group>"; };
 		9257100C1C212F750029FEC0 /* LinearLayout.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LinearLayout.xml; sourceTree = "<group>"; };
 		925A4B5F1C23EDDA00A6E824 /* activity_main.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = activity_main.xml; path = ../../../../AndroidStudioProjects/ToExportXML/app/src/main/res/layout/activity_main.xml; sourceTree = "<group>"; };
+		925CDCC01C5893C00084E479 /* offer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = offer.png; sourceTree = "<group>"; };
+		925CDCC21C5893C60084E479 /* star_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star_1.png; sourceTree = "<group>"; };
 		925F731A1C33DC8700ED2511 /* abc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = abc.png; sourceTree = "<group>"; };
 		927A656D1C3A8B06009A57CC /* TTTAttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTTAttributedLabel.h; sourceTree = "<group>"; };
 		927A656E1C3A8B06009A57CC /* TTTAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTTAttributedLabel.m; sourceTree = "<group>"; };
@@ -119,7 +123,9 @@
 				925A4B5F1C23EDDA00A6E824 /* activity_main.xml */,
 				9281A9901C058E4400934462 /* RelativeLayout.xml */,
 				9257100C1C212F750029FEC0 /* LinearLayout.xml */,
+				925CDCC01C5893C00084E479 /* offer.png */,
 				925F731A1C33DC8700ED2511 /* abc.png */,
+				925CDCC21C5893C60084E479 /* star_1.png */,
 				920393251C03267500F5303B /* Supporting Files */,
 			);
 			path = AndroidXMLtoiOS;
@@ -205,11 +211,13 @@
 				920393351C03267500F5303B /* LaunchScreen.storyboard in Resources */,
 				925F731B1C33DC8800ED2511 /* abc.png in Resources */,
 				9257100D1C212F750029FEC0 /* LinearLayout.xml in Resources */,
+				925CDCC11C5893C00084E479 /* offer.png in Resources */,
 				9281A9911C058E4400934462 /* RelativeLayout.xml in Resources */,
 				920393321C03267500F5303B /* Assets.xcassets in Resources */,
 				920393301C03267500F5303B /* Main.storyboard in Resources */,
 				92D74DC71C4E0DAC00FBF176 /* relativeayout.xml in Resources */,
 				925A4B601C23EDDA00A6E824 /* activity_main.xml in Resources */,
+				925CDCC31C5893C60084E479 /* star_1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

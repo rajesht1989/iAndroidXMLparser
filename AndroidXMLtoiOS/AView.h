@@ -80,6 +80,7 @@ typedef enum {
 typedef enum {
     kText = 300,
     kBackGroundColor,
+    kTextColor,
     kImageSrc,
     kLayoutGravity,
     kLayoutOrientation
