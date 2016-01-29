@@ -113,10 +113,6 @@
             case kButton : {
                 UIButton *button = [[UIButton alloc] init];
                 [self addSubview:button];
-                /*
-                [button.layer setBorderWidth:1.f];
-                [button.layer setBorderColor:[[UIColor darkTextColor] CGColor]];
-                 */
                 [button addTarget:handler.owner action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
                 [self configureView:button attribute:element->firstAttribute handler:handler];
             }
@@ -125,10 +121,6 @@
                 UITextField *textField = [[UITextField alloc] init];
                 [self addSubview:textField];
                 [textField setDelegate:handler.owner];
-                /*
-                [textField.layer setBorderWidth:1.f];
-                [textField.layer setBorderColor:[[UIColor grayColor] CGColor]];
-                 */
                 [self configureView:textField attribute:element->firstAttribute handler:handler];
             }
                 break;
@@ -136,10 +128,6 @@
                 UILabel *label = [[UILabel alloc] init];
                 [self addSubview:label];
                 [label setNumberOfLines:0];
-                /*
-                [label.layer setBorderWidth:1.f];
-                [label.layer setBorderColor:[[UIColor grayColor] CGColor]];
-                 */
                 [self configureView:label attribute:element->firstAttribute handler:handler];
             }
                 break;
@@ -152,7 +140,10 @@
             default:
                 break;
         }
-        
+        /*
+        [self.layer setBorderWidth:1.f];
+        [self.layer setBorderColor:[[UIColor grayColor] CGColor]];
+        */
         [self addConstraints:@[
                                [NSLayoutConstraint constraintWithItem:self.foregroundView
                                                             attribute:NSLayoutAttributeTop
@@ -353,7 +344,7 @@
                 [self setIsAlignCenterHorizontal:[[TBXML attributeValue:attribute] boolValue]];
                 break;
             case kLayoutCenterVertical :
-                [self setIsAlignCenterInParent:[[TBXML attributeValue:attribute] boolValue]];
+                [self setIsAlignCenterVertical:[[TBXML attributeValue:attribute] boolValue]];
                 break;
             case kLayoutCenterInParent :
                 [self setIsAlignCenterInParent:[[TBXML attributeValue:attribute] boolValue]];
@@ -418,8 +409,7 @@
             break;
         case kImageView:
             [_foregroundView setImage:[UIImage imageNamed:content]];
-            /* [_foregroundView setImage:[UIImage imageNamed:content]]; */
-//            [_foregroundView setImage:[UIImage imageNamed:@"abc"]];
+            /* [_foregroundView setImage:[UIImage imageNamed:@"abc"]]; */
             break;
         case kTextField:
             [_foregroundView setText:content];
@@ -765,8 +755,6 @@
             [androidView setTopMargin:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:superView attribute:NSLayoutAttributeTop multiplier:1 constant:androidView.margin.marginTop]];
             [superView addConstraint:androidView.topMargin];
         }
-        /* Later
-         */
     }
  
     if (androidView.layoutToStartOf || androidView.layoutToLeftOf) {
@@ -776,7 +764,7 @@
         }
         AndroidView *rightView = [[parentView subviewDict] objectForKey:rightViewId];
         [androidView.trailingMargin setActive:NO];
-        [androidView setTrailingMargin:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:rightView attribute:NSLayoutAttributeLeading multiplier:1 constant:androidView.margin.marginLeft + parentView.margin.marginRight]];
+        [androidView setTrailingMargin:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:rightView attribute:NSLayoutAttributeLeading multiplier:1 constant:androidView.margin.marginLeft + rightView.margin.marginRight]];
         [superView addConstraint:androidView.trailingMargin];
     }
     
@@ -798,7 +786,7 @@
         }
         AndroidView *alignView = [[parentView subviewDict] objectForKey:alignViewId];
         [androidView.leadingMargin setActive:NO];
-        [androidView setLeadingMargin:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:alignView attribute:NSLayoutAttributeLeading multiplier:1 constant:androidView.margin.marginLeft]];
+        [androidView setLeadingMargin:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:alignView attribute:NSLayoutAttributeLeading multiplier:1 constant:androidView.margin.marginLeft + alignView.margin.marginRight]];
         [superView addConstraint:androidView.leadingMargin];
     }
     
@@ -809,7 +797,7 @@
         }
         AndroidView *alignView = [[parentView subviewDict] objectForKey:alignViewId];
         [androidView.trailingMargin setActive:NO];
-        [androidView setTrailingMargin:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:alignView attribute:NSLayoutAttributeTrailing multiplier:1 constant:-androidView.margin.marginRight]];
+        [androidView setTrailingMargin:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:alignView attribute:NSLayoutAttributeTrailing multiplier:1 constant:-(androidView.margin.marginRight + alignView.margin.marginLeft)]];
         [superView addConstraint:androidView.trailingMargin];
     }
     
