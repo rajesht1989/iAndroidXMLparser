@@ -391,6 +391,8 @@ static NSMutableDictionary *dictUtil;
         
         [dictUtil setObject:@(kLayoutWidth) forKey:@"android:layout_width"];
         [dictUtil setObject:@(kLayoutHeight) forKey:@"android:layout_height"];
+        [dictUtil setObject:@(kMinWidth) forKey:@"android:minWidth"];
+        [dictUtil setObject:@(kMinHeight) forKey:@"android:minHeight"];
         
         [dictUtil setObject:@(kMatchParent) forKey:@"match_parent"];
         [dictUtil setObject:@(kWrapContent) forKey:@"wrap_content"];

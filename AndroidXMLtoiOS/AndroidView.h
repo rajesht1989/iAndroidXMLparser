@@ -27,6 +27,9 @@
 @property (nonatomic, assign)CGFloat fWidth;
 @property (nonatomic, assign)AUILayoutSizeValueType heightType;
 @property (nonatomic, assign)CGFloat fHeight;
+@property (nonatomic, assign)CGFloat fMinHeight;
+@property (nonatomic, assign)CGFloat fMinWidth;
+
 @property (nonatomic, weak)AndroidView *parentView;
 @property (nonatomic, weak)AndroidView *firstChildView;
 @property (nonatomic, weak)AndroidView *previousView;

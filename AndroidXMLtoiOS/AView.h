@@ -32,7 +32,9 @@ typedef enum {
 
 typedef enum {
     kLayoutWidth = 60,
-    kLayoutHeight
+    kLayoutHeight,
+    kMinWidth,
+    kMinHeight
 }AUILayoutSizeNameType;
 
 typedef enum {

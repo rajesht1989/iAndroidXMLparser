@@ -113,8 +113,10 @@
             case kButton : {
                 UIButton *button = [[UIButton alloc] init];
                 [self addSubview:button];
+                /*
                 [button.layer setBorderWidth:1.f];
                 [button.layer setBorderColor:[[UIColor darkTextColor] CGColor]];
+                 */
                 [button addTarget:handler.owner action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
                 [self configureView:button attribute:element->firstAttribute handler:handler];
             }
@@ -123,8 +125,10 @@
                 UITextField *textField = [[UITextField alloc] init];
                 [self addSubview:textField];
                 [textField setDelegate:handler.owner];
+                /*
                 [textField.layer setBorderWidth:1.f];
                 [textField.layer setBorderColor:[[UIColor grayColor] CGColor]];
+                 */
                 [self configureView:textField attribute:element->firstAttribute handler:handler];
             }
                 break;
@@ -132,8 +136,10 @@
                 UILabel *label = [[UILabel alloc] init];
                 [self addSubview:label];
                 [label setNumberOfLines:0];
+                /*
                 [label.layer setBorderWidth:1.f];
                 [label.layer setBorderColor:[[UIColor grayColor] CGColor]];
+                 */
                 [self configureView:label attribute:element->firstAttribute handler:handler];
             }
                 break;
@@ -209,6 +215,12 @@
                 break;
             case kLayoutOrientation :
                 [self setLinearLayoutType:[[[self.class dataDictionary] objectForKey:[TBXML attributeValue:attribute]] intValue]];
+                break;
+            case kMinWidth :
+                [self setFMinWidth:[self.class pixels:[TBXML attributeValue:attribute]]];
+                break;
+            case kMinHeight :
+                [self setFMinHeight:[self.class pixels:[TBXML attributeValue:attribute]]];
                 break;
             case kLayoutWidth : {
                 switch ([[[self.class dataDictionary] objectForKey:[TBXML attributeValue:attribute]] intValue]) {
@@ -477,6 +489,13 @@
         default:
             break;
     }
+    
+    if (self.fMinWidth) {
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:self.fMinWidth]];
+    }
+    if (self.fMinHeight) {
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:self.fMinHeight]];
+    }
 }
 
 - (void)configureLayout {
@@ -588,6 +607,14 @@
         default:
             break;
     }
+    
+    if (androidView.fMinWidth) {
+        [androidView addConstraint:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:androidView.fMinWidth]];
+    }
+    if (androidView.fMinHeight) {
+        [androidView addConstraint:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:androidView.fMinHeight]];
+    }
+    
     AndroidView *childView = [androidView firstChildView];
     while (childView) {
         [childView configureLayoutAsPerSuperView];
@@ -669,6 +696,14 @@
             break;
     }
     
+    if (androidView.fMinWidth) {
+        [androidView addConstraint:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:androidView.fMinWidth]];
+    }
+    
+    if (androidView.fMinHeight) {
+        [androidView addConstraint:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:androidView.fMinHeight]];
+    }
+    
     AndroidView *childView = [androidView firstChildView];
     while (childView) {
         [childView configureLayoutAsPerSuperView];
@@ -725,10 +760,13 @@
         [androidView.topMargin setActive:NO];
         if (androidView.isAlignParentTop) {
             [androidView.topMargin setActive:YES];
-        } else {
+        }
+         else {
             [androidView setTopMargin:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:superView attribute:NSLayoutAttributeTop multiplier:1 constant:androidView.margin.marginTop]];
             [superView addConstraint:androidView.topMargin];
         }
+        /* Later
+         */
     }
  
     if (androidView.layoutToStartOf || androidView.layoutToLeftOf) {
@@ -794,9 +832,13 @@
     if (androidView.isAlignCenterHorizontal) {
         if (androidView.leadingMargin.secondItem == superView) {
             [androidView.leadingMargin setActive:NO];
+            [androidView setLeadingMargin:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:superView attribute:NSLayoutAttributeLeading multiplier:1 constant:androidView.margin.marginLeft]];
+            [superView addConstraint:androidView.leadingMargin];
         }
         if (androidView.trailingMargin.secondItem == superView) {
             [androidView.trailingMargin setActive:NO];
+            [androidView setTrailingMargin:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationLessThanOrEqual toItem:superView attribute:NSLayoutAttributeTrailing multiplier:1 constant:-androidView.margin.marginRight]];
+            [superView addConstraint:androidView.trailingMargin];
         }
         
         [superView addConstraint:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
@@ -805,26 +847,37 @@
     if (androidView.isAlignCenterVertical) {
         if (androidView.topMargin.secondItem == superView) {
             [androidView.topMargin setActive:NO];
+            [androidView setTopMargin:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:superView attribute:NSLayoutAttributeTop multiplier:1 constant:androidView.margin.marginTop]];
+            [superView addConstraint:androidView.topMargin];
         }
         if (androidView.bottomMargin.secondItem == superView) {
             [androidView.bottomMargin setActive:NO];
+            [androidView setBottomMargin:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationLessThanOrEqual toItem:superView attribute:NSLayoutAttributeTop multiplier:1 constant:-androidView.margin.marginBottom]];
+            [superView addConstraint:androidView.bottomMargin];
         }
-        
         [superView addConstraint:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
     }
     
     if (androidView.isAlignCenterInParent) {
         if (androidView.leadingMargin.secondItem == superView) {
             [androidView.leadingMargin setActive:NO];
+            [androidView setLeadingMargin:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:superView attribute:NSLayoutAttributeLeading multiplier:1 constant:androidView.margin.marginLeft]];
+            [superView addConstraint:androidView.leadingMargin];
         }
         if (androidView.trailingMargin.secondItem == superView) {
             [androidView.trailingMargin setActive:NO];
+            [androidView setTrailingMargin:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationLessThanOrEqual toItem:superView attribute:NSLayoutAttributeTrailing multiplier:1 constant:-androidView.margin.marginRight]];
+            [superView addConstraint:androidView.trailingMargin];
         }
         if (androidView.topMargin.secondItem == superView) {
             [androidView.topMargin setActive:NO];
+            [androidView setTopMargin:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:superView attribute:NSLayoutAttributeTop multiplier:1 constant:androidView.margin.marginTop]];
+            [superView addConstraint:androidView.topMargin];
         }
         if (androidView.bottomMargin.secondItem == superView) {
             [androidView.bottomMargin setActive:NO];
+            [androidView setBottomMargin:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationLessThanOrEqual toItem:superView attribute:NSLayoutAttributeTop multiplier:1 constant:-androidView.margin.marginBottom]];
+            [superView addConstraint:androidView.bottomMargin];
         }
         
         [superView addConstraints:@[
