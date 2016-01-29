@@ -413,6 +413,8 @@ static NSMutableDictionary *dictUtil;
         [dictUtil setObject:@(kLayoutPaddingVerticalMargin) forKey:@"@dimen/activity_vertical_margin"];
         
         [dictUtil setObject:@(kSecureText) forKey:@"android:inputType"];
+        [dictUtil setObject:@(kTextSize) forKey:@"android:textSize"];
+        
         [dictUtil setObject:@(kPassword) forKey:@"textPassword"];
         [dictUtil setObject:@(kHintText) forKey:@"android:hint"];
         [dictUtil setObject:@(kLayoutGravity) forKey:@"android:layout_gravity"];

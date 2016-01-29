@@ -143,7 +143,7 @@
         /*
         [self.layer setBorderWidth:1.f];
         [self.layer setBorderColor:[[UIColor grayColor] CGColor]];
-        */
+         */
         [self addConstraints:@[
                                [NSLayoutConstraint constraintWithItem:self.foregroundView
                                                             attribute:NSLayoutAttributeTop
@@ -189,6 +189,9 @@
                 [self setIdentifier:[TBXML attributeValue:attribute]];
                 break;
             case kSecureText :
+                break;
+            case kTextSize :
+                [self setTextSize:[TBXML attributeValue:attribute]];
                 break;
             case kImageSrc :
             case kText :
@@ -419,6 +422,20 @@
     }
 }
 
+- (void)setTextSize:(NSString *)textSize {
+    switch (_objectType) {
+        case kButton:
+            [[_foregroundView titleLabel] setFont:[UIFont systemFontOfSize:[self.class pixels:textSize]]];
+            break;
+        case kTextView:
+        case kTextField:
+            [_foregroundView setFont:[UIFont systemFontOfSize:[self.class pixels:textSize]]];
+            break;
+        default:
+            break;
+    }
+}
+
 - (void)setForegroundColor:(NSString *)fgColor {
     switch (_objectType) {
         case kButton :
@@ -427,8 +444,6 @@
         case kTextView :
         case kTextField :
             [_foregroundView setTextColor:[self.class colorWithHexString:fgColor]];
-            break;
-        case kImageView:
             break;
         default:
             break;
