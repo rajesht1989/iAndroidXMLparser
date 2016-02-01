@@ -34,7 +34,10 @@ typedef enum {
     kLayoutWidth = 60,
     kLayoutHeight,
     kMinWidth,
-    kMinHeight
+    kMinHeight,
+    kMaxWidth,
+    kMaxHeight,
+    kTextStyle
 }AUILayoutSizeNameType;
 
 typedef enum {
@@ -55,11 +58,12 @@ typedef enum {
 typedef enum {
     kLayoutPaddingHorizontalMargin = 150,
     kLayoutPaddingVerticalMargin
-}AUILayoutPaddingValueType;
+}AUILayoutValueType;
 
 typedef enum {
     kSecureText = 180,
-    kTextSize
+    kTextSize,
+    kLayoutWeight
 }AUIInputNameType;
 
 typedef enum {

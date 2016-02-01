@@ -393,6 +393,9 @@ static NSMutableDictionary *dictUtil;
         [dictUtil setObject:@(kLayoutHeight) forKey:@"android:layout_height"];
         [dictUtil setObject:@(kMinWidth) forKey:@"android:minWidth"];
         [dictUtil setObject:@(kMinHeight) forKey:@"android:minHeight"];
+        [dictUtil setObject:@(kMaxWidth) forKey:@"android:maxWidth"];
+        [dictUtil setObject:@(kMaxHeight) forKey:@"android:maxHeight"];
+        [dictUtil setObject:@(kTextStyle) forKey:@"android:textStyle"];
         
         [dictUtil setObject:@(kMatchParent) forKey:@"match_parent"];
         [dictUtil setObject:@(kWrapContent) forKey:@"wrap_content"];
@@ -411,10 +414,11 @@ static NSMutableDictionary *dictUtil;
         
         [dictUtil setObject:@(kLayoutPaddingHorizontalMargin) forKey:@"@dimen/activity_horizontal_margin"];
         [dictUtil setObject:@(kLayoutPaddingVerticalMargin) forKey:@"@dimen/activity_vertical_margin"];
-        
+
         [dictUtil setObject:@(kSecureText) forKey:@"android:inputType"];
         [dictUtil setObject:@(kTextSize) forKey:@"android:textSize"];
-        
+        [dictUtil setObject:@(kLayoutWeight) forKey:@"android:layout_weight"];
+
         [dictUtil setObject:@(kPassword) forKey:@"textPassword"];
         [dictUtil setObject:@(kHintText) forKey:@"android:hint"];
         [dictUtil setObject:@(kLayoutGravity) forKey:@"android:layout_gravity"];

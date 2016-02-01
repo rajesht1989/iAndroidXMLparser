@@ -11,6 +11,9 @@
 @interface AndroidView () {
     
 }
+
+@property (nonatomic, assign) BOOL isTextConfigured;
+
 @end
 
 @implementation AndroidView
@@ -191,13 +194,16 @@
             case kSecureText :
                 break;
             case kTextSize :
-                [self setTextSize:[TBXML attributeValue:attribute]];
+            case kTextStyle :
+                [self configureTextStyleAndSize];
                 break;
             case kImageSrc :
             case kText :
                 [self setContent:[TBXML attributeValue:attribute]];
                 break;
             case kHintText :
+                break;
+            case kLayoutWeight :
                 break;
             case kLayoutGravity :
                 break;
@@ -215,6 +221,12 @@
                 break;
             case kMinHeight :
                 [self setFMinHeight:[self.class pixels:[TBXML attributeValue:attribute]]];
+                break;
+            case kMaxWidth :
+                [self setFMaxWidth:[self.class pixels:[TBXML attributeValue:attribute]]];
+                break;
+            case kMaxHeight :
+                [self setFMaxHeight:[self.class pixels:[TBXML attributeValue:attribute]]];
                 break;
             case kLayoutWidth : {
                 switch ([[[self.class dataDictionary] objectForKey:[TBXML attributeValue:attribute]] intValue]) {
@@ -422,17 +434,41 @@
     }
 }
 
-- (void)setTextSize:(NSString *)textSize {
-    switch (_objectType) {
-        case kButton:
-            [[_foregroundView titleLabel] setFont:[UIFont systemFontOfSize:[self.class pixels:textSize]]];
-            break;
-        case kTextView:
-        case kTextField:
-            [_foregroundView setFont:[UIFont systemFontOfSize:[self.class pixels:textSize]]];
-            break;
-        default:
-            break;
+- (void)configureTextStyleAndSize {
+    if (!_isTextConfigured) {
+        [self setIsTextConfigured:YES];
+        NSString *textSize = self.elementDict[@"android:textSize"];
+        NSString *textStyle = self.elementDict[@"android:textStyle"];
+        CGFloat fTextSize = [self.class pixels:textSize];
+        UIFont *font = [UIFont systemFontOfSize:fTextSize ? fTextSize : 15.f];
+        if (textStyle) {
+            if ([textStyle containsString:@"bold"] && [textStyle containsString:@"italic"]) {
+                UIFontDescriptorSymbolicTraits symbolicTraits =  UIFontDescriptorTraitItalic | UIFontDescriptorTraitBold;
+                font = [UIFont fontWithDescriptor:[font.fontDescriptor fontDescriptorWithSymbolicTraits:symbolicTraits] size:0];
+            } else if ([textStyle containsString:@"bold"]) {
+                UIFontDescriptorSymbolicTraits symbolicTraits =   UIFontDescriptorTraitBold;
+                font = [UIFont fontWithDescriptor:[font.fontDescriptor fontDescriptorWithSymbolicTraits:symbolicTraits] size:0];
+            } else if ([textStyle containsString:@"italic"]) {
+                UIFontDescriptorSymbolicTraits symbolicTraits =   UIFontDescriptorTraitItalic;
+                font = [UIFont fontWithDescriptor:[font.fontDescriptor fontDescriptorWithSymbolicTraits:symbolicTraits] size:0];
+            } else {
+                font = [UIFont systemFontOfSize:fTextSize];
+            }
+        }
+        else {
+            font = [UIFont systemFontOfSize:fTextSize];
+        }
+        switch (_objectType) {
+            case kButton:
+                [[_foregroundView titleLabel] setFont:font];
+                break;
+            case kTextView:
+            case kTextField:
+                [_foregroundView setFont:font];
+                break;
+            default:
+                break;
+        }
     }
 }
 
@@ -500,6 +536,13 @@
     }
     if (self.fMinHeight) {
         [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:self.fMinHeight]];
+    }
+    
+    if (self.fMaxWidth) {
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:self.fMaxWidth]];
+    }
+    if (self.fMaxHeight) {
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:self.fMaxHeight]];
     }
 }
 
@@ -620,6 +663,13 @@
         [androidView addConstraint:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:androidView.fMinHeight]];
     }
     
+    if (androidView.fMaxWidth) {
+        [androidView addConstraint:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:androidView.fMaxWidth]];
+    }
+    if (androidView.fMaxHeight) {
+        [androidView addConstraint:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:androidView.fMaxHeight]];
+    }
+    
     AndroidView *childView = [androidView firstChildView];
     while (childView) {
         [childView configureLayoutAsPerSuperView];
@@ -707,6 +757,13 @@
     
     if (androidView.fMinHeight) {
         [androidView addConstraint:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:androidView.fMinHeight]];
+    }
+    
+    if (androidView.fMaxWidth) {
+        [androidView addConstraint:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:androidView.fMaxWidth]];
+    }
+    if (androidView.fMaxHeight) {
+        [androidView addConstraint:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:androidView.fMaxHeight]];
     }
     
     AndroidView *childView = [androidView firstChildView];
