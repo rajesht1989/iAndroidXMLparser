@@ -25,6 +25,10 @@
 @property (nonatomic, assign)AndroidMargin margin;
 @property (nonatomic, assign)AUILayoutSizeValueType widthType;
 @property (nonatomic, assign)CGFloat fWidth;
+
+@property (nonatomic, assign)CGFloat fTotalWeight;
+@property (nonatomic, assign)CGFloat fWeight;
+
 @property (nonatomic, assign)AUILayoutSizeValueType heightType;
 @property (nonatomic, assign)CGFloat fHeight;
 @property (nonatomic, assign)CGFloat fMinWidth;
@@ -41,6 +45,8 @@
 @property (nonatomic, weak)NSLayoutConstraint *trailingMargin;
 @property (nonatomic, weak)NSLayoutConstraint *topMargin;
 @property (nonatomic, weak)NSLayoutConstraint *bottomMargin;
+@property (nonatomic, weak)NSLayoutConstraint *widthConstraint;
+@property (nonatomic, weak)NSLayoutConstraint *heightConstraint;
 
 //RelativeLayout
 @property (nonatomic, assign)BOOL isAlignParentStart;

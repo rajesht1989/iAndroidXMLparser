@@ -63,7 +63,8 @@ typedef enum {
 typedef enum {
     kSecureText = 180,
     kTextSize,
-    kLayoutWeight
+    kLayoutWeight,
+    kAlpha
 }AUIInputNameType;
 
 typedef enum {

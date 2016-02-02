@@ -197,6 +197,9 @@
             case kTextStyle :
                 [self configureTextStyleAndSize];
                 break;
+            case kAlpha :
+                [self setAlpha:[[TBXML attributeValue:attribute] floatValue]];
+                break;
             case kImageSrc :
             case kText :
                 [self setContent:[TBXML attributeValue:attribute]];
@@ -204,6 +207,7 @@
             case kHintText :
                 break;
             case kLayoutWeight :
+                [self setFWeight:[[TBXML attributeValue:attribute] floatValue]];
                 break;
             case kLayoutGravity :
                 break;
@@ -394,6 +398,7 @@
 
 - (void)setParentView:(AndroidView *)parentView {
     _parentView = parentView;
+    parentView.fTotalWeight +=  _fWeight;
     if(!_parentView.firstChildView) {
         _parentView.firstChildView = self;
     }
@@ -503,7 +508,8 @@
         case kCustom:
             [self setLeadingMargin:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeLeading multiplier:1 constant:self.margin.marginLeft]];
             [superView addConstraints:@[_leadingMargin]];
-            [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:self.fWidth]];
+            [self setWidthConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:self.fWidth]];
+            [self addConstraint:_widthConstraint];
             break;
         default:
             break;
@@ -525,7 +531,8 @@
             [self setTopMargin:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeTop multiplier:1 constant:self.margin.marginTop]];
             [self setBottomMargin:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationLessThanOrEqual toItem:superView attribute:NSLayoutAttributeBottom multiplier:1 constant:-self.margin.marginBottom]];
             [superView addConstraints:@[_topMargin, _bottomMargin]];
-            [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:self.fHeight]];
+            [self setHeightConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:self.fHeight]];
+            [self addConstraint:_heightConstraint];
             break;
         default:
             break;
@@ -589,7 +596,8 @@
     UIView *superView = [androidView androidSuperview];
     AndroidView *previousView = androidView.previousView;
     AndroidView *nextView = androidView.nextView;
-    
+    AndroidView *parentView = [androidView parentView];
+
     switch (androidView.widthType) {
         case kFillParent :
         case kMatchParent :
@@ -670,6 +678,10 @@
         [androidView addConstraint:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:androidView.fMaxHeight]];
     }
     
+    if (androidView.fWeight) {
+        [superView addConstraint:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeHeight multiplier:androidView.fWeight/parentView.fTotalWeight constant:0]];
+    }
+    
     AndroidView *childView = [androidView firstChildView];
     while (childView) {
         [childView configureLayoutAsPerSuperView];
@@ -681,7 +693,8 @@
     UIView *superView = [androidView androidSuperview];
     AndroidView *previousView = androidView.previousView;
     AndroidView *nextView = androidView.nextView;
-    
+    AndroidView *parentView = [androidView parentView];
+
     switch (androidView.widthType) {
         case kFillParent :
         case kMatchParent :
@@ -764,6 +777,10 @@
     }
     if (androidView.fMaxHeight) {
         [androidView addConstraint:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:androidView.fMaxHeight]];
+    }
+    
+    if (androidView.fWeight) {
+        [superView addConstraint:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeWidth multiplier:androidView.fWeight/parentView.fTotalWeight constant:0]];
     }
     
     AndroidView *childView = [androidView firstChildView];

@@ -418,6 +418,7 @@ static NSMutableDictionary *dictUtil;
         [dictUtil setObject:@(kSecureText) forKey:@"android:inputType"];
         [dictUtil setObject:@(kTextSize) forKey:@"android:textSize"];
         [dictUtil setObject:@(kLayoutWeight) forKey:@"android:layout_weight"];
+        [dictUtil setObject:@(kAlpha) forKey:@"android:alpha"];
 
         [dictUtil setObject:@(kPassword) forKey:@"textPassword"];
         [dictUtil setObject:@(kHintText) forKey:@"android:hint"];
