@@ -33,7 +33,49 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"\n Object - %p Identifier - %@  \n Frame - %@ \n Objectype - %d \n Element %@ \n Subviews - %@  \n SubviewDict - %@ \n\n",self, _identifier, NSStringFromCGRect(self.frame),[self objectType],_elementDict,[self subviews],_subviewDict];
+    return [NSString stringWithFormat:@"\n Object - %p Identifier - %@  \n Frame - %@ \n Objectype - %@ \n Element %@ \n Subviews - %@  \n SubviewDict - %@ \n\n",self, _identifier, NSStringFromCGRect(self.frame),[self objectTypePrettyPrinted],_elementDict,[self subviews],_subviewDict];
+}
+
+- (NSString *)objectTypePrettyPrinted {
+    NSString *objType = @"";
+    switch (self.objectType) {
+        case kLinearLayout :
+            objType = @"LinearLayout";
+            break;
+        case kRelativeLayout :
+            objType = @"RelativeLayout";
+            break;
+        case kWebViewLayout :
+            objType = @"WebViewLayout";
+            break;
+        case kListViewLayout :
+            objType = @"ListViewLayout";
+            break;
+        case kGridViewLayout :
+            objType = @"GridViewLayout";
+            break;
+        case kScrollView :
+            objType = @"ScrollView";
+            break;
+        case kHorizontalScrollView :
+            objType = @"HorizontalScrollView";
+            break;
+        case kButton :
+            objType = @"Button";
+            break;
+        case kTextField :
+            objType = @"TextField";
+            break;
+        case kTextView :
+            objType = @"TextView";
+            break;
+        case kImageView :
+            objType = @"ImageView";
+            break;
+        default:
+            break;
+    }
+    return objType;
 }
 
 - (UIView *)androidSuperview {
@@ -75,6 +117,7 @@
                 UIView *view = [[UIView alloc] init];
                 [self addSubview:view];
                 [self configureView:view attribute:element->firstAttribute handler:handler];
+                [self setLinearLayoutType:_linearLayoutType ==  kLinearHorizontalLayout ? kLinearHorizontalLayout : kLinearVerticalLayout];
                 
                 TBXMLElement *child = element->firstChild;
                 AndroidViewHandler *subviewHandler = [handler copyHandler];
@@ -110,6 +153,7 @@
             }
                 break;
             case kListViewLayout :
+                break;
             case kWebViewLayout :
             case kGridViewLayout :
                 break;
@@ -144,42 +188,44 @@
                 break;
         }
         /*
-        [self.layer setBorderWidth:1.f];
-        [self.layer setBorderColor:[[UIColor grayColor] CGColor]];
+         [self.layer setBorderWidth:1.f];
+         [self.layer setBorderColor:[[UIColor grayColor] CGColor]];
          */
-        [self addConstraints:@[
-                               [NSLayoutConstraint constraintWithItem:self.foregroundView
-                                                            attribute:NSLayoutAttributeTop
-                                                            relatedBy:NSLayoutRelationEqual
-                                                               toItem:self
-                                                            attribute:NSLayoutAttributeTop
-                                                           multiplier:1.0
-                                                             constant:_padding.paddingTop],
-                               
-                               [NSLayoutConstraint constraintWithItem:self.foregroundView
-                                                            attribute:NSLayoutAttributeLeft
-                                                            relatedBy:NSLayoutRelationEqual
-                                                               toItem:self
-                                                            attribute:NSLayoutAttributeLeft
-                                                           multiplier:1.0
-                                                             constant:_padding.paddingLeft],
-                               
-                               [NSLayoutConstraint constraintWithItem:self.foregroundView
-                                                            attribute:NSLayoutAttributeBottom
-                                                            relatedBy:NSLayoutRelationEqual
-                                                               toItem:self
-                                                            attribute:NSLayoutAttributeBottom
-                                                           multiplier:1.0
-                                                             constant:-_padding.paddingBottom],
-                               
-                               [NSLayoutConstraint constraintWithItem:self.foregroundView
-                                                            attribute:NSLayoutAttributeRight
-                                                            relatedBy:NSLayoutRelationEqual
-                                                               toItem:self
-                                                            attribute:NSLayoutAttributeRight
-                                                           multiplier:1
-                                                             constant:-_padding.paddingRight],
-                               ]];
+        if (_foregroundView) {
+            [self addConstraints:@[
+                                   [NSLayoutConstraint constraintWithItem:_foregroundView
+                                                                attribute:NSLayoutAttributeTop
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:self
+                                                                attribute:NSLayoutAttributeTop
+                                                               multiplier:1.0
+                                                                 constant:_padding.paddingTop],
+                                   
+                                   [NSLayoutConstraint constraintWithItem:_foregroundView
+                                                                attribute:NSLayoutAttributeLeft
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:self
+                                                                attribute:NSLayoutAttributeLeft
+                                                               multiplier:1.0
+                                                                 constant:_padding.paddingLeft],
+                                   
+                                   [NSLayoutConstraint constraintWithItem:_foregroundView
+                                                                attribute:NSLayoutAttributeBottom
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:self
+                                                                attribute:NSLayoutAttributeBottom
+                                                               multiplier:1.0
+                                                                 constant:-_padding.paddingBottom],
+                                   
+                                   [NSLayoutConstraint constraintWithItem:_foregroundView
+                                                                attribute:NSLayoutAttributeRight
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:self
+                                                                attribute:NSLayoutAttributeRight
+                                                               multiplier:1
+                                                                 constant:-_padding.paddingRight],
+                                   ]];
+        }
     }
     return self;
 }
