@@ -9,19 +9,27 @@
 #import "AndroidView.h"
 
 @interface AndroidView () {
-    
+    TBXML *rootXML;
 }
 
 @property (nonatomic, assign) BOOL isTextConfigured;
+@property (nonatomic, assign)TBXML *rootXML;
 
 @end
 
 @implementation AndroidView
 
-+ (UIView *)viewForXml:(NSString *)xmlName andHandler:(AndroidViewHandler *)handler {
++ (instancetype)viewForXml:(NSString *)xmlName andHandler:(AndroidViewHandler *)handler {
     NSError *error = nil;
     TBXML *tbxml = [TBXML tbxmlWithXMLData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:xmlName ofType:@"xml"]] error:&error];
     AndroidView *view = [self entityFor:tbxml.rootXMLElement handler:handler];
+    [view setRootXML:tbxml];
+    [view configureLayout];
+    return view;
+}
+
++ (instancetype)viewForElement:(TBXMLElement *)element handler:(AndroidViewHandler *)handler {
+    AndroidView *view = [self entityFor:element handler:handler];
     [view configureLayout];
     return view;
 }
@@ -32,8 +40,15 @@
     return view;
 }
 
+- (TBXML *)rootXML{
+    return rootXML;
+}
+- (void)setRootXML:(TBXML *)rootXMLLocal {
+    rootXML = rootXMLLocal;
+}
+
 - (NSString *)description {
-    return [NSString stringWithFormat:@"\n Object - %p Identifier - %@  \n Frame - %@ \n Objectype - %@ \n Element %@ \n Subviews - %@  \n SubviewDict - %@ \n\n",self, _identifier, NSStringFromCGRect(self.frame),[self objectTypePrettyPrinted],_elementDict,[self subviews],_subviewDict];
+    return [NSString stringWithFormat:@"\n Object - %p Identifier - %@  \n Frame - %@ \n Objectype - %@ \n Arrributes %@ \n Subviews - %@  \n SubviewDict - %@ \n\n",self, _identifier, NSStringFromCGRect(self.frame),[self objectTypePrettyPrinted],_elementDict,[self subviews],_subviewDict];
 }
 
 - (NSString *)objectTypePrettyPrinted {
@@ -152,7 +167,20 @@
                 }
             }
                 break;
-            case kListViewLayout :
+            case kListViewLayout : {
+                UITableView *tableView = [[UITableView alloc] init];
+                [tableView setBackgroundColor:[UIColor clearColor]];
+                iOSTableviewAdapter *adapter = [self tableViewAdapter];
+                [tableView setDataSource:adapter];
+                [tableView setDelegate:adapter];
+                [tableView setRowHeight:UITableViewAutomaticDimension];
+                [tableView setEstimatedRowHeight:44.f];
+                [self addSubview:tableView];
+                [tableView registerClass:AndroidTableViewCell.class forCellReuseIdentifier:NSStringFromClass(AndroidTableViewCell.class)];
+                TBXMLAttribute *attribute = element->firstAttribute;
+                [self configureView:tableView attribute:attribute handler:handler];
+                [adapter setElement:element->firstChild];
+            }
                 break;
             case kWebViewLayout :
             case kGridViewLayout :
@@ -537,6 +565,22 @@
     }
 }
 
+- (iOSTableviewAdapter *)tableViewAdapter {
+    if (!_tableViewAdapter) {
+        _tableViewAdapter = [[iOSTableviewAdapter alloc] init];
+    }
+    return _tableViewAdapter;
+}
+
+- (void)configureLayout {
+    [self setDefaultLayout];
+    AndroidView *childView = [self firstChildView];
+    while (childView) {
+        [childView configureLayoutAsPerSuperView];
+        childView = childView.nextView;
+    }
+}
+
 - (void)setDefaultLayout {
     UIView *superView = [self androidSuperview];
     switch (self.widthType) {
@@ -596,15 +640,6 @@
     }
     if (self.fMaxHeight) {
         [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:self.fMaxHeight]];
-    }
-}
-
-- (void)configureLayout {
-    [self setDefaultLayout];
-    AndroidView *childView = [self firstChildView];
-    while (childView) {
-        [childView configureLayoutAsPerSuperView];
-        childView = childView.nextView;
     }
 }
 

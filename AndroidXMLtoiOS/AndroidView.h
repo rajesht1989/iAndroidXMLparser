@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "AView.h"
 #import "TBXML.h"
+#import "iOSTableviewAdapter.h"
 
 @interface AndroidView : UIView
 
-+ (UIView *)viewForXml:(NSString *)xmlName andHandler:(AndroidViewHandler *)handler;
++ (instancetype)viewForXml:(NSString *)xmlName andHandler:(AndroidViewHandler *)handler;
++ (instancetype)viewForElement:(TBXMLElement *)element handler:(AndroidViewHandler *)handler;
 - (UIView *)androidSuperview;
 @property (nonatomic, strong)NSMutableDictionary *elementDict;
 @property (nonatomic, strong)NSMutableDictionary *subviewDict;
@@ -72,5 +74,9 @@
 @property (nonatomic, strong)NSString *layoutToLeftOf;
 @property (nonatomic, strong)NSString *layoutToRightOf;
 @property (nonatomic, strong)NSString *layoutToEndOf;
+
+//ListLayout
+@property (nonatomic, strong) iOSTableviewAdapter *tableViewAdapter;
+@property (nonatomic, assign)TBXMLElement *cellLayoutElement;
 
 @end

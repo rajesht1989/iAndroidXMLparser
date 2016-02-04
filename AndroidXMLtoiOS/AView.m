@@ -9,7 +9,6 @@
 #import "AView.h"
 #import "XMLReader.h"
 #import "TBXML.h"
-#import "TTTAttributedLabel.h"
 #import <objc/runtime.h>
 
 const NSInteger Undefined = 0;
@@ -378,7 +377,7 @@ static NSMutableDictionary *dictUtil;
         [dictUtil setObject:@(kLinearLayout) forKey:@"LinearLayout"];
         [dictUtil setObject:@(kRelativeLayout) forKey:@"RelativeLayout"];
         [dictUtil setObject:@(kWebViewLayout) forKey:@"WebViewLayout"];
-        [dictUtil setObject:@(kListViewLayout) forKey:@"ListViewLayout"];
+        [dictUtil setObject:@(kListViewLayout) forKey:@"ListView"];
         [dictUtil setObject:@(kGridViewLayout) forKey:@"GridViewLayout"];
         [dictUtil setObject:@(kScrollView) forKey:@"ScrollView"];
         [dictUtil setObject:@(kHorizontalScrollView) forKey:@"HorizontalScrollView"];

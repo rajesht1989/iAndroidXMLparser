@@ -20,11 +20,12 @@
 		925CDCC11C5893C00084E479 /* offer.png in Resources */ = {isa = PBXBuildFile; fileRef = 925CDCC01C5893C00084E479 /* offer.png */; };
 		925CDCC31C5893C60084E479 /* star_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 925CDCC21C5893C60084E479 /* star_1.png */; };
 		925F731B1C33DC8800ED2511 /* abc.png in Resources */ = {isa = PBXBuildFile; fileRef = 925F731A1C33DC8700ED2511 /* abc.png */; };
-		927A656F1C3A8B06009A57CC /* TTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 927A656E1C3A8B06009A57CC /* TTTAttributedLabel.m */; };
 		9281A9911C058E4400934462 /* RelativeLayout.xml in Resources */ = {isa = PBXBuildFile; fileRef = 9281A9901C058E4400934462 /* RelativeLayout.xml */; };
 		9281A9941C058F8A00934462 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9281A9931C058F8A00934462 /* XMLReader.m */; };
 		9281A9961C0593A500934462 /* activity.json in Resources */ = {isa = PBXBuildFile; fileRef = 9281A9951C0593A500934462 /* activity.json */; };
 		9281A9991C05DF5B00934462 /* AView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9281A9981C05DF5B00934462 /* AView.m */; };
+		929A35D11C622C7C003AF830 /* list_layout.xml in Resources */ = {isa = PBXBuildFile; fileRef = 929A35D01C622C7C003AF830 /* list_layout.xml */; };
+		929A35D41C632E43003AF830 /* iOSTableviewAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 929A35D31C632E43003AF830 /* iOSTableviewAdapter.m */; };
 		92D74DC71C4E0DAC00FBF176 /* relativeayout.xml in Resources */ = {isa = PBXBuildFile; fileRef = 92D74DC61C4E0DAC00FBF176 /* relativeayout.xml */; };
 /* End PBXBuildFile section */
 
@@ -48,14 +49,15 @@
 		925CDCC01C5893C00084E479 /* offer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = offer.png; sourceTree = "<group>"; };
 		925CDCC21C5893C60084E479 /* star_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star_1.png; sourceTree = "<group>"; };
 		925F731A1C33DC8700ED2511 /* abc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = abc.png; sourceTree = "<group>"; };
-		927A656D1C3A8B06009A57CC /* TTTAttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTTAttributedLabel.h; sourceTree = "<group>"; };
-		927A656E1C3A8B06009A57CC /* TTTAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTTAttributedLabel.m; sourceTree = "<group>"; };
 		9281A9901C058E4400934462 /* RelativeLayout.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = RelativeLayout.xml; sourceTree = "<group>"; };
 		9281A9921C058F8A00934462 /* XMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLReader.h; sourceTree = "<group>"; };
 		9281A9931C058F8A00934462 /* XMLReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLReader.m; sourceTree = "<group>"; };
 		9281A9951C0593A500934462 /* activity.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = activity.json; sourceTree = "<group>"; };
 		9281A9971C05DF5B00934462 /* AView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AView.h; sourceTree = "<group>"; };
 		9281A9981C05DF5B00934462 /* AView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AView.m; sourceTree = "<group>"; };
+		929A35D01C622C7C003AF830 /* list_layout.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = list_layout.xml; path = ../../../../AndroidStudioProjects/ToExportXML/app/src/main/res/layout/list_layout.xml; sourceTree = "<group>"; };
+		929A35D21C632E43003AF830 /* iOSTableviewAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSTableviewAdapter.h; sourceTree = "<group>"; };
+		929A35D31C632E43003AF830 /* iOSTableviewAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iOSTableviewAdapter.m; sourceTree = "<group>"; };
 		92D74DC61C4E0DAC00FBF176 /* relativeayout.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = relativeayout.xml; path = ../../../../AndroidStudioProjects/ToExportXML/app/src/main/res/layout/relativeayout.xml; sourceTree = "<group>"; };
 		B5B0DE4D4D7443D61FABF2EF /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -106,12 +108,12 @@
 				920393291C03267500F5303B /* AppDelegate.m */,
 				9203932B1C03267500F5303B /* ViewController.h */,
 				9203932C1C03267500F5303B /* ViewController.m */,
-				927A656D1C3A8B06009A57CC /* TTTAttributedLabel.h */,
-				927A656E1C3A8B06009A57CC /* TTTAttributedLabel.m */,
 				9281A9971C05DF5B00934462 /* AView.h */,
 				9281A9981C05DF5B00934462 /* AView.m */,
 				9208D5EC1C3E7FC800B99298 /* AndroidView.h */,
 				9208D5ED1C3E7FC800B99298 /* AndroidView.m */,
+				929A35D21C632E43003AF830 /* iOSTableviewAdapter.h */,
+				929A35D31C632E43003AF830 /* iOSTableviewAdapter.m */,
 				9281A9921C058F8A00934462 /* XMLReader.h */,
 				9281A9931C058F8A00934462 /* XMLReader.m */,
 				9281A9951C0593A500934462 /* activity.json */,
@@ -119,6 +121,7 @@
 				920393311C03267500F5303B /* Assets.xcassets */,
 				920393331C03267500F5303B /* LaunchScreen.storyboard */,
 				920393361C03267500F5303B /* Info.plist */,
+				929A35D01C622C7C003AF830 /* list_layout.xml */,
 				92D74DC61C4E0DAC00FBF176 /* relativeayout.xml */,
 				925A4B5F1C23EDDA00A6E824 /* activity_main.xml */,
 				9281A9901C058E4400934462 /* RelativeLayout.xml */,
@@ -214,6 +217,7 @@
 				925CDCC11C5893C00084E479 /* offer.png in Resources */,
 				9281A9911C058E4400934462 /* RelativeLayout.xml in Resources */,
 				920393321C03267500F5303B /* Assets.xcassets in Resources */,
+				929A35D11C622C7C003AF830 /* list_layout.xml in Resources */,
 				920393301C03267500F5303B /* Main.storyboard in Resources */,
 				92D74DC71C4E0DAC00FBF176 /* relativeayout.xml in Resources */,
 				925A4B601C23EDDA00A6E824 /* activity_main.xml in Resources */,
@@ -281,8 +285,8 @@
 				9281A9941C058F8A00934462 /* XMLReader.m in Sources */,
 				9281A9991C05DF5B00934462 /* AView.m in Sources */,
 				9208D5EE1C3E7FC900B99298 /* AndroidView.m in Sources */,
+				929A35D41C632E43003AF830 /* iOSTableviewAdapter.m in Sources */,
 				920393271C03267500F5303B /* main.m in Sources */,
-				927A656F1C3A8B06009A57CC /* TTTAttributedLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
