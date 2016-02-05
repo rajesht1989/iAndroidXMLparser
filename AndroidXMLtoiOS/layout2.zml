@@ -1,0 +1,37 @@
+<zml>
+
+<body>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+ <HorizontalScrollView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+
+       <TextView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:text="New Text"
+           android:background="#00ff00"
+           android:id="textView" />
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="New Textdsfdsfergefgdfsgdf"
+           android:layout_toLeftOf="textView"
+           android:id="textView2"
+           />
+       <!--android:layout_toLeftOf="@+id/textView"-->
+   </RelativeLayout>
+</HorizontalScrollView>
+</LinearLayout>
+</body>
+
+</zml>
