@@ -5,64 +5,9 @@ AndroidXMLtoiOS.xcworkspace/contents.xcworkspacedata
 
 Podfile.lock
 
-Pods/Headers/Private/TBXML/TBXML.h
-
-Pods/Headers/Private/TBXML/TBXML+Compression.h
-
-Pods/Headers/Private/TBXML/TBXML+HTTP.h
-
-Pods/Headers/Public/TBXML/TBXML.h
-
-Pods/Headers/Public/TBXML/TBXML+Compression.h
-
-Pods/Headers/Public/TBXML/TBXML+HTTP.h
-
-Pods/Manifest.lock
-
-Pods/Pods.xcodeproj/project.pbxproj
-
-Pods/Pods.xcodeproj/xcuserdata/rajesh-2497.xcuserdatad/xcschemes/TBXML.xcscheme
-
-Pods/Target Support Files/Pods/Pods-acknowledgements.plist
-
-Pods/Target Support Files/Pods/Pods-resources.sh
-
-Pods/Target Support Files/Pods/Pods-frameworks.sh
-
-Pods/Target Support Files/Pods/Pods.debug.xcconfig
-
-Pods/Target Support Files/Pods/Pods.release.xcconfig
-
-Pods/Target Support Files/TBXML/TBXML-dummy.m
-
-Pods/Target Support Files/TBXML/TBXML.xcconfig
-
-Pods/TBXML/TBXML-Headers/TBXML+HTTP.h
-
-Pods/TBXML/TBXML-Headers/TBXML+Compression.h
-
-Pods/TBXML/TBXML-Headers/TBXML.h
-
-Pods/TBXML/README.markdown
-
-Pods/Target Support Files/Pods/Pods-acknowledgements.markdown
-
-Pods/Pods.xcodeproj/xcuserdata/rajesh-2497.xcuserdatad/xcschemes/xcschememanagement.plist
-
-Pods/Target Support Files/Pods/Pods-dummy.m
-
-Pods/Target Support Files/TBXML/TBXML-prefix.pch
-
-Pods/TBXML/TBXML-Code/TBXML.m
-
-Pods/TBXML/TBXML-Code/TBXML+Compression.m
-
-Pods/TBXML/TBXML-Code/TBXML+HTTP.m
+Pods/
 
 AndroidXMLtoiOS.xcworkspace/xcuserdata/rajesh-2497.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
 
-AndroidXMLtoiOS.xcworkspace/xcuserdata/rajesh-2497.xcuserdatad/UserInterfaceState.xcuserstate
-
-AndroidXMLtoiOS.xcworkspace/xcuserdata/rajesh-2497.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
 
 *.xcuserstate

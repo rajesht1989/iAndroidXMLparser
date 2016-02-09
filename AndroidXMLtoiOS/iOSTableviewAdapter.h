@@ -9,13 +9,14 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "TBXML.h"
+#import "MGSwipeTableCell.h"
 
-@interface iOSTableviewAdapter : NSObject <UITableViewDataSource,UITableViewDelegate>
+@interface iOSTableviewAdapter : NSObject <UITableViewDataSource,UITableViewDelegate, MGSwipeTableCellDelegate>
 
 @property(nonatomic)TBXMLElement *element;
 @property(nonatomic)NSArray *data;
 
 @end
 
-@interface AndroidTableViewCell : UITableViewCell
+@interface AndroidTableViewCell : MGSwipeTableCell
 @end

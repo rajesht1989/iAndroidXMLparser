@@ -1,1 +1,2 @@
 pod 'TBXML', '~> 1.5'
+pod 'MGSwipeTableCell'
