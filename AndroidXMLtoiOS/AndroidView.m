@@ -22,6 +22,9 @@
 + (instancetype)viewForXml:(NSString *)xmlName andHandler:(AndroidViewHandler *)handler {
     NSError *error = nil;
     TBXML *tbxml = [TBXML tbxmlWithXMLData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:xmlName ofType:@"xml"]] error:&error];
+    if (tbxml.rootXMLElement == NULL) {
+        return nil;
+    }
     AndroidView *view = [self entityFor:tbxml.rootXMLElement handler:handler];
     [view setRootXML:tbxml];
     [view configureLayout];

@@ -15,8 +15,8 @@
 		920393321C03267500F5303B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 920393311C03267500F5303B /* Assets.xcassets */; };
 		920393351C03267500F5303B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 920393331C03267500F5303B /* LaunchScreen.storyboard */; };
 		9208D5EE1C3E7FC900B99298 /* AndroidView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9208D5ED1C3E7FC800B99298 /* AndroidView.m */; };
+		92266A3C1C69EB0F0061E126 /* ListViewLayout.xml in Resources */ = {isa = PBXBuildFile; fileRef = 92266A3B1C69EB0F0061E126 /* ListViewLayout.xml */; };
 		9257100D1C212F750029FEC0 /* LinearLayout.xml in Resources */ = {isa = PBXBuildFile; fileRef = 9257100C1C212F750029FEC0 /* LinearLayout.xml */; };
-		925A4B601C23EDDA00A6E824 /* activity_main.xml in Resources */ = {isa = PBXBuildFile; fileRef = 925A4B5F1C23EDDA00A6E824 /* activity_main.xml */; };
 		925CDCC11C5893C00084E479 /* offer.png in Resources */ = {isa = PBXBuildFile; fileRef = 925CDCC01C5893C00084E479 /* offer.png */; };
 		925CDCC31C5893C60084E479 /* star_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 925CDCC21C5893C60084E479 /* star_1.png */; };
 		925F731B1C33DC8800ED2511 /* abc.png in Resources */ = {isa = PBXBuildFile; fileRef = 925F731A1C33DC8700ED2511 /* abc.png */; };
@@ -24,15 +24,7 @@
 		9281A9941C058F8A00934462 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9281A9931C058F8A00934462 /* XMLReader.m */; };
 		9281A9961C0593A500934462 /* activity.json in Resources */ = {isa = PBXBuildFile; fileRef = 9281A9951C0593A500934462 /* activity.json */; };
 		9281A9991C05DF5B00934462 /* AView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9281A9981C05DF5B00934462 /* AView.m */; };
-		929A35D11C622C7C003AF830 /* list_layout.xml in Resources */ = {isa = PBXBuildFile; fileRef = 929A35D01C622C7C003AF830 /* list_layout.xml */; };
 		929A35D41C632E43003AF830 /* iOSTableviewAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 929A35D31C632E43003AF830 /* iOSTableviewAdapter.m */; };
-		92D74DC71C4E0DAC00FBF176 /* relativeayout.xml in Resources */ = {isa = PBXBuildFile; fileRef = 92D74DC61C4E0DAC00FBF176 /* relativeayout.xml */; };
-		92F928771C64727A0048A82D /* layout1.zml in Resources */ = {isa = PBXBuildFile; fileRef = 92F928711C64727A0048A82D /* layout1.zml */; };
-		92F928781C64727A0048A82D /* layout2.zml in Resources */ = {isa = PBXBuildFile; fileRef = 92F928721C64727A0048A82D /* layout2.zml */; };
-		92F928791C64727A0048A82D /* layout4.zml in Resources */ = {isa = PBXBuildFile; fileRef = 92F928731C64727A0048A82D /* layout4.zml */; };
-		92F9287A1C64727A0048A82D /* layout5.zml in Resources */ = {isa = PBXBuildFile; fileRef = 92F928741C64727A0048A82D /* layout5.zml */; };
-		92F9287B1C64727A0048A82D /* layout6.zml in Resources */ = {isa = PBXBuildFile; fileRef = 92F928751C64727A0048A82D /* layout6.zml */; };
-		92F9287C1C64727A0048A82D /* layout8.zml in Resources */ = {isa = PBXBuildFile; fileRef = 92F928761C64727A0048A82D /* layout8.zml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,8 +42,8 @@
 		920393361C03267500F5303B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9208D5EC1C3E7FC800B99298 /* AndroidView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AndroidView.h; sourceTree = "<group>"; };
 		9208D5ED1C3E7FC800B99298 /* AndroidView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AndroidView.m; sourceTree = "<group>"; };
+		92266A3B1C69EB0F0061E126 /* ListViewLayout.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ListViewLayout.xml; sourceTree = "<group>"; };
 		9257100C1C212F750029FEC0 /* LinearLayout.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LinearLayout.xml; sourceTree = "<group>"; };
-		925A4B5F1C23EDDA00A6E824 /* activity_main.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = activity_main.xml; path = ../../../../AndroidStudioProjects/ToExportXML/app/src/main/res/layout/activity_main.xml; sourceTree = "<group>"; };
 		925CDCC01C5893C00084E479 /* offer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = offer.png; sourceTree = "<group>"; };
 		925CDCC21C5893C60084E479 /* star_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star_1.png; sourceTree = "<group>"; };
 		925F731A1C33DC8700ED2511 /* abc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = abc.png; sourceTree = "<group>"; };
@@ -61,16 +53,8 @@
 		9281A9951C0593A500934462 /* activity.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = activity.json; sourceTree = "<group>"; };
 		9281A9971C05DF5B00934462 /* AView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AView.h; sourceTree = "<group>"; };
 		9281A9981C05DF5B00934462 /* AView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AView.m; sourceTree = "<group>"; };
-		929A35D01C622C7C003AF830 /* list_layout.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = list_layout.xml; path = ../../../../AndroidStudioProjects/ToExportXML/app/src/main/res/layout/list_layout.xml; sourceTree = "<group>"; };
 		929A35D21C632E43003AF830 /* iOSTableviewAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSTableviewAdapter.h; sourceTree = "<group>"; };
 		929A35D31C632E43003AF830 /* iOSTableviewAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iOSTableviewAdapter.m; sourceTree = "<group>"; };
-		92D74DC61C4E0DAC00FBF176 /* relativeayout.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = relativeayout.xml; path = ../../../../AndroidStudioProjects/ToExportXML/app/src/main/res/layout/relativeayout.xml; sourceTree = "<group>"; };
-		92F928711C64727A0048A82D /* layout1.zml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = layout1.zml; sourceTree = "<group>"; };
-		92F928721C64727A0048A82D /* layout2.zml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = layout2.zml; sourceTree = "<group>"; };
-		92F928731C64727A0048A82D /* layout4.zml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = layout4.zml; sourceTree = "<group>"; };
-		92F928741C64727A0048A82D /* layout5.zml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = layout5.zml; sourceTree = "<group>"; };
-		92F928751C64727A0048A82D /* layout6.zml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = layout6.zml; sourceTree = "<group>"; };
-		92F928761C64727A0048A82D /* layout8.zml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = layout8.zml; sourceTree = "<group>"; };
 		B5B0DE4D4D7443D61FABF2EF /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -133,17 +117,9 @@
 				920393311C03267500F5303B /* Assets.xcassets */,
 				920393331C03267500F5303B /* LaunchScreen.storyboard */,
 				920393361C03267500F5303B /* Info.plist */,
-				92F928711C64727A0048A82D /* layout1.zml */,
-				92F928721C64727A0048A82D /* layout2.zml */,
-				92F928731C64727A0048A82D /* layout4.zml */,
-				92F928741C64727A0048A82D /* layout5.zml */,
-				92F928751C64727A0048A82D /* layout6.zml */,
-				92F928761C64727A0048A82D /* layout8.zml */,
-				929A35D01C622C7C003AF830 /* list_layout.xml */,
-				92D74DC61C4E0DAC00FBF176 /* relativeayout.xml */,
-				925A4B5F1C23EDDA00A6E824 /* activity_main.xml */,
 				9281A9901C058E4400934462 /* RelativeLayout.xml */,
 				9257100C1C212F750029FEC0 /* LinearLayout.xml */,
+				92266A3B1C69EB0F0061E126 /* ListViewLayout.xml */,
 				925CDCC01C5893C00084E479 /* offer.png */,
 				925F731A1C33DC8700ED2511 /* abc.png */,
 				925CDCC21C5893C60084E479 /* star_1.png */,
@@ -228,6 +204,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92266A3C1C69EB0F0061E126 /* ListViewLayout.xml in Resources */,
 				9281A9961C0593A500934462 /* activity.json in Resources */,
 				920393351C03267500F5303B /* LaunchScreen.storyboard in Resources */,
 				925F731B1C33DC8800ED2511 /* abc.png in Resources */,
@@ -235,17 +212,8 @@
 				925CDCC11C5893C00084E479 /* offer.png in Resources */,
 				9281A9911C058E4400934462 /* RelativeLayout.xml in Resources */,
 				920393321C03267500F5303B /* Assets.xcassets in Resources */,
-				929A35D11C622C7C003AF830 /* list_layout.xml in Resources */,
-				92F9287C1C64727A0048A82D /* layout8.zml in Resources */,
-				92F928781C64727A0048A82D /* layout2.zml in Resources */,
 				920393301C03267500F5303B /* Main.storyboard in Resources */,
-				92D74DC71C4E0DAC00FBF176 /* relativeayout.xml in Resources */,
-				92F9287B1C64727A0048A82D /* layout6.zml in Resources */,
-				92F928791C64727A0048A82D /* layout4.zml in Resources */,
-				925A4B601C23EDDA00A6E824 /* activity_main.xml in Resources */,
-				92F928771C64727A0048A82D /* layout1.zml in Resources */,
 				925CDCC31C5893C60084E479 /* star_1.png in Resources */,
-				92F9287A1C64727A0048A82D /* layout5.zml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

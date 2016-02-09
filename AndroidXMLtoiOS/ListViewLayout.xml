@@ -1,0 +1,30 @@
+<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="abc"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#123456"
+    android:divider="#ff2233">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffe3ffff"
+        android:orientation="vertical"
+        android:minHeight="90"
+        >
+        <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+        android:textColor="#ff0000"
+        android:background="#99e30000"
+        />
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:layout_gravity="center"
+        android:background="#9900e300"
+        />
+    </LinearLayout>
+</ListView>
