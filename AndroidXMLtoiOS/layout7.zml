@@ -1,0 +1,172 @@
+<zml>
+<head>
+</head>
+<body>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="#ffffff"
+android:orientation="vertical" >
+
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_margin="10dp"
+android:minHeight="200"
+android:background="#ffffff"
+android:orientation="vertical" >
+
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="horizontal" >
+
+<ImageView
+android:layout_width="120"
+android:layout_height="200"
+android:src="offer.png"
+android:layout_margin="1,0.5,0,2"
+/>
+
+<RelativeLayout
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:layout_margin="5dp"
+>
+
+<LinearLayout
+android:id="123"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_alignParentBottom="true"
+android:layout_margin="0,0,2,2"
+android:minHeight="40"
+android:orientation="horizontal">
+
+<RelativeLayout
+android:layout_width="wrap_content"
+android:layout_height="match_parent"
+android:layout_weight="2"
+android:background="#3eb442" >
+
+<TextView
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_centerInParent="true"
+android:text="1200 Rs"
+android:textColor="#ffffff"
+android:textSize="18" />
+</RelativeLayout>
+
+<RelativeLayout
+android:layout_width="wrap_content"
+android:layout_height="match_parent"
+android:background="#ff0000"
+android:layout_weight="1" >
+
+<TextView
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_centerInParent="true"
+android:text="Per person"
+android:textColor="#000000"
+android:textSize="12" />
+</RelativeLayout>
+</LinearLayout>
+
+<RelativeLayout
+
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:layout_above="123"
+>
+
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_centerVertical="true"
+android:orientation="vertical" >
+
+<RelativeLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_marginBottom="10dp"
+android:layout_marginTop="15dp"
+>
+
+<TextView
+android:id="456"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_alignParentRight="true"
+android:layout_centerVertical="true"
+android:text="09:09 PM"
+android:textColor="#000000"
+android:textSize="12" />
+
+<TextView
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:text="Sunburn in Chennai"
+android:textColor="#000000"
+android:layout_toLeftOf="456"
+android:textSize="18"
+android:editable="false" />
+
+
+</RelativeLayout>
+
+<TextView
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Posted by John"
+android:textColor="#000000"
+android:layout_marginBottom="10dp"
+android:textSize="12" />
+
+<TextView
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Lorem ipsum dolor sit amet"
+android:textColor="#000000"
+android:layout_marginBottom="5dp"
+android:textSize="13" />
+
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+>
+
+<ImageView
+android:layout_width="15dp"
+android:layout_height="15dp"
+android:src="star_1.png" />
+<ImageView
+android:layout_width="15dp"
+android:layout_height="15dp"
+android:src="star_1.png" />
+<ImageView
+android:layout_width="15dp"
+android:layout_height="15dp"
+android:src="star_1.png" />
+<ImageView
+android:layout_width="15dp"
+android:layout_height="15dp"
+android:src="star_1.png" />
+<ImageView
+android:layout_width="15dp"
+android:layout_height="15dp"
+android:src="star_1.png" />
+</LinearLayout>
+</LinearLayout>
+</RelativeLayout>
+
+
+</RelativeLayout>
+</LinearLayout>
+</LinearLayout>
+
+</LinearLayout>
+
+</body></zml>
