@@ -19,15 +19,101 @@
 
 @implementation AndroidView
 
-+ (instancetype)viewForXml:(NSString *)xmlName andHandler:(AndroidViewHandler *)handler {
++ (instancetype)viewForXMLFileName:(NSString *)xmlName andHandler:(AndroidViewHandler *)handler {
     NSError *error = nil;
-    TBXML *tbxml = [TBXML tbxmlWithXMLData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:xmlName ofType:@"xml"]] error:&error];
+    TBXML *tbxml = [TBXML tbxmlWithXMLData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:xmlName ofType:@"zml"]] error:&error];
     if (tbxml.rootXMLElement == NULL) {
         return nil;
     }
-    AndroidView *view = [self entityFor:tbxml.rootXMLElement handler:handler];
+    NSMutableDictionary *dataDictCollection;
+    NSMutableDictionary *onRightSwipeMenuDictCollection;
+    NSMutableDictionary *onLeftSwipeMenuDictCollection;
+    TBXMLElement *zml = tbxml.rootXMLElement;
+    if ([[TBXML elementName:zml] isEqualToString:@"zml"]) {
+        TBXMLElement *head = zml->firstChild;
+        if ([[TBXML elementName:head] isEqualToString:@"head"]) {
+            TBXMLElement *headElements  = head->firstChild;
+            dataDictCollection  = [NSMutableDictionary dictionary];
+            onRightSwipeMenuDictCollection  = [NSMutableDictionary dictionary];
+            onLeftSwipeMenuDictCollection  = [NSMutableDictionary dictionary];
+            while (headElements) {
+                if ([[TBXML elementName:headElements] isEqualToString:@"datalist"]) {
+                    NSMutableArray *dataArray = [NSMutableArray array];
+                    [dataDictCollection setObject:dataArray forKey:[TBXML attributeValue:headElements->firstAttribute]];
+                    TBXMLElement *dataElement  = headElements->firstChild;
+                    while (dataElement) {
+                        NSMutableDictionary *dataDict = [NSMutableDictionary dictionary];
+                        if ([[TBXML elementName:dataElement] isEqualToString:@"data"]) {
+                            TBXMLAttribute * dataAttribute =  dataElement->firstAttribute;
+                            while (dataAttribute) {
+                                [dataDict setObject:[TBXML attributeValue:dataAttribute] forKey:[TBXML attributeName:dataAttribute]];
+                                dataAttribute = dataAttribute->next;
+                            }
+                        }
+                        [dataArray addObject:dataDict];
+                        dataElement = dataElement->nextSibling;
+                    }
+                } else if ([[TBXML elementName:headElements] isEqualToString:@"onrightswipemenu"]) {
+                    NSMutableArray *rightSwipeArray = [NSMutableArray array];
+                    [onRightSwipeMenuDictCollection setObject:rightSwipeArray forKey:[TBXML attributeValue:headElements->firstAttribute]];
+                    TBXMLElement *rightSwipeElement  = headElements->firstChild;
+                    while (rightSwipeElement) {
+                        NSMutableDictionary *swipeDict = [NSMutableDictionary dictionary];
+                        if ([[TBXML elementName:rightSwipeElement] isEqualToString:@"onswipe"]) {
+                            TBXMLAttribute * dataAttribute =  rightSwipeElement->firstAttribute;
+                            while (dataAttribute) {
+                                [swipeDict setObject:[TBXML attributeValue:dataAttribute] forKey:[TBXML attributeName:dataAttribute]];
+                                dataAttribute = dataAttribute->next;
+                            }
+                        }
+                        [rightSwipeArray addObject:swipeDict];
+                        rightSwipeElement = rightSwipeElement->nextSibling;
+                    }
+                } else if ([[TBXML elementName:headElements] isEqualToString:@"onleftswipemenu"]) {
+                    NSMutableArray *leftSwipeArray = [NSMutableArray array];
+                    [onLeftSwipeMenuDictCollection setObject:leftSwipeArray forKey:[TBXML attributeValue:headElements->firstAttribute]];
+                    TBXMLElement *dataElement  = headElements->firstChild;
+                    while (dataElement) {
+                        NSMutableDictionary *swipeDict = [NSMutableDictionary dictionary];
+                        if ([[TBXML elementName:dataElement] isEqualToString:@"onswipe"]) {
+                            TBXMLAttribute * dataAttribute =  dataElement->firstAttribute;
+                            while (dataAttribute) {
+                                [swipeDict setObject:[TBXML attributeValue:dataAttribute] forKey:[TBXML attributeName:dataAttribute]];
+                                dataAttribute = dataAttribute->next;
+                            }
+                        }
+                        [leftSwipeArray addObject:swipeDict];
+                        dataElement = dataElement->nextSibling;
+                    }
+                }
+                headElements = headElements->nextSibling;
+            }
+        }
+        TBXMLElement *body = zml->firstChild->nextSibling;
+        if ([[TBXML elementName:body] isEqualToString:@"body"]) {
+            TBXMLElement *layout = body->firstChild;
+            AndroidView *view = [self viewForElement:layout handler:handler];
+            [view setDataDictCollection:dataDictCollection];
+            [view setOnRightSwipeMenuDictCollection:onRightSwipeMenuDictCollection];
+            [view setOnLeftSwipeMenuDictCollection:onLeftSwipeMenuDictCollection];
+            [view setRootXML:tbxml];
+            return view;
+        }
+        
+
+    }
+    return nil;
+}
+
++ (instancetype)viewForXml:(NSString *)xmlString andHandler:(AndroidViewHandler *)handler {
+    NSError *error = nil;
+    TBXML *tbxml = [TBXML tbxmlWithXMLString:xmlString error:&error];
+    if (tbxml.rootXMLElement == NULL) {
+        return nil;
+    }
+    TBXMLElement *element = tbxml.rootXMLElement;
+    AndroidView *view = [self viewForElement:element handler:handler];
     [view setRootXML:tbxml];
-    [view configureLayout];
     return view;
 }
 
@@ -103,120 +189,126 @@
 - (instancetype)initWithElement:(TBXMLElement *)element handler:(AndroidViewHandler *)handler {
     if (self = [super init]) {
         [self setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self setElement:element];
-        [self setObjectType:[[[self.class dataDictionary] objectForKey:[TBXML elementName:element]] intValue]];
-        [self setClipsToBounds:YES];
-        
-        switch (self.objectType) {
-            case kScrollView : {
-                UIScrollView *scrollView = [[UIScrollView alloc] init];
-                [self addSubview:scrollView];
-                
-                TBXMLAttribute *attribute = element->firstAttribute;
-                AndroidViewHandler *subviewHandler = [handler copyHandler];
-                [subviewHandler setSuperView:scrollView];
-                [self configureView:scrollView attribute:attribute handler:subviewHandler];
-                AndroidView *view = [self.class entityFor:element->firstChild handler:subviewHandler];
-                [view setParentView:self];
-            }
-                break;
-            case kHorizontalScrollView : {
-                UIScrollView *scrollView = [[UIScrollView alloc] init];
-                [self addSubview:scrollView];
-                TBXMLAttribute *attribute = element->firstAttribute;
-                [self configureView:scrollView attribute:attribute handler:handler];
-                AndroidViewHandler *subviewHandler = [handler copyHandler];
-                [subviewHandler setSuperView:scrollView];
-                AndroidView *view = [self.class entityFor:element->firstChild handler:subviewHandler];
-                [view setParentView:self];
-            }
-                break;
-            case kLinearLayout : {
-                UIView *view = [[UIView alloc] init];
-                [self addSubview:view];
-                [self configureView:view attribute:element->firstAttribute handler:handler];
-                [self setLinearLayoutType:_linearLayoutType ==  kLinearHorizontalLayout ? kLinearHorizontalLayout : kLinearVerticalLayout];
-                
-                TBXMLElement *child = element->firstChild;
-                AndroidViewHandler *subviewHandler = [handler copyHandler];
-                [subviewHandler setSuperView:view];
-                AndroidView *previousView;
-                while (child) {
-                    AndroidView *currentView = [self.class entityFor:child handler:subviewHandler];
-                    [currentView setPreviousView:previousView];
-                    [currentView setParentView:self];
-                    previousView = currentView;
-                    child = child->nextSibling;
+        do {
+            [self setElement:element];
+            [self setObjectType:[[[self.class dataDictionary] objectForKey:[[TBXML elementName:element] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]] intValue]];
+            [self setClipsToBounds:YES];
+            switch (self.objectType) {
+                case kScrollView : {
+                    UIScrollView *scrollView = [[UIScrollView alloc] init];
+                    [self addSubview:scrollView];
+                    
+                    TBXMLAttribute *attribute = element->firstAttribute;
+                    AndroidViewHandler *subviewHandler = [handler copyHandler];
+                    [subviewHandler setSuperView:scrollView];
+                    [self configureView:scrollView attribute:attribute handler:subviewHandler];
+                    
+                    AndroidView *view = [self.class entityFor:element->firstChild handler:subviewHandler];
+                    [view setParentView:self];
                 }
-            }
-                break;
-            case kRelativeLayout : {
-                UIView *view = [[UIView alloc] init];
-                [self addSubview:view];
-                TBXMLAttribute *attribute = element->firstAttribute;
-                [self configureView:view attribute:attribute handler:handler];
-                
-                TBXMLElement *child = element->firstChild;
-                AndroidViewHandler *subviewHandler = [handler copyHandler];
-                [subviewHandler setSuperView:view];
-                AndroidView *previousView;
-                while (child) {
-                    AndroidView *currentView = [self.class entityFor:child handler:subviewHandler];
-                    [currentView setPreviousView:previousView];
-                    [currentView setParentView:self];
-                    previousView = currentView;
-                    child = child->nextSibling;
+                    break;
+                case kHorizontalScrollView : {
+                    UIScrollView *scrollView = [[UIScrollView alloc] init];
+                    [self addSubview:scrollView];
+                    TBXMLAttribute *attribute = element->firstAttribute;
+                    [self configureView:scrollView attribute:attribute handler:handler];
+                    AndroidViewHandler *subviewHandler = [handler copyHandler];
+                    [subviewHandler setSuperView:scrollView];
+                    
+                    AndroidView *view = [self.class entityFor:element->firstChild handler:subviewHandler];
+                    [view setParentView:self];
                 }
+                    break;
+                case kLinearLayout : {
+                    UIView *view = [[UIView alloc] init];
+                    [self addSubview:view];
+                    [self configureView:view attribute:element->firstAttribute handler:handler];
+                    [self setLinearLayoutType:_linearLayoutType ==  kLinearHorizontalLayout ? kLinearHorizontalLayout : kLinearVerticalLayout];
+                    
+                    TBXMLElement *child = element->firstChild;
+                    AndroidViewHandler *subviewHandler = [handler copyHandler];
+                    [subviewHandler setSuperView:view];
+                    AndroidView *previousView;
+                    while (child) {
+                        AndroidView *currentView = [self.class entityFor:child handler:subviewHandler];
+                        [currentView setPreviousView:previousView];
+                        [currentView setParentView:self];
+                        previousView = currentView;
+                        child = child->nextSibling;
+                    }
+                }
+                    break;
+                case kRelativeLayout : {
+                    UIView *view = [[UIView alloc] init];
+                    [self addSubview:view];
+                    TBXMLAttribute *attribute = element->firstAttribute;
+                    [self configureView:view attribute:attribute handler:handler];
+                    
+                    TBXMLElement *child = element->firstChild;
+                    AndroidViewHandler *subviewHandler = [handler copyHandler];
+                    [subviewHandler setSuperView:view];
+                    AndroidView *previousView;
+                    while (child) {
+                        AndroidView *currentView = [self.class entityFor:child handler:subviewHandler];
+                        [currentView setPreviousView:previousView];
+                        [currentView setParentView:self];
+                        previousView = currentView;
+                        child = child->nextSibling;
+                    }
+                }
+                    break;
+                case kListViewLayout : {
+                    UITableView *tableView = [[UITableView alloc] init];
+                    [tableView setBackgroundColor:[UIColor clearColor]];
+                    iOSTableviewAdapter *adapter = [self tableViewAdapter];
+                    [tableView setDataSource:adapter];
+                    [tableView setDelegate:adapter];
+                    [adapter setTableView:tableView];
+                    [tableView setRowHeight:UITableViewAutomaticDimension];
+                    [tableView setEstimatedRowHeight:44.f];
+                    [self addSubview:tableView];
+                    [tableView registerClass:AndroidTableViewCell.class forCellReuseIdentifier:NSStringFromClass(AndroidTableViewCell.class)];
+                    TBXMLAttribute *attribute = element->firstAttribute;
+                    [self configureView:tableView attribute:attribute handler:handler];
+                    [adapter setElement:element->firstChild];
+                }
+                    break;
+                case kWebViewLayout :
+                case kGridViewLayout :
+                    break;
+                case kButton : {
+                    UIButton *button = [[UIButton alloc] init];
+                    [self addSubview:button];
+                    [button addTarget:handler.owner action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
+                    [self configureView:button attribute:element->firstAttribute handler:handler];
+                }
+                    break;
+                case kTextField : {
+                    UITextField *textField = [[UITextField alloc] init];
+                    [self addSubview:textField];
+                    [textField setDelegate:handler.owner];
+                    [self configureView:textField attribute:element->firstAttribute handler:handler];
+                }
+                    break;
+                case kTextView : {
+                    UILabel *label = [[UILabel alloc] init];
+                    [self addSubview:label];
+                    [label setNumberOfLines:0];
+                    [self configureView:label attribute:element->firstAttribute handler:handler];
+                }
+                    break;
+                case kImageView : {
+                    UIImageView *imageView = [[UIImageView alloc] init];
+                    [self addSubview:imageView];
+                    [self configureView:imageView attribute:element->firstAttribute handler:handler];
+                }
+                    break;
+                default:
+                    element = element->firstChild;
+                    break;
             }
-                break;
-            case kListViewLayout : {
-                UITableView *tableView = [[UITableView alloc] init];
-                [tableView setBackgroundColor:[UIColor clearColor]];
-                iOSTableviewAdapter *adapter = [self tableViewAdapter];
-                [tableView setDataSource:adapter];
-                [tableView setDelegate:adapter];
-                [tableView setRowHeight:UITableViewAutomaticDimension];
-                [tableView setEstimatedRowHeight:44.f];
-                [self addSubview:tableView];
-                [tableView registerClass:AndroidTableViewCell.class forCellReuseIdentifier:NSStringFromClass(AndroidTableViewCell.class)];
-                TBXMLAttribute *attribute = element->firstAttribute;
-                [self configureView:tableView attribute:attribute handler:handler];
-                [adapter setElement:element->firstChild];
-            }
-                break;
-            case kWebViewLayout :
-            case kGridViewLayout :
-                break;
-            case kButton : {
-                UIButton *button = [[UIButton alloc] init];
-                [self addSubview:button];
-                [button addTarget:handler.owner action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
-                [self configureView:button attribute:element->firstAttribute handler:handler];
-            }
-                break;
-            case kTextField : {
-                UITextField *textField = [[UITextField alloc] init];
-                [self addSubview:textField];
-                [textField setDelegate:handler.owner];
-                [self configureView:textField attribute:element->firstAttribute handler:handler];
-            }
-                break;
-            case kTextView : {
-                UILabel *label = [[UILabel alloc] init];
-                [self addSubview:label];
-                [label setNumberOfLines:0];
-                [self configureView:label attribute:element->firstAttribute handler:handler];
-            }
-                break;
-            case kImageView : {
-                UIImageView *imageView = [[UIImageView alloc] init];
-                [self addSubview:imageView];
-                [self configureView:imageView attribute:element->firstAttribute handler:handler];
-            }
-                break;
-            default:
-                break;
-        }
+        }while ([TBXML elementName:element] != NULL && !_foregroundView);
+
         /*
          [self.layer setBorderWidth:1.f];
          [self.layer setBorderColor:[[UIColor grayColor] CGColor]];
@@ -472,6 +564,16 @@
     [_foregroundView setTranslatesAutoresizingMaskIntoConstraints:NO];
 }
 
+- (AndroidView *)superParentView {
+    if (!_superParentView) {
+        _superParentView = _parentView.superParentView;
+        if (!_superParentView) {
+            _superParentView = self;
+        }
+    }
+    return _superParentView;
+}
+
 - (void)setParentView:(AndroidView *)parentView {
     _parentView = parentView;
     parentView.fTotalWeight +=  _fWeight;
@@ -480,7 +582,15 @@
     }
     if (_identifier) {
         [parentView.subviewDict setObject:self forKey:_identifier];
+        [parentView.subviewInSuperParentDict setObject:self forKey:_identifier];
     }
+}
+
+- (NSMutableDictionary *)subviewInSuperParentDict {
+    if (!_subviewInSuperParentDict) {
+        _subviewInSuperParentDict = [NSMutableDictionary dictionary];
+    }
+    return _subviewInSuperParentDict;
 }
 
 - (NSMutableDictionary *)subviewDict {

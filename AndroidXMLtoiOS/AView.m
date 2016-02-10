@@ -51,9 +51,9 @@ const NSInteger Undefined = 0;
 
 - (instancetype)copyHandler {
     AndroidViewHandler *viewHandlerCopy = [[AndroidViewHandler alloc] init];
-    [viewHandlerCopy setSuperView:self.superView];
-    [viewHandlerCopy setOwner:self.owner];
-    [viewHandlerCopy setRelationView:self.relationView];
+    [viewHandlerCopy setSuperView:_superView];
+    [viewHandlerCopy setOwner:_owner];
+    [viewHandlerCopy setRelationView:_relationView];
     return viewHandlerCopy;
 }
 

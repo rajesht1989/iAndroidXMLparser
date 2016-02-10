@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "TBXML.h"
+
 @protocol AViewHandlerDelegate <UITextFieldDelegate>
 @required
 - (void)buttonAction:(UIButton *)button;
@@ -186,6 +187,7 @@ AndroidMarginMake( CGFloat marginTop,
 @interface AndroidViewHandler : NSObject
 @property (nonatomic, weak)UIView *superView;
 @property (nonatomic, weak)id <AViewHandlerDelegate>owner;
+
 @property (nonatomic, assign)UIView *relationView; //Can be a Sibling/Superview/Subview
 @property (nonatomic, assign)AItemPosition position; 
 @property (nonatomic, strong)NSMutableDictionary *attributeDict;

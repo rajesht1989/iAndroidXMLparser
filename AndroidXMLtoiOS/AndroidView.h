@@ -13,9 +13,11 @@
 
 @interface AndroidView : UIView
 
-+ (instancetype)viewForXml:(NSString *)xmlName andHandler:(AndroidViewHandler *)handler;
++ (instancetype)viewForXMLFileName:(NSString *)xmlName andHandler:(AndroidViewHandler *)handler;
++ (instancetype)viewForXml:(NSString *)xmlString andHandler:(AndroidViewHandler *)handler;
 + (instancetype)viewForElement:(TBXMLElement *)element handler:(AndroidViewHandler *)handler;
 - (UIView *)androidSuperview;
+- (void)setContent:(NSString *)content;
 @property (nonatomic, strong)NSMutableDictionary *elementDict;
 @property (nonatomic, strong)NSMutableDictionary *subviewDict;
 @property (nonatomic, assign)TBXMLElement *element;
@@ -78,5 +80,11 @@
 //ListLayout
 @property (nonatomic, strong) iOSTableviewAdapter *tableViewAdapter;
 @property (nonatomic, assign)TBXMLElement *cellLayoutElement;
+@property (nonatomic, weak)AndroidView *superParentView;
+@property (nonatomic, strong)NSMutableDictionary *subviewInSuperParentDict;
+
+@property (nonatomic, strong)NSMutableDictionary *dataDictCollection;
+@property (nonatomic, strong)NSMutableDictionary *onRightSwipeMenuDictCollection;
+@property (nonatomic, strong)NSMutableDictionary *onLeftSwipeMenuDictCollection;
 
 @end

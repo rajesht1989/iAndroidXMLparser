@@ -12,6 +12,8 @@
 @interface AndroidTableViewCell ()
 
 @property(nonatomic, assign)TBXMLElement *element;
+@property(nonatomic, weak)NSIndexPath *indexPath;
+@property(nonatomic, assign)AndroidView *cellRootView;
 
 @end
 
@@ -30,25 +32,64 @@
         _element = element;
         AndroidViewHandler *handler = [[AndroidViewHandler alloc] init];
         [handler setSuperView:self.contentView];
-        AndroidView *view = [AndroidView viewForElement:element handler:handler];
-        NSLog(@"%@",view);
+        self.cellRootView = [AndroidView viewForElement:element handler:handler];
+        NSLog(@"%@",self.cellRootView);
     }
 }
 
 @end
 
+@interface iOSTableviewAdapter ()
+
+@property(nonatomic,weak)NSArray *dataArray;
+@property(nonatomic,weak)NSArray *rightSwipeArray;
+@property(nonatomic,weak)NSArray *leftSwipeArray;
+
+@end
+
 @implementation iOSTableviewAdapter
 
+- (NSArray *)dataArray {
+    if (!_dataArray) {
+        AndroidView *parentView = (AndroidView *)self.tableView.superview;
+        _dataArray = parentView.superParentView.dataDictCollection[parentView.identifier];
+    }
+    return _dataArray;
+}
+
+- (NSArray *)rightSwipeArray {
+    if (!_rightSwipeArray) {
+        AndroidView *parentView = (AndroidView *)self.tableView.superview;
+        _rightSwipeArray = parentView.superParentView.onRightSwipeMenuDictCollection[parentView.identifier];
+    }
+    return _rightSwipeArray;
+}
+
+- (NSArray *)leftSwipeArray {
+    if (!_leftSwipeArray) {
+        AndroidView *parentView = (AndroidView *)self.tableView.superview;
+        _leftSwipeArray = parentView.superParentView.onLeftSwipeMenuDictCollection[parentView.identifier];
+    }
+    return _leftSwipeArray;
+}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 25;
+    return [[self dataArray] count];
 }
 
 - (AndroidTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView setSeparatorColor:[UIColor greenColor]];
     AndroidTableViewCell *tableViewCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(AndroidTableViewCell.class) forIndexPath:indexPath];
     [tableViewCell setElement:_element];
     [tableViewCell setDelegate:self];
+    [tableViewCell setIndexPath:indexPath];
+    [self configureCell:tableViewCell indexPath:indexPath];
     return tableViewCell;
+}
+
+- (void)configureCell:(AndroidTableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    AndroidView *rootView = cell.cellRootView;
+    for (NSString *aKey in self.dataArray[indexPath.row]) {
+        [rootView.subviewInSuperParentDict[aKey] setContent:[self.dataArray[indexPath.row] objectForKey:aKey]];
+    }
 }
 
 - (NSArray*) swipeTableCell:(MGSwipeTableCell*) cell swipeButtonsForDirection:(MGSwipeDirection)direction
@@ -59,24 +100,21 @@
     if (direction == MGSwipeDirectionLeftToRight) {
         expansionSettings.buttonIndex = -1;
         expansionSettings.fillOnTrigger = NO;
-        return [self createButtons:3];
+        return [self createButtonsFromArray:self.rightSwipeArray];
     }
     else {
         expansionSettings.buttonIndex = -1;
         expansionSettings.fillOnTrigger = NO;
-        return [self createButtons:3];
+        return [self createButtonsFromArray:self.leftSwipeArray];
     }
 }
 
-- (NSArray *) createButtons: (int) number {
+- (NSArray *)createButtonsFromArray: (NSArray *)array {
     NSMutableArray * result = [NSMutableArray array];
-    NSString* titles[3] = {@"Delete", @"More", @"sample"};
-    UIColor * colors[3] = {[UIColor redColor], [UIColor lightGrayColor],[UIColor lightGrayColor]};
-    for (int i = 0; i < number; ++i) {
-        MGSwipeButton * button = [MGSwipeButton buttonWithTitle:titles[i] backgroundColor:colors[i] callback:^BOOL(MGSwipeTableCell * sender){
-            NSLog(@"Convenience callback received (right).");
-            BOOL autoHide = i != 0;
-            return autoHide; //Don't autohide in delete button to improve delete expansion animation
+    for (NSDictionary *aButton in array) {
+        MGSwipeButton * button = [MGSwipeButton buttonWithTitle:aButton[@"name"] backgroundColor:[UIColor grayColor] callback:^BOOL(MGSwipeTableCell * sender){
+            NSLog(@"%ld,%@",(long)((AndroidTableViewCell *)sender).indexPath.row,aButton[@"name"]);
+            return NO;
         }];
         [result addObject:button];
     }

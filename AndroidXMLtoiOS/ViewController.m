@@ -61,7 +61,7 @@
     AndroidViewHandler * viewHandler = [[AndroidViewHandler alloc] init];
     [viewHandler setSuperView:view];
     [viewHandler setOwner:self];
-    UIView *androidView = [AndroidView viewForXml:@"ListViewLayout" andHandler:viewHandler];
+    UIView *androidView = [AndroidView viewForXMLFileName:@"layout8" andHandler:viewHandler];
     NSLog(@"%@",androidView);
 }
 
