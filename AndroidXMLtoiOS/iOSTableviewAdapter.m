@@ -98,13 +98,17 @@
     swipeSettings.transition = MGSwipeTransitionDrag;
     
     if (direction == MGSwipeDirectionLeftToRight) {
-        expansionSettings.buttonIndex = -1;
-        expansionSettings.fillOnTrigger = NO;
+        if (self.rightSwipeArray.count == 1) {
+            expansionSettings.buttonIndex = 0;
+            expansionSettings.fillOnTrigger = 1;
+        }
         return [self createButtonsFromArray:self.rightSwipeArray];
     }
     else {
-        expansionSettings.buttonIndex = -1;
-        expansionSettings.fillOnTrigger = NO;
+        if (self.leftSwipeArray.count == 1) {
+            expansionSettings.buttonIndex = 0;
+            expansionSettings.fillOnTrigger = 1;
+        }
         return [self createButtonsFromArray:self.leftSwipeArray];
     }
 }
@@ -114,7 +118,7 @@
     for (NSDictionary *aButton in array) {
         MGSwipeButton * button = [MGSwipeButton buttonWithTitle:aButton[@"name"] backgroundColor:[UIColor grayColor] callback:^BOOL(MGSwipeTableCell * sender){
             NSLog(@"%ld,%@",(long)((AndroidTableViewCell *)sender).indexPath.row,aButton[@"name"]);
-            return NO;
+            return YES;
         }];
         [result addObject:button];
     }

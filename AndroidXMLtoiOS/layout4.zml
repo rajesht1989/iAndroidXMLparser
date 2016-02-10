@@ -1,5 +1,7 @@
 <zml>
+<head>
 
+</head>
 <body>
 <RelativeLayout
                 android:layout_width="match_parent"
@@ -9,10 +11,9 @@
                 <LinearLayout
                 android:id="123"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:layout_alignParentBottom="true"
                     android:layout_margin="0,0,2,2"
-                    android:minHeight="40"
                     android:orientation="horizontal">
 
                     <RelativeLayout

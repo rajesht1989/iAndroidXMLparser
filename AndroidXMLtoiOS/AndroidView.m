@@ -20,6 +20,9 @@
 @implementation AndroidView
 
 + (instancetype)viewForXMLFileName:(NSString *)xmlName andHandler:(AndroidViewHandler *)handler {
+    if ([xmlName hasSuffix:@".zml"]) {
+        xmlName = [xmlName stringByReplacingOccurrencesOfString:@".zml" withString:@""];
+    }
     NSError *error = nil;
     TBXML *tbxml = [TBXML tbxmlWithXMLData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:xmlName ofType:@"zml"]] error:&error];
     if (tbxml.rootXMLElement == NULL) {

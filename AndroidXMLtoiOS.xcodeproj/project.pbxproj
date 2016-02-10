@@ -21,6 +21,14 @@
 		92266A461C6A004B0061E126 /* layout5.zml in Resources */ = {isa = PBXBuildFile; fileRef = 92266A401C6A004B0061E126 /* layout5.zml */; };
 		92266A471C6A004B0061E126 /* layout6.zml in Resources */ = {isa = PBXBuildFile; fileRef = 92266A411C6A004B0061E126 /* layout6.zml */; };
 		92266A481C6A004B0061E126 /* layout8.zml in Resources */ = {isa = PBXBuildFile; fileRef = 92266A421C6A004B0061E126 /* layout8.zml */; };
+		92266A501C6B44AD0061E126 /* template1.zml in Resources */ = {isa = PBXBuildFile; fileRef = 92266A491C6B44AC0061E126 /* template1.zml */; };
+		92266A511C6B44AD0061E126 /* template2.zml in Resources */ = {isa = PBXBuildFile; fileRef = 92266A4A1C6B44AC0061E126 /* template2.zml */; };
+		92266A521C6B44AD0061E126 /* template3.zml in Resources */ = {isa = PBXBuildFile; fileRef = 92266A4B1C6B44AC0061E126 /* template3.zml */; };
+		92266A531C6B44AD0061E126 /* template4.zml in Resources */ = {isa = PBXBuildFile; fileRef = 92266A4C1C6B44AC0061E126 /* template4.zml */; };
+		92266A541C6B44AD0061E126 /* template5.zml in Resources */ = {isa = PBXBuildFile; fileRef = 92266A4D1C6B44AC0061E126 /* template5.zml */; };
+		92266A551C6B44AD0061E126 /* template6.zml in Resources */ = {isa = PBXBuildFile; fileRef = 92266A4E1C6B44AC0061E126 /* template6.zml */; };
+		92266A561C6B44AD0061E126 /* template7.zml in Resources */ = {isa = PBXBuildFile; fileRef = 92266A4F1C6B44AC0061E126 /* template7.zml */; };
+		92266A591C6B47640061E126 /* MainTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92266A581C6B47640061E126 /* MainTableController.m */; };
 		925CDCC11C5893C00084E479 /* offer.png in Resources */ = {isa = PBXBuildFile; fileRef = 925CDCC01C5893C00084E479 /* offer.png */; };
 		925CDCC31C5893C60084E479 /* star_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 925CDCC21C5893C60084E479 /* star_1.png */; };
 		9281A9941C058F8A00934462 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9281A9931C058F8A00934462 /* XMLReader.m */; };
@@ -50,6 +58,15 @@
 		92266A401C6A004B0061E126 /* layout5.zml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = layout5.zml; sourceTree = "<group>"; };
 		92266A411C6A004B0061E126 /* layout6.zml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = layout6.zml; sourceTree = "<group>"; };
 		92266A421C6A004B0061E126 /* layout8.zml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = layout8.zml; sourceTree = "<group>"; };
+		92266A491C6B44AC0061E126 /* template1.zml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = template1.zml; sourceTree = "<group>"; };
+		92266A4A1C6B44AC0061E126 /* template2.zml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = template2.zml; sourceTree = "<group>"; };
+		92266A4B1C6B44AC0061E126 /* template3.zml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = template3.zml; sourceTree = "<group>"; };
+		92266A4C1C6B44AC0061E126 /* template4.zml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = template4.zml; sourceTree = "<group>"; };
+		92266A4D1C6B44AC0061E126 /* template5.zml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = template5.zml; sourceTree = "<group>"; };
+		92266A4E1C6B44AC0061E126 /* template6.zml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = template6.zml; sourceTree = "<group>"; };
+		92266A4F1C6B44AC0061E126 /* template7.zml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = template7.zml; sourceTree = "<group>"; };
+		92266A571C6B47640061E126 /* MainTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTableController.h; sourceTree = "<group>"; };
+		92266A581C6B47640061E126 /* MainTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTableController.m; sourceTree = "<group>"; };
 		925CDCC01C5893C00084E479 /* offer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = offer.png; sourceTree = "<group>"; };
 		925CDCC21C5893C60084E479 /* star_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star_1.png; sourceTree = "<group>"; };
 		9281A9921C058F8A00934462 /* XMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLReader.h; sourceTree = "<group>"; };
@@ -106,6 +123,8 @@
 			children = (
 				920393281C03267500F5303B /* AppDelegate.h */,
 				920393291C03267500F5303B /* AppDelegate.m */,
+				92266A571C6B47640061E126 /* MainTableController.h */,
+				92266A581C6B47640061E126 /* MainTableController.m */,
 				9203932B1C03267500F5303B /* ViewController.h */,
 				9203932C1C03267500F5303B /* ViewController.m */,
 				9281A9971C05DF5B00934462 /* AView.h */,
@@ -137,6 +156,13 @@
 				92266A401C6A004B0061E126 /* layout5.zml */,
 				92266A411C6A004B0061E126 /* layout6.zml */,
 				92266A421C6A004B0061E126 /* layout8.zml */,
+				92266A491C6B44AC0061E126 /* template1.zml */,
+				92266A4A1C6B44AC0061E126 /* template2.zml */,
+				92266A4B1C6B44AC0061E126 /* template3.zml */,
+				92266A4C1C6B44AC0061E126 /* template4.zml */,
+				92266A4D1C6B44AC0061E126 /* template5.zml */,
+				92266A4E1C6B44AC0061E126 /* template6.zml */,
+				92266A4F1C6B44AC0061E126 /* template7.zml */,
 				920393261C03267500F5303B /* main.m */,
 			);
 			name = "Supporting Files";
@@ -216,11 +242,18 @@
 				92266A461C6A004B0061E126 /* layout5.zml in Resources */,
 				920393351C03267500F5303B /* LaunchScreen.storyboard in Resources */,
 				92266A451C6A004B0061E126 /* layout4.zml in Resources */,
+				92266A511C6B44AD0061E126 /* template2.zml in Resources */,
+				92266A521C6B44AD0061E126 /* template3.zml in Resources */,
 				925CDCC11C5893C00084E479 /* offer.png in Resources */,
 				92266A441C6A004B0061E126 /* layout2.zml in Resources */,
+				92266A541C6B44AD0061E126 /* template5.zml in Resources */,
 				920393321C03267500F5303B /* Assets.xcassets in Resources */,
 				920393301C03267500F5303B /* Main.storyboard in Resources */,
+				92266A561C6B44AD0061E126 /* template7.zml in Resources */,
 				925CDCC31C5893C60084E479 /* star_1.png in Resources */,
+				92266A501C6B44AD0061E126 /* template1.zml in Resources */,
+				92266A531C6B44AD0061E126 /* template4.zml in Resources */,
+				92266A551C6B44AD0061E126 /* template6.zml in Resources */,
 				92266A471C6A004B0061E126 /* layout6.zml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -281,6 +314,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9203932D1C03267500F5303B /* ViewController.m in Sources */,
+				92266A591C6B47640061E126 /* MainTableController.m in Sources */,
 				9203932A1C03267500F5303B /* AppDelegate.m in Sources */,
 				9281A9941C058F8A00934462 /* XMLReader.m in Sources */,
 				9281A9991C05DF5B00934462 /* AView.m in Sources */,

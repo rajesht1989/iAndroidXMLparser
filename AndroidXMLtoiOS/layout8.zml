@@ -18,7 +18,6 @@
 
 <onrightswipemenu for="abc">
 <onswipe name="five" fn="abc3" param1="aa" param2="3"/>
-<onswipe name="six" fn="abc3" param1="aa" param2="3"/>
 </onrightswipemenu>
 
 <onleftswipemenu for="abc">

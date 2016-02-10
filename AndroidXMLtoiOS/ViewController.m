@@ -19,7 +19,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [self setTitle:_zmlName];
+    [self.view setBackgroundColor:[UIColor whiteColor]];
     UIView *view = [[UIView alloc] init];
     [view setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.view addSubview:view];
@@ -61,7 +62,7 @@
     AndroidViewHandler * viewHandler = [[AndroidViewHandler alloc] init];
     [viewHandler setSuperView:view];
     [viewHandler setOwner:self];
-    UIView *androidView = [AndroidView viewForXMLFileName:@"layout8" andHandler:viewHandler];
+    UIView *androidView = [AndroidView viewForXMLFileName:_zmlName andHandler:viewHandler];
     NSLog(@"%@",androidView);
 }
 
