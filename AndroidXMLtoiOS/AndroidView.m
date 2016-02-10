@@ -995,6 +995,16 @@
                                                           attribute:NSLayoutAttributeWidth
                                                           multiplier:1.f
                                                           constant:0]];
+    if (androidView.heightType == kMatchParent) {
+        [androidView.parentView.foregroundView addConstraint:[NSLayoutConstraint
+                                                              constraintWithItem:androidView
+                                                              attribute:NSLayoutAttributeHeight
+                                                              relatedBy:NSLayoutRelationEqual
+                                                              toItem:androidView.parentView.foregroundView
+                                                              attribute:NSLayoutAttributeHeight
+                                                              multiplier:1.f
+                                                              constant:0]];
+    }
 }
 
 + (void)configureHorizontalScrollViewForView:(AndroidView *)androidView {
@@ -1007,6 +1017,16 @@
                                                           attribute:NSLayoutAttributeHeight
                                                           multiplier:1.f
                                                           constant:0]];
+    if (androidView.widthType == kMatchParent) {
+        [androidView.parentView.foregroundView addConstraint:[NSLayoutConstraint
+                                                              constraintWithItem:androidView
+                                                              attribute:NSLayoutAttributeWidth
+                                                              relatedBy:NSLayoutRelationEqual
+                                                              toItem:androidView.parentView.foregroundView
+                                                              attribute:NSLayoutAttributeWidth
+                                                              multiplier:1.f
+                                                              constant:0]];
+    }
 }
 
 + (void)configureRelativeLayoutForView:(AndroidView *)androidView  {
