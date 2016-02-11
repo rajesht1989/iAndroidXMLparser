@@ -30,7 +30,6 @@ android:background="#000000"
 <LinearLayout
 android:layout_width="match_parent"
 android:layout_height="wrap_content"
-android:layout_weight="2"
 android:orientation="vertical">
 
 <LinearLayout
@@ -155,10 +154,10 @@ android:background="#000000"/>
 </LinearLayout>
 
 <LinearLayout
+android:id="wtf"
 android:layout_width="1dp"
 android:layout_height="match_parent"
 android:background="#000000"
-android:layout_weight="1"
 />
 </LinearLayout>
 </RelativeLayout>

@@ -195,7 +195,7 @@
         do {
             [self setElement:element];
             [self setObjectType:[[[self.class dataDictionary] objectForKey:[[TBXML elementName:element] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]] intValue]];
-            [self setClipsToBounds:YES];
+            [self setClipsToBounds:NO];
             switch (self.objectType) {
                 case kScrollView : {
                     UIScrollView *scrollView = [[UIScrollView alloc] init];
@@ -585,7 +585,7 @@
     }
     if (_identifier) {
         [parentView.subviewDict setObject:self forKey:_identifier];
-        [parentView.subviewInSuperParentDict setObject:self forKey:_identifier];
+        [self.superParentView.subviewInSuperParentDict setObject:self forKey:_identifier];
     }
 }
 
