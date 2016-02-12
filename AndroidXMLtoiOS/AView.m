@@ -54,6 +54,7 @@ const NSInteger Undefined = 0;
     [viewHandlerCopy setSuperView:_superView];
     [viewHandlerCopy setOwner:_owner];
     [viewHandlerCopy setRelationView:_relationView];
+    [viewHandlerCopy setSuperParentView:_superParentView];
     return viewHandlerCopy;
 }
 
@@ -422,6 +423,7 @@ static NSMutableDictionary *dictUtil;
         [dictUtil setObject:@(kPassword) forKey:@"textPassword"];
         [dictUtil setObject:@(kHintText) forKey:@"android:hint"];
         [dictUtil setObject:@(kLayoutGravity) forKey:@"android:layout_gravity"];
+        [dictUtil setObject:@(kLayoutGravity) forKey:@"android:gravity"];
         
         [dictUtil setObject:@(kIdentifier) forKey:@"android:id"];
         
@@ -432,6 +434,8 @@ static NSMutableDictionary *dictUtil;
         [dictUtil setObject:@(kBackGroundColor) forKey:@"android:background"];
         [dictUtil setObject:@(kTextColor) forKey:@"android:textColor"];
         [dictUtil setObject:@(kImageSrc) forKey:@"android:src"];
+        [dictUtil setObject:@(kDividerColor) forKey:@"android:divider"];
+        [dictUtil setObject:@(kCornerRadius) forKey:@"android:cornerRadius"];
         
         [dictUtil setObject:@(kLayoutOrientation) forKey:@"android:orientation"];
         
@@ -708,6 +712,8 @@ static NSMutableDictionary *dictUtil;
                 break;
             case kBackGroundColor :
                 [view setBackgroundColor:[self colorWithHexString:[NSString stringWithFormat:@"%s", attribute->value]]];
+                break;
+            case kDividerColor:
                 break;
             case kLayoutOrientation :
                 [view setLayoutType:[[[self dataDictionary] objectForKey:[NSString stringWithFormat:@"%s", attribute->value]] intValue]];

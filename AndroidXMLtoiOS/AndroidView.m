@@ -20,11 +20,15 @@
 @implementation AndroidView
 
 + (instancetype)viewForXMLFileName:(NSString *)xmlName andHandler:(AndroidViewHandler *)handler {
-    if ([xmlName hasSuffix:@".zml"]) {
-        xmlName = [xmlName stringByReplacingOccurrencesOfString:@".zml" withString:@""];
+    if (!xmlName) {
+        TBXML *tbxml = [TBXML tbxmlWithXMLData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"fbfeed.xml" ofType:nil]] error:nil];
+        AndroidView *view = [self viewForElement:tbxml.rootXMLElement handler:handler];
+        [view setRootXML:tbxml];
+        return view;
     }
+    
     NSError *error = nil;
-    TBXML *tbxml = [TBXML tbxmlWithXMLData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:xmlName ofType:@"zml"]] error:&error];
+    TBXML *tbxml = [TBXML tbxmlWithXMLData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:xmlName ofType:nil]] error:&error];
     if (tbxml.rootXMLElement == NULL) {
         return nil;
     }
@@ -192,10 +196,14 @@
 - (instancetype)initWithElement:(TBXMLElement *)element handler:(AndroidViewHandler *)handler {
     if (self = [super init]) {
         [self setTranslatesAutoresizingMaskIntoConstraints:NO];
+        if (!handler.superParentView) {
+            [handler setSuperParentView:self];
+        }
+        [self setSuperParentView:handler.superParentView];
         do {
             [self setElement:element];
             [self setObjectType:[[[self.class dataDictionary] objectForKey:[[TBXML elementName:element] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]] intValue]];
-            [self setClipsToBounds:NO];
+            [self setClipsToBounds:YES];
             switch (self.objectType) {
                 case kScrollView : {
                     UIScrollView *scrollView = [[UIScrollView alloc] init];
@@ -226,7 +234,7 @@
                     UIView *view = [[UIView alloc] init];
                     [self addSubview:view];
                     [self configureView:view attribute:element->firstAttribute handler:handler];
-                    [self setLinearLayoutType:_linearLayoutType ==  kLinearHorizontalLayout ? kLinearHorizontalLayout : kLinearVerticalLayout];
+                    [self setLinearLayoutType:_linearLayoutType ==  kLinearVerticalLayout ? kLinearVerticalLayout : kLinearHorizontalLayout];
                     
                     TBXMLElement *child = element->firstChild;
                     AndroidViewHandler *subviewHandler = [handler copyHandler];
@@ -310,7 +318,7 @@
                     element = element->firstChild;
                     break;
             }
-        }while ([TBXML elementName:element] != NULL && !_foregroundView);
+        } while ([TBXML elementName:element] != NULL && !_foregroundView);
 
         /*
          [self.layer setBorderWidth:1.f];
@@ -381,12 +389,19 @@
                 [self setFWeight:[[TBXML attributeValue:attribute] floatValue]];
                 break;
             case kLayoutGravity :
+                [self setGravity:[[[self.class dataDictionary] objectForKey:[TBXML attributeValue:attribute]] intValue]];
                 break;
             case kBackGroundColor :
                 [self setBackgroundColor:[self.class colorWithHexString:[TBXML attributeValue:attribute]]];
                 break;
             case kTextColor :
                 [self setForegroundColor:[TBXML attributeValue:attribute]];
+                break;
+            case kDividerColor :
+                [self setDividerColor:[TBXML attributeValue:attribute]];
+                break;
+                case kCornerRadius:
+                [self.layer setCornerRadius:[[TBXML attributeValue:attribute] floatValue]];
                 break;
             case kLayoutOrientation :
                 [self setLinearLayoutType:[[[self.class dataDictionary] objectForKey:[TBXML attributeValue:attribute]] intValue]];
@@ -567,16 +582,6 @@
     [_foregroundView setTranslatesAutoresizingMaskIntoConstraints:NO];
 }
 
-- (AndroidView *)superParentView {
-    if (!_superParentView) {
-        _superParentView = _parentView.superParentView;
-        if (!_superParentView) {
-            _superParentView = self;
-        }
-    }
-    return _superParentView;
-}
-
 - (void)setParentView:(AndroidView *)parentView {
     _parentView = parentView;
     parentView.fTotalWeight +=  _fWeight;
@@ -610,17 +615,17 @@
 
 - (void)setContent:(NSString *)content {
     switch (_objectType) {
-        case kButton:
+        case kButton :
             [_foregroundView setTitle:content forState:UIControlStateNormal];
             break;
-        case kTextView:
+        case kTextView :
             [_foregroundView setText:content];
             break;
-        case kImageView:
+        case kImageView :
             [_foregroundView setImage:[UIImage imageNamed:content]];
             /* [_foregroundView setImage:[UIImage imageNamed:@"abc"]]; */
             break;
-        case kTextField:
+        case kTextField :
             [_foregroundView setText:content];
             break;
         default:
@@ -677,6 +682,36 @@
             break;
         default:
             break;
+    }
+}
+
+- (void)setDividerColor:(NSString *)dividerColor {
+    switch (_objectType) {
+        case kListViewLayout :
+            [(UITableView *)_foregroundView setSeparatorColor:[self.class colorWithHexString:dividerColor]];
+            break;
+        case kTextView :
+        case kTextField :
+            break;
+        default:
+            break;
+    }
+}
+- (void)setGravity:(AUILayoutGravityValueType)type {
+    switch (_objectType) {
+        case kButton :
+            break;
+        case kTextView :
+        case kTextField : {
+            switch (type) {
+                case kCenter:
+                    [_foregroundView setTextAlignment:NSTextAlignmentCenter];
+                    break;
+            }
+            break;
+        default:
+            break;
+    }
     }
 }
 

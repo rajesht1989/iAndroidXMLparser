@@ -31,8 +31,18 @@
 		92266A591C6B47640061E126 /* MainTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92266A581C6B47640061E126 /* MainTableController.m */; };
 		92266A5B1C6B60FF0061E126 /* layout7.zml in Resources */ = {isa = PBXBuildFile; fileRef = 92266A5A1C6B60FF0061E126 /* layout7.zml */; };
 		92266AC21C6C57260061E126 /* horizontallayout_divider.zml in Resources */ = {isa = PBXBuildFile; fileRef = 92266AC11C6C57260061E126 /* horizontallayout_divider.zml */; };
+		92266ACA1C6DB6660061E126 /* ic_zoho.png in Resources */ = {isa = PBXBuildFile; fileRef = 92266AC91C6DB6660061E126 /* ic_zoho.png */; };
+		92266ACC1C6DB9AE0061E126 /* ic_grid.png in Resources */ = {isa = PBXBuildFile; fileRef = 92266ACB1C6DB9AE0061E126 /* ic_grid.png */; };
+		92266ACE1C6DBD780061E126 /* ic_crm_products@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 92266ACD1C6DBD780061E126 /* ic_crm_products@2x.png */; };
+		92266AD01C6DBE9E0061E126 /* ic_crm@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 92266ACF1C6DBE9E0061E126 /* ic_crm@2x.png */; };
+		92266AD21C6DBF390061E126 /* ic_menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 92266AD11C6DBF380061E126 /* ic_menu@2x.png */; };
+		92266AD41C6DE0FC0061E126 /* zohocrm.xml in Resources */ = {isa = PBXBuildFile; fileRef = 92266AD31C6DE0FC0061E126 /* zohocrm.xml */; };
+		92266AD61C6DE1320061E126 /* fbfeed.xml in Resources */ = {isa = PBXBuildFile; fileRef = 92266AD51C6DE1320061E126 /* fbfeed.xml */; };
+		92266AD81C6DE9930061E126 /* ic_profile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 92266AD71C6DE9920061E126 /* ic_profile@2x.png */; };
+		92266ADA1C6DF4680061E126 /* zoho_crm.zml in Resources */ = {isa = PBXBuildFile; fileRef = 92266AD91C6DF4670061E126 /* zoho_crm.zml */; };
+		92266ADC1C6DF4A20061E126 /* zoho_connect.zml in Resources */ = {isa = PBXBuildFile; fileRef = 92266ADB1C6DF4A20061E126 /* zoho_connect.zml */; };
 		925CDCC11C5893C00084E479 /* offer.png in Resources */ = {isa = PBXBuildFile; fileRef = 925CDCC01C5893C00084E479 /* offer.png */; };
-		925CDCC31C5893C60084E479 /* star_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 925CDCC21C5893C60084E479 /* star_1.png */; };
+		925CDCC31C5893C60084E479 /* star_1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 925CDCC21C5893C60084E479 /* star_1@2x.png */; };
 		9281A9941C058F8A00934462 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9281A9931C058F8A00934462 /* XMLReader.m */; };
 		9281A9961C0593A500934462 /* activity.json in Resources */ = {isa = PBXBuildFile; fileRef = 9281A9951C0593A500934462 /* activity.json */; };
 		9281A9991C05DF5B00934462 /* AView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9281A9981C05DF5B00934462 /* AView.m */; };
@@ -71,8 +81,18 @@
 		92266A581C6B47640061E126 /* MainTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTableController.m; sourceTree = "<group>"; };
 		92266A5A1C6B60FF0061E126 /* layout7.zml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = layout7.zml; sourceTree = "<group>"; };
 		92266AC11C6C57260061E126 /* horizontallayout_divider.zml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = horizontallayout_divider.zml; sourceTree = "<group>"; };
+		92266AC91C6DB6660061E126 /* ic_zoho.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_zoho.png; sourceTree = "<group>"; };
+		92266ACB1C6DB9AE0061E126 /* ic_grid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_grid.png; sourceTree = "<group>"; };
+		92266ACD1C6DBD780061E126 /* ic_crm_products@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_crm_products@2x.png"; sourceTree = "<group>"; };
+		92266ACF1C6DBE9E0061E126 /* ic_crm@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_crm@2x.png"; sourceTree = "<group>"; };
+		92266AD11C6DBF380061E126 /* ic_menu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_menu@2x.png"; sourceTree = "<group>"; };
+		92266AD31C6DE0FC0061E126 /* zohocrm.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = zohocrm.xml; sourceTree = "<group>"; };
+		92266AD51C6DE1320061E126 /* fbfeed.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = fbfeed.xml; path = ../../../../AndroidStudioProjects/ToExportXML/app/src/main/res/layout/fbfeed.xml; sourceTree = "<group>"; };
+		92266AD71C6DE9920061E126 /* ic_profile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_profile@2x.png"; sourceTree = "<group>"; };
+		92266AD91C6DF4670061E126 /* zoho_crm.zml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = zoho_crm.zml; sourceTree = "<group>"; };
+		92266ADB1C6DF4A20061E126 /* zoho_connect.zml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = zoho_connect.zml; sourceTree = "<group>"; };
 		925CDCC01C5893C00084E479 /* offer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = offer.png; sourceTree = "<group>"; };
-		925CDCC21C5893C60084E479 /* star_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star_1.png; sourceTree = "<group>"; };
+		925CDCC21C5893C60084E479 /* star_1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star_1@2x.png"; sourceTree = "<group>"; };
 		9281A9921C058F8A00934462 /* XMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLReader.h; sourceTree = "<group>"; };
 		9281A9931C058F8A00934462 /* XMLReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLReader.m; sourceTree = "<group>"; };
 		9281A9951C0593A500934462 /* activity.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = activity.json; sourceTree = "<group>"; };
@@ -152,8 +172,18 @@
 		920393251C03267500F5303B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				92266ACD1C6DBD780061E126 /* ic_crm_products@2x.png */,
+				92266ACF1C6DBE9E0061E126 /* ic_crm@2x.png */,
+				92266AD11C6DBF380061E126 /* ic_menu@2x.png */,
+				92266AC91C6DB6660061E126 /* ic_zoho.png */,
+				92266ACB1C6DB9AE0061E126 /* ic_grid.png */,
 				925CDCC01C5893C00084E479 /* offer.png */,
-				925CDCC21C5893C60084E479 /* star_1.png */,
+				925CDCC21C5893C60084E479 /* star_1@2x.png */,
+				92266AD71C6DE9920061E126 /* ic_profile@2x.png */,
+				92266AD51C6DE1320061E126 /* fbfeed.xml */,
+				92266ADB1C6DF4A20061E126 /* zoho_connect.zml */,
+				92266AD91C6DF4670061E126 /* zoho_crm.zml */,
+				92266AD31C6DE0FC0061E126 /* zohocrm.xml */,
 				92266A3D1C6A004B0061E126 /* layout1.zml */,
 				92266A3E1C6A004B0061E126 /* layout2.zml */,
 				92266A3F1C6A004B0061E126 /* layout4.zml */,
@@ -243,6 +273,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				92266A431C6A004B0061E126 /* layout1.zml in Resources */,
+				92266AD61C6DE1320061E126 /* fbfeed.xml in Resources */,
+				92266ACE1C6DBD780061E126 /* ic_crm_products@2x.png in Resources */,
 				92266A481C6A004B0061E126 /* layout8.zml in Resources */,
 				9281A9961C0593A500934462 /* activity.json in Resources */,
 				92266A461C6A004B0061E126 /* layout5.zml in Resources */,
@@ -250,19 +282,27 @@
 				92266A451C6A004B0061E126 /* layout4.zml in Resources */,
 				92266A511C6B44AD0061E126 /* template2.zml in Resources */,
 				92266A521C6B44AD0061E126 /* template3.zml in Resources */,
+				92266ADA1C6DF4680061E126 /* zoho_crm.zml in Resources */,
 				925CDCC11C5893C00084E479 /* offer.png in Resources */,
 				92266A441C6A004B0061E126 /* layout2.zml in Resources */,
 				92266AC21C6C57260061E126 /* horizontallayout_divider.zml in Resources */,
 				92266A541C6B44AD0061E126 /* template5.zml in Resources */,
 				920393321C03267500F5303B /* Assets.xcassets in Resources */,
+				92266AD21C6DBF390061E126 /* ic_menu@2x.png in Resources */,
+				92266ADC1C6DF4A20061E126 /* zoho_connect.zml in Resources */,
 				920393301C03267500F5303B /* Main.storyboard in Resources */,
+				92266AD41C6DE0FC0061E126 /* zohocrm.xml in Resources */,
 				92266A5B1C6B60FF0061E126 /* layout7.zml in Resources */,
 				92266A561C6B44AD0061E126 /* template7.zml in Resources */,
-				925CDCC31C5893C60084E479 /* star_1.png in Resources */,
+				92266ACA1C6DB6660061E126 /* ic_zoho.png in Resources */,
+				925CDCC31C5893C60084E479 /* star_1@2x.png in Resources */,
 				92266A501C6B44AD0061E126 /* template1.zml in Resources */,
 				92266A531C6B44AD0061E126 /* template4.zml in Resources */,
 				92266A551C6B44AD0061E126 /* template6.zml in Resources */,
+				92266AD01C6DBE9E0061E126 /* ic_crm@2x.png in Resources */,
 				92266A471C6A004B0061E126 /* layout6.zml in Resources */,
+				92266AD81C6DE9930061E126 /* ic_profile@2x.png in Resources */,
+				92266ACC1C6DB9AE0061E126 /* ic_grid.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

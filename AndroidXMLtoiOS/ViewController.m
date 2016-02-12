@@ -64,6 +64,7 @@
     [viewHandler setOwner:self];
     UIView *androidView = [AndroidView viewForXMLFileName:_zmlName andHandler:viewHandler];
     NSLog(@"%@",androidView);
+    [self.view updateConstraints];
 }
 
 - (void)didReceiveMemoryWarning {

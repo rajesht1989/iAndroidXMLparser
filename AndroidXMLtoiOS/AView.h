@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "TBXML.h"
+@class AndroidView;
 
 @protocol AViewHandlerDelegate <UITextFieldDelegate>
 @required
@@ -91,6 +92,8 @@ typedef enum {
     kBackGroundColor,
     kTextColor,
     kImageSrc,
+    kDividerColor,
+    kCornerRadius,
     kLayoutGravity,
     kLayoutOrientation
 }AUIGeneralNameType;
@@ -187,6 +190,7 @@ AndroidMarginMake( CGFloat marginTop,
 @interface AndroidViewHandler : NSObject
 @property (nonatomic, weak)UIView *superView;
 @property (nonatomic, weak)id <AViewHandlerDelegate>owner;
+@property (nonatomic, weak)AndroidView *superParentView;
 
 @property (nonatomic, assign)UIView *relationView; //Can be a Sibling/Superview/Subview
 @property (nonatomic, assign)AItemPosition position; 

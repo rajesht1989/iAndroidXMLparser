@@ -13,6 +13,12 @@
 @property(nonatomic)NSArray *listOfFiles;
 @end
 @implementation MainTableController
+/*
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.navigationController pushViewController:[ViewController new] animated:YES];
+}
+ */
 
 - (NSArray *)listOfFiles {
     if (!_listOfFiles) {
@@ -39,9 +45,6 @@
     ViewController *viewController = [ViewController new];
     [viewController setZmlName:_listOfFiles[indexPath.row]];
     [self.navigationController pushViewController:viewController animated:YES];
-}
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(nullable id)sender {
-    
 }
 
 @end
