@@ -13,6 +13,7 @@
 @protocol AViewHandlerDelegate <UITextFieldDelegate>
 @required
 - (void)buttonAction:(UIButton *)button;
+- (void)showAlert:(NSString *)message;
 @end
 
 
@@ -94,6 +95,7 @@ typedef enum {
     kImageSrc,
     kDividerColor,
     kCornerRadius,
+    kDynamicContent,
     kLayoutGravity,
     kLayoutOrientation
 }AUIGeneralNameType;

@@ -18,6 +18,8 @@
 + (instancetype)viewForElement:(TBXMLElement *)element handler:(AndroidViewHandler *)handler;
 - (UIView *)androidSuperview;
 - (void)setContent:(NSString *)content;
+
+@property (nonatomic, weak)id <AViewHandlerDelegate>owner;
 @property (nonatomic, strong)NSMutableDictionary *elementDict;
 @property (nonatomic, strong)NSMutableDictionary *subviewDict;
 @property (nonatomic, assign)TBXMLElement *element;
@@ -86,5 +88,7 @@
 @property (nonatomic, strong)NSMutableDictionary *dataDictCollection;
 @property (nonatomic, strong)NSMutableDictionary *onRightSwipeMenuDictCollection;
 @property (nonatomic, strong)NSMutableDictionary *onLeftSwipeMenuDictCollection;
+
+@property (nonatomic, assign)BOOL isDynamicContent;
 
 @end

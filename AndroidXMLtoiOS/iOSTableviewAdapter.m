@@ -87,8 +87,12 @@
 
 - (void)configureCell:(AndroidTableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     AndroidView *rootView = cell.cellRootView;
-    for (NSString *aKey in self.dataArray[indexPath.row]) {
-        [rootView.subviewInSuperParentDict[aKey] setContent:[self.dataArray[indexPath.row] objectForKey:aKey]];
+    
+    for (NSString *aKey in rootView.subviewInSuperParentDict) {
+        AndroidView *aView = rootView.subviewInSuperParentDict[aKey];
+        if (aView.isDynamicContent) {
+            [aView setContent:[self.dataArray[indexPath.row] objectForKey:aKey]];
+        }
     }
 }
 
@@ -118,6 +122,7 @@
     for (NSDictionary *aButton in array) {
         MGSwipeButton * button = [MGSwipeButton buttonWithTitle:aButton[@"name"] backgroundColor:[UIColor grayColor] callback:^BOOL(MGSwipeTableCell * sender){
             NSLog(@"%ld,%@",(long)((AndroidTableViewCell *)sender).indexPath.row,aButton[@"name"]);
+            [[(AndroidView *)self.tableView.superview owner] showAlert:[NSString stringWithFormat:@"In Row : %ld, Selected Action :%@",(long)((AndroidTableViewCell *)sender).indexPath.row,aButton[@"name"]]];
             return YES;
         }];
         [result addObject:button];

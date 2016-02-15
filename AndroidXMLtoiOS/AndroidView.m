@@ -200,6 +200,8 @@
             [handler setSuperParentView:self];
         }
         [self setSuperParentView:handler.superParentView];
+        [self setOwner:handler.owner];
+        
         do {
             [self setElement:element];
             [self setObjectType:[[[self.class dataDictionary] objectForKey:[[TBXML elementName:element] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]] intValue]];
@@ -402,6 +404,11 @@
                 break;
                 case kCornerRadius:
                 [self.layer setCornerRadius:[[TBXML attributeValue:attribute] floatValue]];
+                [[self.foregroundView layer] setCornerRadius:[[TBXML attributeValue:attribute] floatValue]];
+                [[self.foregroundView layer] setMasksToBounds:YES];
+                break;
+            case kDynamicContent :
+                [self setIsDynamicContent:[[TBXML attributeValue:attribute] boolValue]];
                 break;
             case kLayoutOrientation :
                 [self setLinearLayoutType:[[[self.class dataDictionary] objectForKey:[TBXML attributeValue:attribute]] intValue]];

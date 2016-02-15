@@ -436,6 +436,8 @@ static NSMutableDictionary *dictUtil;
         [dictUtil setObject:@(kImageSrc) forKey:@"android:src"];
         [dictUtil setObject:@(kDividerColor) forKey:@"android:divider"];
         [dictUtil setObject:@(kCornerRadius) forKey:@"android:cornerRadius"];
+        [dictUtil setObject:@(kDynamicContent) forKey:@"android:dynamicContent"];
+        
         
         [dictUtil setObject:@(kLayoutOrientation) forKey:@"android:orientation"];
         
