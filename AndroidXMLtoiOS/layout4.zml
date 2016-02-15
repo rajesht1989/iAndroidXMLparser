@@ -15,7 +15,8 @@
                     android:layout_alignParentBottom="true"
                     android:layout_margin="0,0,2,2"
                     android:orientation="horizontal"
-android:minHeight="40dp"
+                    android:minHeight="40dp"
+                    android:maxHeight="50dp"
 >
 
                     <RelativeLayout

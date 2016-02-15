@@ -599,6 +599,17 @@
         [parentView.subviewDict setObject:self forKey:_identifier];
         [self.superParentView.subviewInSuperParentDict setObject:self forKey:_identifier];
     }
+    [self normalizeMyProperties];
+}
+
+- (void)normalizeMyProperties {
+    if(_fWeight && _parentView.objectType == kLinearLayout) {
+            if (_parentView.linearLayoutType == kLinearVerticalLayout) {
+                _heightType = kWrapContent;
+            } else {
+                _widthType = kWrapContent;
+            }
+        }
 }
 
 - (NSMutableDictionary *)subviewInSuperParentDict {
@@ -1123,6 +1134,20 @@
         [androidView.leadingMargin setActive:NO];
         [androidView setLeadingMargin:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:leftView attribute:NSLayoutAttributeTrailing multiplier:1 constant:androidView.margin.marginLeft + parentView.margin.marginRight]];
         [superView addConstraint:androidView.leadingMargin];
+    }
+    
+    if (androidView.layoutAbove) {
+        AndroidView *belowView = [[parentView subviewDict] objectForKey:androidView.layoutAbove];
+        [androidView.bottomMargin setActive:NO];
+        [androidView setBottomMargin:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:belowView attribute:NSLayoutAttributeTop multiplier:1 constant:androidView.margin.marginBottom + parentView.margin.marginTop]];
+        [superView addConstraint:androidView.bottomMargin];
+    }
+    
+    if (androidView.layoutBelow) {
+        AndroidView *aboveView = [[parentView subviewDict] objectForKey:androidView.layoutBelow];
+        [androidView.topMargin setActive:NO];
+        [androidView setTopMargin:[NSLayoutConstraint constraintWithItem:androidView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:aboveView attribute:NSLayoutAttributeBottom multiplier:1 constant:aboveView.margin.marginBottom + androidView.margin.marginTop]];
+        [superView addConstraint:androidView.topMargin];
     }
     
     if (androidView.layoutAlignStart || androidView.layoutAlignLeft) {

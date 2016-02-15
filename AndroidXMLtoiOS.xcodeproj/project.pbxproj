@@ -30,7 +30,6 @@
 		92266A561C6B44AD0061E126 /* template7.zml in Resources */ = {isa = PBXBuildFile; fileRef = 92266A4F1C6B44AC0061E126 /* template7.zml */; };
 		92266A591C6B47640061E126 /* MainTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92266A581C6B47640061E126 /* MainTableController.m */; };
 		92266A5B1C6B60FF0061E126 /* layout7.zml in Resources */ = {isa = PBXBuildFile; fileRef = 92266A5A1C6B60FF0061E126 /* layout7.zml */; };
-		92266AC21C6C57260061E126 /* horizontallayout_divider.zml in Resources */ = {isa = PBXBuildFile; fileRef = 92266AC11C6C57260061E126 /* horizontallayout_divider.zml */; };
 		92266ACA1C6DB6660061E126 /* ic_zoho.png in Resources */ = {isa = PBXBuildFile; fileRef = 92266AC91C6DB6660061E126 /* ic_zoho.png */; };
 		92266ACC1C6DB9AE0061E126 /* ic_grid.png in Resources */ = {isa = PBXBuildFile; fileRef = 92266ACB1C6DB9AE0061E126 /* ic_grid.png */; };
 		92266ACE1C6DBD780061E126 /* ic_crm_products@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 92266ACD1C6DBD780061E126 /* ic_crm_products@2x.png */; };
@@ -57,6 +56,9 @@
 		927179DA1C71B4ED0011C89B /* Joseph Jenifer Sammichel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 927179D61C71B4ED0011C89B /* Joseph Jenifer Sammichel@2x.png */; };
 		927179DB1C71B4ED0011C89B /* Sridhar Vembu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 927179D71C71B4ED0011C89B /* Sridhar Vembu@2x.png */; };
 		927179DC1C71B4ED0011C89B /* Talha Baqar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 927179D81C71B4ED0011C89B /* Talha Baqar@2x.png */; };
+		927179DE1C71E9A30011C89B /* template11.zml in Resources */ = {isa = PBXBuildFile; fileRef = 927179DD1C71E9A30011C89B /* template11.zml */; };
+		927179E01C71E9AD0011C89B /* template12.zml in Resources */ = {isa = PBXBuildFile; fileRef = 927179DF1C71E9AD0011C89B /* template12.zml */; };
+		927179E21C71E9BC0011C89B /* template13.zml in Resources */ = {isa = PBXBuildFile; fileRef = 927179E11C71E9BC0011C89B /* template13.zml */; };
 		9281A9941C058F8A00934462 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9281A9931C058F8A00934462 /* XMLReader.m */; };
 		9281A9961C0593A500934462 /* activity.json in Resources */ = {isa = PBXBuildFile; fileRef = 9281A9951C0593A500934462 /* activity.json */; };
 		9281A9991C05DF5B00934462 /* AView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9281A9981C05DF5B00934462 /* AView.m */; };
@@ -94,7 +96,6 @@
 		92266A571C6B47640061E126 /* MainTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTableController.h; sourceTree = "<group>"; };
 		92266A581C6B47640061E126 /* MainTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTableController.m; sourceTree = "<group>"; };
 		92266A5A1C6B60FF0061E126 /* layout7.zml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = layout7.zml; sourceTree = "<group>"; };
-		92266AC11C6C57260061E126 /* horizontallayout_divider.zml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = horizontallayout_divider.zml; sourceTree = "<group>"; };
 		92266AC91C6DB6660061E126 /* ic_zoho.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_zoho.png; sourceTree = "<group>"; };
 		92266ACB1C6DB9AE0061E126 /* ic_grid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_grid.png; sourceTree = "<group>"; };
 		92266ACD1C6DBD780061E126 /* ic_crm_products@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_crm_products@2x.png"; sourceTree = "<group>"; };
@@ -121,6 +122,9 @@
 		927179D61C71B4ED0011C89B /* Joseph Jenifer Sammichel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Joseph Jenifer Sammichel@2x.png"; sourceTree = "<group>"; };
 		927179D71C71B4ED0011C89B /* Sridhar Vembu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Sridhar Vembu@2x.png"; sourceTree = "<group>"; };
 		927179D81C71B4ED0011C89B /* Talha Baqar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Talha Baqar@2x.png"; sourceTree = "<group>"; };
+		927179DD1C71E9A30011C89B /* template11.zml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = template11.zml; sourceTree = "<group>"; };
+		927179DF1C71E9AD0011C89B /* template12.zml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = template12.zml; sourceTree = "<group>"; };
+		927179E11C71E9BC0011C89B /* template13.zml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = template13.zml; sourceTree = "<group>"; };
 		9281A9921C058F8A00934462 /* XMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLReader.h; sourceTree = "<group>"; };
 		9281A9931C058F8A00934462 /* XMLReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLReader.m; sourceTree = "<group>"; };
 		9281A9951C0593A500934462 /* activity.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = activity.json; sourceTree = "<group>"; };
@@ -233,7 +237,6 @@
 				92266A411C6A004B0061E126 /* layout6.zml */,
 				92266A5A1C6B60FF0061E126 /* layout7.zml */,
 				92266A421C6A004B0061E126 /* layout8.zml */,
-				92266AC11C6C57260061E126 /* horizontallayout_divider.zml */,
 				92266A491C6B44AC0061E126 /* template1.zml */,
 				92266A4A1C6B44AC0061E126 /* template2.zml */,
 				92266A4B1C6B44AC0061E126 /* template3.zml */,
@@ -241,6 +244,9 @@
 				92266A4D1C6B44AC0061E126 /* template5.zml */,
 				92266A4E1C6B44AC0061E126 /* template6.zml */,
 				92266A4F1C6B44AC0061E126 /* template7.zml */,
+				927179DD1C71E9A30011C89B /* template11.zml */,
+				927179DF1C71E9AD0011C89B /* template12.zml */,
+				927179E11C71E9BC0011C89B /* template13.zml */,
 				920393261C03267500F5303B /* main.m */,
 			);
 			name = "Supporting Files";
@@ -288,6 +294,7 @@
 				TargetAttributes = {
 					920393211C03267500F5303B = {
 						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = RDBAA992Q3;
 					};
 				};
 			};
@@ -322,16 +329,17 @@
 				92266A481C6A004B0061E126 /* layout8.zml in Resources */,
 				9281A9961C0593A500934462 /* activity.json in Resources */,
 				92266A461C6A004B0061E126 /* layout5.zml in Resources */,
+				927179E01C71E9AD0011C89B /* template12.zml in Resources */,
 				927179C91C71A3450011C89B /* ic_g_apps@2x.png in Resources */,
 				920393351C03267500F5303B /* LaunchScreen.storyboard in Resources */,
 				92266A451C6A004B0061E126 /* layout4.zml in Resources */,
 				927179CB1C71A3450011C89B /* ic_prioritize@2x.png in Resources */,
 				92266A511C6B44AD0061E126 /* template2.zml in Resources */,
 				92266A521C6B44AD0061E126 /* template3.zml in Resources */,
+				927179E21C71E9BC0011C89B /* template13.zml in Resources */,
 				92266ADA1C6DF4680061E126 /* zoho_crm.zml in Resources */,
 				925CDCC11C5893C00084E479 /* offer.png in Resources */,
 				92266A441C6A004B0061E126 /* layout2.zml in Resources */,
-				92266AC21C6C57260061E126 /* horizontallayout_divider.zml in Resources */,
 				927179DA1C71B4ED0011C89B /* Joseph Jenifer Sammichel@2x.png in Resources */,
 				92266A541C6B44AD0061E126 /* template5.zml in Resources */,
 				927179CE1C71A8BB0011C89B /* example_image@2x.png in Resources */,
@@ -345,6 +353,7 @@
 				92266A5B1C6B60FF0061E126 /* layout7.zml in Resources */,
 				927179D21C71B3A40011C89B /* comment-icon@2x.png in Resources */,
 				927179D41C71B3AA0011C89B /* like-icon@2x.png in Resources */,
+				927179DE1C71E9A30011C89B /* template11.zml in Resources */,
 				92266A561C6B44AD0061E126 /* template7.zml in Resources */,
 				92266ACA1C6DB6660061E126 /* ic_zoho.png in Resources */,
 				925CDCC31C5893C60084E479 /* star_1@2x.png in Resources */,
@@ -543,6 +552,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.myorg.AndroidXMLtoiOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "45d79d30-8e81-4b18-9b23-dc013d3554d4";
 			};
 			name = Debug;
 		};
@@ -557,6 +567,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.myorg.AndroidXMLtoiOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "45d79d30-8e81-4b18-9b23-dc013d3554d4";
 			};
 			name = Release;
 		};
