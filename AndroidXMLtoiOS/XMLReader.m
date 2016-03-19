@@ -143,5 +143,10 @@ NSString *const kXMLReaderTextNodeKey = @"text";
     errorPointer = parseError;
 }
 
+- (void)parser:(NSXMLParser *)parser validationErrorOccurred:(NSError *)validationError
+{
+    errorPointer = validationError;
+}
+
 @end
 

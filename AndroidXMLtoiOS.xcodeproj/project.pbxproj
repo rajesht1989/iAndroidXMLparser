@@ -52,7 +52,6 @@
 		927179D01C71B1EE0011C89B /* h_zoho@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 927179CF1C71B1EE0011C89B /* h_zoho@2x.png */; };
 		927179D21C71B3A40011C89B /* comment-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 927179D11C71B3A40011C89B /* comment-icon@2x.png */; };
 		927179D41C71B3AA0011C89B /* like-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 927179D31C71B3AA0011C89B /* like-icon@2x.png */; };
-		927179D91C71B4ED0011C89B /* Emily Sloan-Pace@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 927179D51C71B4ED0011C89B /* Emily Sloan-Pace@2x.png */; };
 		927179DA1C71B4ED0011C89B /* Joseph Jenifer Sammichel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 927179D61C71B4ED0011C89B /* Joseph Jenifer Sammichel@2x.png */; };
 		927179DB1C71B4ED0011C89B /* Sridhar Vembu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 927179D71C71B4ED0011C89B /* Sridhar Vembu@2x.png */; };
 		927179DC1C71B4ED0011C89B /* Talha Baqar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 927179D81C71B4ED0011C89B /* Talha Baqar@2x.png */; };
@@ -345,7 +344,6 @@
 				927179CE1C71A8BB0011C89B /* example_image@2x.png in Resources */,
 				920393321C03267500F5303B /* Assets.xcassets in Resources */,
 				92266AD21C6DBF390061E126 /* ic_menu@2x.png in Resources */,
-				927179D91C71B4ED0011C89B /* Emily Sloan-Pace@2x.png in Resources */,
 				92266ADC1C6DF4A20061E126 /* zoho_connect.zml in Resources */,
 				920393301C03267500F5303B /* Main.storyboard in Resources */,
 				927179DB1C71B4ED0011C89B /* Sridhar Vembu@2x.png in Resources */,

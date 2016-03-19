@@ -73,7 +73,7 @@
     return _leftSwipeArray;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [[self dataArray] count];
+    return 1;[[self dataArray] count];
 }
 
 - (AndroidTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

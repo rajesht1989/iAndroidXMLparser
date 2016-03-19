@@ -7,6 +7,7 @@
 //
 
 #import "AndroidView.h"
+#import "XMLReader.h"
 
 @interface AndroidView () {
     TBXML *rootXML;
@@ -26,6 +27,7 @@
         [view setRootXML:tbxml];
         return view;
     }
+    [XMLReader dictionaryForXMLData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:xmlName ofType:nil]] error:nil];
     
     NSError *error = nil;
     TBXML *tbxml = [TBXML tbxmlWithXMLData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:xmlName ofType:nil]] error:&error];
